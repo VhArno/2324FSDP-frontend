@@ -16,6 +16,6 @@ import AppFooter from './components/molecules/AppFooter.vue'
 <style scoped lang="scss">
 main {
   width: 80%;
-  margin: 1rem auto;
+  margin: 0 auto;
 }
 </style>

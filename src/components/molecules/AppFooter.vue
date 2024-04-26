@@ -42,7 +42,6 @@
   align-items: center;
   justify-content: center;
   gap: 4rem;
-  margin-top: 2rem;
 
   a {
     text-decoration: none;
