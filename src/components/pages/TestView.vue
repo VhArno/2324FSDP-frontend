@@ -3,7 +3,7 @@ import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
 
 function startTest() {
-  router.push('/start')
+  router.push('/questions')
 }
 </script>
 
