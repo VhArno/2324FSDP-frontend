@@ -1,35 +1,72 @@
-@import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+:root {
+  --bg: #edf0f4;
+  --bg-accent: #d9d9d9;
+  --bg2: #2c2a50;
+
+  --main: #152f4f;
+  --main-light: #e3ecff;
+
+  --secondary: #676b74;
+
+  --accent-btns: #21a687;
+  --accent-links: #f0423d;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+html {
+  background-color: var(--bg);
+  font-family: 'Source Sans 3', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+/* Text styles */
+h1 {
+  font-weight: 800;
+  font-size: 1.7em;
+  margin: 0;
+}
+h2 {
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+h3 {
+  font-weight: 400;
+  margin: 0;
+  font-size: 1.1em;
+}
+p {
+  font-weight: 600;
+  margin: 0;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+ul {
+  margin: 0;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+/* default */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  background-color: var(--bg);
+  border: 1px solid var(--bg-accent);
+}
+
+footer {
+  background-color: var(--main-light);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
 }
