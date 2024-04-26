@@ -18,10 +18,10 @@ import AppButton from '../atoms/AppButton.vue'
           <RouterLink to="/">About <i class="fa-solid fa-user"></i></RouterLink>
         </li>
         <li>
-          <RouterLink to="/settings">Test <i class="fa-solid fa-gear"></i></RouterLink>
+          <RouterLink to="/test">Test <i class="fa-solid fa-gear"></i></RouterLink>
         </li>
         <li>
-          <RouterLink to="/settings">Odisee <i class="fa-solid fa-gear"></i></RouterLink>
+          <RouterLink to="/">Odisee <i class="fa-solid fa-gear"></i></RouterLink>
         </li>
       </ul>
       <AppButton class="menu-btn">Login</AppButton>

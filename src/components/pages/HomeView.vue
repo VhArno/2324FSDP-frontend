@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import AppButton from '../atoms/AppButton.vue'
+
+const router = useRouter()
+
+function goToTest() {
+  router.push('/test')
+}
 </script>
 
 <template>
@@ -21,11 +28,11 @@ import AppButton from '../atoms/AppButton.vue'
         en in welke beroepen je terecht komt!
       </p>
     </div>
-    <img src="/src/assets/imgs/frame1.svg" alt="" />
+    <img src="/src/assets/imgs/frame1.svg" alt="odisee icon" />
   </section>
 
   <section class="details">
-    <img class="frame" src="/src/assets/imgs/frame2.svg" alt="" />
+    <img class="frame" src="/src/assets/imgs/frame2.svg" alt="Odisee icon" />
 
     <div>
       <h2>2 afstudeerrichtingen</h2>
@@ -44,7 +51,7 @@ import AppButton from '../atoms/AppButton.vue'
         <li>Software & AI Developer (ICT)</li>
         <li>Web Developer (ICT)</li>
       </ul>
-      <AppButton>Doe de test!</AppButton>
+      <AppButton @click="goToTest">Doe de test!</AppButton>
     </div>
   </section>
 </template>
