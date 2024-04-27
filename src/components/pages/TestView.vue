@@ -41,7 +41,7 @@ function startTest() {
 
   .frame1 {
     position: absolute;
-    top: 63px;
+    top: 0px;
     right: 0px;
   }
 }

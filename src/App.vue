@@ -7,7 +7,9 @@ import AppFooter from './components/molecules/AppFooter.vue'
   <AppHeader></AppHeader>
 
   <main>
-    <RouterView />
+    <div class="content">
+      <RouterView />
+    </div>
   </main>
 
   <AppFooter></AppFooter>
@@ -15,7 +17,12 @@ import AppFooter from './components/molecules/AppFooter.vue'
 
 <style scoped lang="scss">
 main {
-  width: 80%;
-  margin: 0 auto;
+  flex: 1;
+  position: relative;
+
+  .content {
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 </style>

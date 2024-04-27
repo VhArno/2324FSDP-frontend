@@ -65,6 +65,7 @@ function goToTest() {
   .title {
     display: flex;
     flex-flow: column-reverse;
+    margin-top: 1rem;
   }
 
   p {

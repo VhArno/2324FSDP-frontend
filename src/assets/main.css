@@ -6,7 +6,7 @@
   --bg2: #2c2a50;
 
   --main: #152f4f;
-  --main-light: #e3ecff;
+  --main-light: #d0dfff;
 
   --secondary: #676b74;
 
@@ -70,4 +70,10 @@ footer {
   width: 1px;
   height: 1px;
   word-wrap: normal;
+}
+
+#app {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
 }

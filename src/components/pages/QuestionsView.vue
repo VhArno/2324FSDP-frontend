@@ -39,6 +39,13 @@ params.question = '1'
     gap: 0.5rem;
     width: 40%;
     margin: 0 auto;
+
+    button {
+      color: var(--main);
+      font-weight: 700;
+      background-color: var(--main-light);
+      height: 3.5rem;
+    }
   }
 }
 </style>

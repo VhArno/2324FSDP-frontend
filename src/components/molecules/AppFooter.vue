@@ -37,11 +37,13 @@
 
 <style scoped lang="scss">
 .footer {
+  flex-shrink: 0;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
-  gap: 4rem;
+  padding: 2rem 0;
+  gap: 1rem;
 
   a {
     text-decoration: none;
@@ -62,6 +64,13 @@
         display: block;
       }
     }
+  }
+}
+
+@media (min-width: 50em) {
+  .footer {
+    flex-flow: row;
+    gap: 3rem;
   }
 }
 </style>
