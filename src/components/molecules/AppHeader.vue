@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import router from '@/router';
 import AppButton from '../atoms/AppButton.vue'
+
+function goToLogin() {
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -15,16 +20,16 @@ import AppButton from '../atoms/AppButton.vue'
 
       <ul class="menu-list">
         <li>
-          <RouterLink to="/">About <i class="fa-solid fa-user"></i></RouterLink>
+          <RouterLink to="/">About</RouterLink>
         </li>
         <li>
-          <RouterLink to="/test">Test <i class="fa-solid fa-gear"></i></RouterLink>
+          <RouterLink to="/test">Test</RouterLink>
         </li>
         <li>
-          <RouterLink to="/">Odisee <i class="fa-solid fa-gear"></i></RouterLink>
+          <RouterLink to="/">Odisee</RouterLink>
         </li>
       </ul>
-      <AppButton class="menu-btn">Login</AppButton>
+      <AppButton @click="goToLogin" class="menu-btn">Login</AppButton>
     </nav>
   </header>
 </template>
