@@ -10,17 +10,17 @@
 
       <a href="https://www.instagram.com/odisee" target="_blank" rel="noopener">
         <span class="visually-hidden">instagram (opens in a new window)</span>
-        <img src="/src/assets/imgs/insta_logo.svg" />
+        <img src="/src/assets/imgs/insta_logo.svg" alt="instagram logo" />
       </a>
 
       <a href="https://www.facebook.com/odiseehogeschool" target="_blank" rel="noopener">
         <span class="visually-hidden">facebook (opens in a new window)</span>
-        <img src="/src/assets/imgs/facebook_logo.svg" />
+        <img src="/src/assets/imgs/facebook_logo.svg" alt="facebook logo" />
       </a>
 
       <a href="https://twitter.com/odiseehogesch" target="_blank" rel="noopener">
         <span class="visually-hidden">twitter (opens in a new window)</span>
-        <img src="/src/assets/imgs/twitter_logo.svg" />
+        <img src="/src/assets/imgs/twitter_logo.svg" alt="twitter logo" />
       </a>
 
       <a
@@ -29,7 +29,7 @@
         rel="noopener"
       >
         <span class="visually-hidden">youtube (opens in a new window)</span>
-        <img src="/src/assets/imgs/youtube_logo.svg" />
+        <img src="/src/assets/imgs/youtube_logo.svg" alt="youtube logo" />
       </a>
     </div>
   </footer>
