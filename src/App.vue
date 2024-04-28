@@ -22,6 +22,7 @@ main {
 
   .content {
     width: 80%;
+    height: auto;
     margin: 0 auto;
   }
 }

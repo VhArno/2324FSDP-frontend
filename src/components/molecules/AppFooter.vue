@@ -3,7 +3,7 @@
 <template>
   <footer class="footer">
     <a href="https://www.odisee.be/" target="_blank">Ga naar de Odisee-website</a>
-    <RouterLink to="/">Privacybeleid</RouterLink>
+    <a href="https://www.odisee.be/disclaimer" target="_blank">Privacybeleid</a>
     <RouterLink to="/">Cookievoorkeuren</RouterLink>
     <div class="socials">
       <span>Volg ons op: </span>
@@ -46,8 +46,13 @@
   gap: 1rem;
 
   a {
+    font-size: 1.1em;
     text-decoration: none;
     color: var(--main);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .socials {

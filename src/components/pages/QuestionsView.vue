@@ -7,7 +7,7 @@ params.question = '1'
 </script>
 
 <template>
-  <section class="content">
+  <section class="test">
     <div class="title">
       <p>1/10</p>
       <h1>Wat is jouw favoriete aspect van informatica?</h1>
@@ -20,32 +20,55 @@ params.question = '1'
       <AppButton>Kunstmatige intelligentie en machine learning</AppButton>
     </div>
 
-    <img src="/src/assets/imgs/frame1.svg" alt="odisee icon" />
+    <div class="frame-bottom">
+      <img src="/src/assets/imgs/frame1.svg" alt="odisee icon" />
+    </div>
   </section>
 </template>
 
 <style scoped lang="scss">
-.content {
+.test {
   margin-top: 2rem;
   text-align: center;
 
   .title {
-    margin: 2rem;
+    margin: 2rem 0;
   }
 
   .answers {
     display: flex;
     flex-flow: column;
     gap: 0.5rem;
-    width: 40%;
-    margin: 0 auto;
+    margin: 2rem auto;
+    justify-content: space-between;
 
     button {
       color: var(--main);
       font-weight: 700;
       background-color: var(--main-light);
-      height: 3.5rem;
+      word-wrap: break-word;
+      padding: 1rem;
+      flex: 1;
     }
+  }
+
+  .frame-bottom {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+
+    img {
+      width: 100%;
+      max-width: 20em;
+    }
+  }
+}
+
+@media (min-width: 45em) {
+  .test {
+    width: 80%;
+    margin: 0 auto;
   }
 }
 </style>

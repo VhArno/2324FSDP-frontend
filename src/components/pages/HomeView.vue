@@ -71,27 +71,57 @@ function goToTest() {
   p {
     margin: 2rem 0;
   }
+
+  img {
+    display: none;
+  }
 }
 
 .details {
   position: relative;
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   justify-content: space-around;
-  padding: 2rem;
   margin: 2rem 0;
   background-color: var(--bg2);
   color: var(--bg);
 
+  > div {
+    padding: 0 2rem 2rem 2rem;
+  }
+
   .frame {
-    position: absolute;
-    top: 0px;
-    left: 0px;
+    width: 50%;
     transform: rotate(-90deg);
   }
 
   button {
     margin-top: 2rem;
+    width: 100%;
+  }
+}
+
+@media (min-width: 45em) {
+  .intro {
+    img {
+      display: block;
+    }
+  }
+
+  .details {
+    flex-flow: row;
+    padding: 2rem;
+
+    .frame {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: auto;
+    }
+
+    button {
+      margin-top: 2rem;
+    }
   }
 }
 </style>

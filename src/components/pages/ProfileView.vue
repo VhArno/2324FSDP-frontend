@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppButton from '../atoms/AppButton.vue';
+import AppButton from '../atoms/AppButton.vue'
 </script>
 
 <template>
@@ -12,15 +12,15 @@ import AppButton from '../atoms/AppButton.vue';
           <AppButton>Logout</AppButton>
         </div>
 
-        <img src="/src/assets/imgs/profile_icon.svg" alt="profile icon">
+        <img src="/src/assets/imgs/profile_icon.svg" alt="profile icon" />
       </div>
 
-      <img class="p-frame" src="/src/assets/imgs/frame3.svg" alt="odisee icon">
+      <img class="p-frame" src="/src/assets/imgs/frame3.svg" alt="odisee icon" />
     </div>
 
     <div>
       <h2>Resultaten</h2>
-      
+
       <div class="results">
         <div>
           <h3>Test 1</h3>
@@ -30,7 +30,9 @@ import AppButton from '../atoms/AppButton.vue';
       </div>
     </div>
 
-    <img class="frame" src="/src/assets/imgs/frame1.svg" alt="odisee icon">
+    <div class="frame">
+      <img src="/src/assets/imgs/frame1.svg" alt="odisee icon" />
+    </div>
   </section>
 </template>
 
@@ -70,7 +72,7 @@ import AppButton from '../atoms/AppButton.vue';
     margin: 1rem 0;
     border-radius: 10px;
     background-color: var(--main-light);
-    
+
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-color: var(--main) var(--bg-accent);
@@ -83,6 +85,12 @@ import AppButton from '../atoms/AppButton.vue';
 
 .frame {
   width: 100%;
+
+  text-align: center;
+
+  img {
+    max-width: 15em;
+  }
 }
 
 @media (min-width: 50em) {

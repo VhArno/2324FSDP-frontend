@@ -22,7 +22,9 @@ function startTest() {
     </div>
 
     <img class="frame1" src="/src/assets/imgs/frame2.svg" alt="odisee icon" />
-    <img src="/src/assets/imgs/frame1.svg" alt="odisee icon" />
+    <div class="frame-bottom">
+      <img src="/src/assets/imgs/frame1.svg" alt="odisee icon" />
+    </div>
   </section>
 </template>
 
@@ -30,6 +32,7 @@ function startTest() {
 .content {
   text-align: center;
   margin-top: 2rem;
+  padding-top: 4rem;
 
   p {
     margin: 2rem 0;
@@ -43,6 +46,18 @@ function startTest() {
     position: absolute;
     top: 0px;
     right: 0px;
+  }
+
+  .frame-bottom {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+
+    img {
+      width: 100%;
+      max-width: 20em;
+    }
   }
 }
 </style>

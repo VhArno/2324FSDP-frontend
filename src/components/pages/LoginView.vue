@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AppButton from '../atoms/AppButton.vue';
-import AppInput from '../atoms/AppInput.vue';
+import AppButton from '../atoms/AppButton.vue'
+import AppInput from '../atoms/AppInput.vue'
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import AppInput from '../atoms/AppInput.vue';
     <form class="login-form">
       <h1>
         Elektronica-ICT Test
-        <br>
+        <br />
         Login
       </h1>
 
@@ -22,8 +22,10 @@ import AppInput from '../atoms/AppInput.vue';
         <AppInput type="password" id="password" name="password"></AppInput>
       </div>
 
-      <AppButton>Login</AppButton>
-      <RouterLink to="/register">Heb je nog geen account?</RouterLink>
+      <div class="btns">
+        <AppButton>Login</AppButton>
+        <RouterLink to="/register">Heb je nog geen account?</RouterLink>
+      </div>
     </form>
   </section>
 </template>
@@ -31,6 +33,7 @@ import AppInput from '../atoms/AppInput.vue';
 <style scoped lang="scss">
 .login {
   text-align: center;
+  padding: 2rem 0;
 
   .login-form {
     display: flex;
@@ -40,7 +43,8 @@ import AppInput from '../atoms/AppInput.vue';
     div {
       display: flex;
       flex-flow: column;
-      width: 50%;
+      width: 100%;
+      max-width: 30em;
       margin: 0 auto;
 
       label {
@@ -48,9 +52,22 @@ import AppInput from '../atoms/AppInput.vue';
       }
     }
 
-    button {
-      width: 30%;
-      margin: 0 auto;
+    .btns {
+      display: flex;
+      flex-flow: column;
+      gap: 0.5rem;
+
+      button {
+        width: 100%;
+        max-width: 15em;
+        margin: 0 auto;
+      }
+
+      a {
+        width: fit-content;
+        text-align: center;
+        margin: 0 auto;
+      }
     }
   }
 }
