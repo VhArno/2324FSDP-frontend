@@ -26,7 +26,7 @@ function goToLogin() {
           <RouterLink to="/test">Test</RouterLink>
         </li>
         <li>
-          <RouterLink to="/">Odisee</RouterLink>
+          <a href="https://www.odisee.be/" target="_blank">Odisee<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
         </li>
       </ul>
       <AppButton @click="goToLogin" class="menu-btn">Login</AppButton>
@@ -44,6 +44,17 @@ nav {
 
   .menu-list {
     display: none;
+
+    li{
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+
+      i {
+        margin-left: 0.2rem;
+        font-size: 0.8em;
+      }
+    }
   }
 
   .menu-btn {

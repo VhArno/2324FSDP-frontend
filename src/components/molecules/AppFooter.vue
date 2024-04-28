@@ -2,7 +2,7 @@
 
 <template>
   <footer class="footer">
-    <RouterLink to="/">Ga naar de Odisee-website</RouterLink>
+    <a href="https://www.odisee.be/" target="_blank">Ga naar de Odisee-website</a>
     <RouterLink to="/">Privacybeleid</RouterLink>
     <RouterLink to="/">Cookievoorkeuren</RouterLink>
     <div class="socials">
