@@ -60,7 +60,8 @@ function goToTest() {
 .intro {
   display: flex;
   flex-flow: row;
-  gap: 10rem;
+  justify-content: space-between;
+  gap: 1rem;
 
   .title {
     display: flex;
@@ -105,6 +106,10 @@ function goToTest() {
   .intro {
     img {
       display: block;
+    }
+
+    > div {
+      max-width: 50%;
     }
   }
 

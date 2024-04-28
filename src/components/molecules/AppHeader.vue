@@ -1,16 +1,51 @@
 <script setup lang="ts">
-import router from '@/router';
+import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+
+const openMenu = ref(false)
+const windowWidth = ref(window.innerWidth)
+
+const thresholdWidthEm = 45
 
 function goToLogin() {
   router.push('/login')
 }
+
+function toggleMenu() {
+  openMenu.value = !openMenu.value
+}
+
+function handleResize() {
+  windowWidth.value = window.innerWidth
+  if (window.innerWidth / 16 > thresholdWidthEm) {
+    openMenu.value = true
+  } else {
+    openMenu.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+watch(windowWidth, (newValue) => {
+  if (newValue / 16 > thresholdWidthEm) {
+    openMenu.value = true
+  } else {
+    openMenu.value = false
+  }
+})
 </script>
 
 <template>
   <header>
     <nav>
-      <button aria-expanded="false" class="toggle hamburger hidden" id="menu">
+      <button @click="toggleMenu" aria-expanded="false" class="toggle hamburger" id="menu">
         <span aria-hidden="true" class="icon"> <span></span><span></span><span></span> </span>
       </button>
 
@@ -18,18 +53,22 @@ function goToLogin() {
         <img src="/src/assets/imgs/odisee_logo.svg" alt="Odisee. De co-hogeschool" />
       </RouterLink>
 
-      <ul class="menu-list">
-        <li>
-          <RouterLink to="/">About</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/test">Test</RouterLink>
-        </li>
-        <li>
-          <a href="https://www.odisee.be/" target="_blank">Odisee<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-        </li>
-      </ul>
-      <AppButton @click="goToLogin" class="menu-btn">Login</AppButton>
+      <div v-show="openMenu" class="menu-items">
+        <ul class="menu-list">
+          <li>
+            <RouterLink to="/">About</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/test">Test</RouterLink>
+          </li>
+          <li>
+            <a href="https://www.odisee.be/" target="_blank"
+              >Odisee<i class="fa-solid fa-arrow-up-right-from-square"></i
+            ></a>
+          </li>
+        </ul>
+        <AppButton @click="goToLogin" class="menu-btn">Login</AppButton>
+      </div>
     </nav>
   </header>
 </template>
@@ -37,32 +76,57 @@ function goToLogin() {
 <style scoped lang="scss">
 nav {
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
 
-  .menu-list {
-    display: none;
+  #logo {
+    order: -1;
+  }
 
-    li{
+  .menu-items {
+    width: 100%;
+    padding-left: 2rem;
+    display: flex;
+    flex-flow: column;
+    margin-top: 1rem;
+
+    .menu-list {
       display: flex;
-      flex-flow: row;
-      align-items: center;
+      flex-flow: column;
+      gap: 0.5rem;
+      list-style-type: none;
+      padding: 0;
 
-      i {
-        margin-left: 0.2rem;
-        font-size: 0.8em;
+      li {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+
+        i {
+          margin-left: 0.2rem;
+          font-size: 0.8em;
+        }
+
+        a {
+          color: var(--main);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+            color: var(--accent-links);
+          }
+        }
       }
+    }
+
+    .menu-btn {
+      margin-top: 0.5rem;
     }
   }
 
-  .menu-btn {
-    display: none;
-  }
-
   .hamburger {
-    order: 1;
     background-color: transparent;
     border: none;
 
@@ -84,27 +148,25 @@ nav {
 @media (min-width: 45em) {
   nav {
     padding: 0.5rem 5rem;
+    flex-flow: row nowrap;
+    gap: 3rem;
 
-    .menu-list {
-      display: flex;
+    .menu-items {
       flex-flow: row;
-      gap: 3rem;
-      list-style-type: none;
-      padding: 0;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 0;
 
-      li a {
-        color: var(--main);
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-          color: var(--accent-links);
-        }
+      .menu-list {
+        flex-flow: row;
+        gap: 3rem;
       }
-    }
 
-    .menu-btn {
-      display: block;
+      .menu-btn {
+        display: block;
+        margin: 0;
+      }
     }
 
     .hamburger {
