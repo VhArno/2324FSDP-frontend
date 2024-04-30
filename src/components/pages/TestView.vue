@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Test | Odisee specialisatie test'
 
 function startTest() {
   router.push('/questions')

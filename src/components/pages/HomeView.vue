@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import AppButton from '../atoms/AppButton.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Home | Odisee specialisatie test'
 
 const router = useRouter()
 

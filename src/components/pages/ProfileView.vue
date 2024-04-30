@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import AppButton from '../atoms/AppButton.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Profile | Odisee specialisatie test'
 </script>
 
 <template>

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import AppButton from '../atoms/AppButton.vue'
 import { useUrlSearchParams } from '@vueuse/core'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Questions | Odisee specialisatie test'
 
 const params = useUrlSearchParams('history')
 params.question = '1'
