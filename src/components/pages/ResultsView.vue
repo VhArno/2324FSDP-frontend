@@ -13,7 +13,7 @@ title.value = 'Result | Odisee specialisatie test'
       <img src="/src/assets/imgs/frame3.svg" alt="odisee icon" />
     </div>
 
-    <h1>Resultaat</h1>
+    <h1 tabindex=-1>Resultaat</h1>
 
     <div class="text">
       <p>

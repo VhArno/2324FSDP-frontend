@@ -10,7 +10,7 @@ title.value = 'Register | Odisee specialisatie test'
 <template>
   <section class="register">
     <form class="register-form">
-      <h1>
+      <h1 tabindex=-1>
         Elektronica-ICT Test
         <br />
         Register

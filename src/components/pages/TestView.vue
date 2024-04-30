@@ -14,7 +14,7 @@ function startTest() {
 <template>
   <section class="content">
     <div>
-      <h1>Doe de specialisatie test</h1>
+      <h1 tabindex=-1>Doe de specialisatie test</h1>
       <p>
         Nog niet zeker van je afstudeerrichting in electronica-ict? Vul dan onze
         specialisatiekeuzetest in. Aan de hand van 10 kenmerken zoeken we een match tussen jou en

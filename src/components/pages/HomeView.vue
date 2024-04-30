@@ -17,7 +17,7 @@ function goToTest() {
   <section class="intro">
     <div>
       <div class="title">
-        <h1>Bachelor Elektronica-ICT</h1>
+        <h1 tabindex=-1>Bachelor Elektronica-ICT</h1>
         <h3>Bachelor - Digital technologie en wetenschap</h3>
       </div>
 

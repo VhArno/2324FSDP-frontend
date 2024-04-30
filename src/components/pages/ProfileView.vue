@@ -11,7 +11,7 @@ title.value = 'Profile | Odisee specialisatie test'
     <div class="intro">
       <div class="profile">
         <div class="details">
-          <h1>Arno Van Hee</h1>
+          <h1 tabindex=-1>Arno Van Hee</h1>
           <p>arnovanhee@gmail.com</p>
           <AppButton>Logout</AppButton>
         </div>

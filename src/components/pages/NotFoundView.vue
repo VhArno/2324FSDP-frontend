@@ -7,7 +7,7 @@ title.value = 'Not Found | Odisee specialisatie test'
 
 <template>
     <section class="not-found">
-        <h1>Oooooh crap! Page not found.</h1>
+        <h1 tabindex=-1>Oooooh crap! Page not found.</h1>
         <p>Try again! Never give up, never back down</p>
         <img src="/src/assets/imgs/nickeh30.gif" alt="nick Eh 30">
     </section>
