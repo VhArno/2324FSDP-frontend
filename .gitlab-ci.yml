@@ -33,7 +33,7 @@ lint:
 test:
   stage: test
   script:
-    -
+    - pnpm lint
 
 plesk:
   stage: deploy
