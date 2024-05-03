@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import { useTitle } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 
 const title = useTitle()
 title.value = 'Profile | Odisee specialisatie test'
+
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -11,8 +16,8 @@ title.value = 'Profile | Odisee specialisatie test'
     <div class="intro">
       <div class="profile">
         <div class="details">
-          <h1 tabindex=-1>Arno Van Hee</h1>
-          <p>arnovanhee@gmail.com</p>
+          <h1 tabindex="-1">{{ user?.firstname + ' ' + user?.lastname }}</h1>
+          <p>{{ user?.email }}</p>
           <AppButton>Logout</AppButton>
         </div>
 

@@ -38,18 +38,12 @@ function login() {
 
       <div>
         <label for="email">Email</label>
-        <AppInput type="email" id="email" name="email" value="" v-model="email"></AppInput>
+        <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
       </div>
 
       <div>
         <label for="password">Password</label>
-        <AppInput
-          type="password"
-          id="password"
-          name="password"
-          value=""
-          v-model="password"
-        ></AppInput>
+        <AppInput type="password" id="password" name="password" v-model:value="password"></AppInput>
       </div>
 
       <div class="btns">

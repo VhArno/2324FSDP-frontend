@@ -16,16 +16,14 @@ export const useAuthStore = defineStore(
         const { data: user } = await getUser<User>()
         return user
       } catch (e) {
+        console.error(e)
+
         return {
           id: 1,
-          username: 'User',
-          email: 'user@gmail.com',
-          level: 0,
-          highscore: 0,
-          played: 0,
-          won: 0,
-          killed: 0,
-          skins: []
+          firstname: 'John',
+          lastname: 'Doe',
+          email: 'johndoe@gmail.com',
+          created_at: new Date()
         }
       }
     }
