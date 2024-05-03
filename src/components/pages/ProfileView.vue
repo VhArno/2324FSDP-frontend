@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import AppButton from '../atoms/AppButton.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Profile | Odisee specialisatie test'
 </script>
 
 <template>
@@ -7,7 +11,7 @@ import AppButton from '../atoms/AppButton.vue'
     <div class="intro">
       <div class="profile">
         <div class="details">
-          <h1>Arno Van Hee</h1>
+          <h1 tabindex=-1>Arno Van Hee</h1>
           <p>arnovanhee@gmail.com</p>
           <AppButton>Logout</AppButton>
         </div>

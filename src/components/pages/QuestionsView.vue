@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import AppButton from '../atoms/AppButton.vue'
 import { useUrlSearchParams } from '@vueuse/core'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Questions | Odisee specialisatie test'
 
 const params = useUrlSearchParams('history')
 params.question = '1'
@@ -9,8 +13,8 @@ params.question = '1'
 <template>
   <section class="test">
     <div class="title">
+      <h1 tabindex=-1>Wat is jouw favoriete aspect van informatica?</h1>
       <p>1/10</p>
-      <h1>Wat is jouw favoriete aspect van informatica?</h1>
     </div>
 
     <div class="answers">
@@ -33,6 +37,8 @@ params.question = '1'
 
   .title {
     margin: 2rem 0;
+    display: flex;
+    flex-flow: column-reverse;
   }
 
   .answers {

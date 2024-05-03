@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Result | Odisee specialisatie test'
 </script>
 
 <template>
@@ -9,7 +13,7 @@ import AppInput from '../atoms/AppInput.vue'
       <img src="/src/assets/imgs/frame3.svg" alt="odisee icon" />
     </div>
 
-    <h1>Resultaat</h1>
+    <h1 tabindex=-1>Resultaat</h1>
 
     <div class="text">
       <p>

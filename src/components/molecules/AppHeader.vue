@@ -3,7 +3,7 @@ import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
-const openMenu = ref(false)
+const openMenu = ref(true)
 const windowWidth = ref(window.innerWidth)
 
 const thresholdWidthEm = 45

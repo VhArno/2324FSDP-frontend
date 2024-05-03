@@ -7,6 +7,7 @@ import ProfileView from '@/components/pages/ProfileView.vue'
 import LoginView from '@/components/pages/LoginView.vue'
 import RegisterView from '@/components/pages/RegisterView.vue'
 import AdminPanel from '@/components/pages/AdminPanel.vue'
+import NotFoundView from '@/components/pages/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,17 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminPanel
+    },
+    {
+      path: '/redirect',
+      redirect: {
+        name: 'login'
+      }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: NotFoundView
     }
   ]
 })

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Register | Odisee specialisatie test'
 </script>
 
 <template>
   <section class="register">
     <form class="register-form">
-      <h1>
+      <h1 tabindex=-1>
         Elektronica-ICT Test
         <br />
         Register

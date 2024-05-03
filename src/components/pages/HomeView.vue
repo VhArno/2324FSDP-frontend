@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import AppButton from '../atoms/AppButton.vue'
+import { useTitle } from '@vueuse/core'
+
+const title = useTitle()
+title.value = 'Home | Odisee specialisatie test'
 
 const router = useRouter()
 
@@ -13,7 +17,7 @@ function goToTest() {
   <section class="intro">
     <div>
       <div class="title">
-        <h1>Bachelor Elektronica-ICT</h1>
+        <h1 tabindex=-1>Bachelor Elektronica-ICT</h1>
         <h3>Bachelor - Digital technologie en wetenschap</h3>
       </div>
 
