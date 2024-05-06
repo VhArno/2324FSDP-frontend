@@ -11,6 +11,17 @@ export const useAuthStore = defineStore(
     const isAuthenticated = ref<boolean>(false)
     const isAdmin = ref<boolean>(false)
 
+    const readUserDetails = () => {
+      console.log('Checking if user already logged in')
+      try {
+        if (user.value !== null) {
+          initUser()
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
     const getUserDetails = async () => {
       if (user.value) return user.value
 
@@ -25,19 +36,22 @@ export const useAuthStore = defineStore(
           firstname: 'John',
           lastname: 'Doe',
           email: 'johndoe@gmail.com',
-          created_at: new Date()
+          created_at: new Date(),
+          role: 'user'
         }
       }
     }
 
     const initUser = async () => {
       user.value = await getUserDetails()
+      isAuthenticated.value = true
+      if (user.value.role == 'admin') isAdmin.value = true
     }
 
     const login = async (payload: { email: string; password: string }) => {
+      user.value = null
       await postLogin(payload)
       await initUser()
-      isAuthenticated.value = true
       router.push('/profile')
     }
 
@@ -45,17 +59,17 @@ export const useAuthStore = defineStore(
       await postLogout()
       user.value = null
       isAuthenticated.value = false
+      isAdmin.value = false
       router.push('/login')
     }
 
     const register = async (payload: RegisterPayload) => {
       await postRegister(payload)
       await login({ email: payload.email, password: payload.password })
-      isAuthenticated.value = true
       router.push('/profile')
     }
 
-    return { user, isAuthenticated, isAdmin, login, logout, register }
+    return { user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }
   },
   {
     persist: {

@@ -2,6 +2,7 @@
 import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
 const openMenu = ref(true)
 const windowWidth = ref(window.innerWidth)
@@ -9,7 +10,11 @@ const windowWidth = ref(window.innerWidth)
 const thresholdWidthEm = 45
 
 function goToLogin() {
-  router.push('/login')
+  router.push({ name: 'login' })
+}
+
+function goToProfile() {
+  router.push({ name: 'profile' })
 }
 
 function toggleMenu() {
@@ -67,7 +72,12 @@ watch(windowWidth, (newValue) => {
             ></a>
           </li>
         </ul>
-        <AppButton @click="goToLogin" class="menu-btn">Login</AppButton>
+        <AppButton v-if="!useAuthStore().isAuthenticated" @click="goToLogin" class="menu-btn"
+          >Login</AppButton
+        >
+        <AppButton v-if="useAuthStore().isAuthenticated" @click="goToProfile" class="menu-btn"
+          >Profile</AppButton
+        >
       </div>
     </nav>
   </header>

@@ -9,6 +9,7 @@ import RegisterView from '@/components/pages/RegisterView.vue'
 import AdminPanel from '@/components/pages/AdminPanel.vue'
 import NotFoundView from '@/components/pages/NotFoundView.vue'
 import { authGuard } from '@/guards/authGuard'
+import { loginGuard } from '@/guards/loginGuard'
 import { adminGuard } from '@/guards/adminGuard'
 import { useAuthStore } from '@/stores/auth'
 
@@ -39,12 +40,14 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      beforeEnter: [loginGuard]
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterView
+      component: RegisterView,
+      beforeEnter: [loginGuard]
     },
     {
       path: '/profile',

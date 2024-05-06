@@ -9,6 +9,10 @@ title.value = 'Profile | Odisee specialisatie test'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
+
+const logout = () => {
+  authStore.logout()
+}
 </script>
 
 <template>
@@ -18,7 +22,7 @@ const { user } = storeToRefs(authStore)
         <div class="details">
           <h1 tabindex="-1">{{ user?.firstname + ' ' + user?.lastname }}</h1>
           <p>{{ user?.email }}</p>
-          <AppButton>Logout</AppButton>
+          <AppButton @click="logout">Logout</AppButton>
         </div>
 
         <img src="/src/assets/imgs/profile_icon.svg" alt="profile icon" />

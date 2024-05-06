@@ -10,4 +10,5 @@ export interface User {
   lastname: string
   email: string
   created_at: Date
+  role: string
 }
