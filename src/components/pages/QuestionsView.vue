@@ -3,6 +3,10 @@ import AppButton from '../atoms/AppButton.vue'
 import { useUrlSearchParams } from '@vueuse/core'
 import { useTitle } from '@vueuse/core'
 
+defineProps<{
+  id: number
+}>()
+
 const title = useTitle()
 title.value = 'Questions | Odisee specialisatie test'
 
@@ -13,7 +17,7 @@ params.question = '1'
 <template>
   <section class="test">
     <div class="title">
-      <h1 tabindex=-1>Wat is jouw favoriete aspect van informatica?</h1>
+      <h1 tabindex="-1">Wat is jouw favoriete aspect van informatica?</h1>
       <p>1/10</p>
     </div>
 

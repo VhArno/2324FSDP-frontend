@@ -1,6 +1,6 @@
 import type { RegisterPayload, User } from '@/types'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import router from '@/router'
 import { getUser, postLogin, postLogout, postRegister } from '@/services/authService'
 
@@ -8,6 +8,8 @@ export const useAuthStore = defineStore(
   'auth',
   () => {
     const user = ref<User | null>(null)
+    const isAuthenticated = ref<boolean>(false)
+    const isAdmin = ref<boolean>(false)
 
     const getUserDetails = async () => {
       if (user.value) return user.value
@@ -35,22 +37,25 @@ export const useAuthStore = defineStore(
     const login = async (payload: { email: string; password: string }) => {
       await postLogin(payload)
       await initUser()
+      isAuthenticated.value = true
       router.push('/profile')
     }
 
     const logout = async () => {
       await postLogout()
       user.value = null
+      isAuthenticated.value = false
       router.push('/login')
     }
 
     const register = async (payload: RegisterPayload) => {
       await postRegister(payload)
       await login({ email: payload.email, password: payload.password })
+      isAuthenticated.value = true
       router.push('/profile')
     }
 
-    return { user, login, logout, register }
+    return { user, isAuthenticated, isAdmin, login, logout, register }
   },
   {
     persist: {

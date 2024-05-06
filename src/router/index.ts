@@ -8,6 +8,9 @@ import LoginView from '@/components/pages/LoginView.vue'
 import RegisterView from '@/components/pages/RegisterView.vue'
 import AdminPanel from '@/components/pages/AdminPanel.vue'
 import NotFoundView from '@/components/pages/NotFoundView.vue'
+import { authGuard } from '@/guards/authGuard'
+import { adminGuard } from '@/guards/adminGuard'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,19 +26,15 @@ const router = createRouter({
       component: TestView
     },
     {
-      path: '/questions',
+      path: '/questions/:id',
       name: 'questions',
+      props: true,
       component: QuestionsView
     },
     {
       path: '/result',
       name: 'result',
       component: ResultsView
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: ProfileView
     },
     {
       path: '/login',
@@ -48,9 +47,18 @@ const router = createRouter({
       component: RegisterView
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
+      meta: { requiresAuth: true },
+      beforeEnter: [authGuard]
+    },
+    {
       path: '/admin',
       name: 'admin',
-      component: AdminPanel
+      component: AdminPanel,
+      meta: { requiresAuth: true, role: 'admin' },
+      beforeEnter: [authGuard, adminGuard]
     },
     {
       path: '/redirect',
@@ -64,6 +72,16 @@ const router = createRouter({
       component: NotFoundView
     }
   ]
+})
+
+router.beforeEach((to, from) => {
+  if (to.meta.requiresAuth && !useAuthStore().isAuthenticated) {
+    return { path: '/login' }
+  }
+
+  if (to.meta.role === 'admin' && !useAuthStore().isAdmin) {
+    return false
+  }
 })
 
 export default router
