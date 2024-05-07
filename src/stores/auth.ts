@@ -1,8 +1,8 @@
-import type { LoginResponse, RegisterPayload, User } from '@/types'
+import type { RegisterPayload, User } from '@/types'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import router from '@/router'
-import { getUser, postLogin, postLogout, postRegister } from '@/services/authService'
+import { getCsrfCookie, getUser, postLogin, postLogout, postRegister } from '@/services/authService'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -16,6 +16,8 @@ export const useAuthStore = defineStore(
       try {
         if (user.value !== null) {
           initUser()
+        } else {
+          logout()
         }
       } catch (err) {
         console.log(err)
@@ -30,22 +32,15 @@ export const useAuthStore = defineStore(
         return user
       } catch (e) {
         console.error(e)
-
-        return {
-          id: 1,
-          firstname: 'John',
-          lastname: 'Doe',
-          email: 'johndoe@gmail.com',
-          created_at: new Date(),
-          role: 'user'
-        }
+        logout()
+        return null
       }
     }
 
     const initUser = async () => {
       user.value = await getUserDetails()
       isAuthenticated.value = true
-      if (user.value.role == 'admin') isAdmin.value = true
+      if (user.value?.role == 'admin') isAdmin.value = true
     }
 
     const login = async (payload: { email: string; password: string }) => {
@@ -61,6 +56,7 @@ export const useAuthStore = defineStore(
 
     const logout = async () => {
       await postLogout()
+      await getCsrfCookie()
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false
