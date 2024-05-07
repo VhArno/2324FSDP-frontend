@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import router from '@/router';
 import AppButton from '../atoms/AppButton.vue'
-import { useUrlSearchParams } from '@vueuse/core'
 import { useTitle } from '@vueuse/core'
 
 defineProps<{
