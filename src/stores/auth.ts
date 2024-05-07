@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import router from '@/router'
 import { getUser, postLogin, postLogout, postRegister } from '@/services/authService'
+import type { AxiosResponse } from 'axios'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -49,10 +50,14 @@ export const useAuthStore = defineStore(
     }
 
     const login = async (payload: { email: string; password: string }) => {
-      user.value = null
-      await postLogin(payload)
-      await initUser()
-      router.push('/profile')
+      try {
+        user.value = null
+        await postLogin(payload)
+        await initUser()
+        router.push('/profile')
+      } catch(err: any) {
+        return err.response.data.message
+      }
     }
 
     const logout = async () => {
@@ -64,9 +69,13 @@ export const useAuthStore = defineStore(
     }
 
     const register = async (payload: RegisterPayload) => {
-      await postRegister(payload)
-      await login({ email: payload.email, password: payload.password })
-      router.push('/profile')
+      try {
+        await postRegister(payload)
+        await login({ email: payload.email, password: payload.password })
+        router.push('/profile')
+      } catch(err: any) {
+        return err.response.data.message
+      }
     }
 
     return { user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }

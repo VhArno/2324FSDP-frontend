@@ -1,7 +1,9 @@
 export interface RegisterPayload {
-  username: string
+  firstname: string
+  lastname: string
   email: string
   password: string
+  passwordRepeat?: string
 }
 
 export interface User {

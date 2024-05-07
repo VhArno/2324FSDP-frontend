@@ -76,7 +76,7 @@ watch(windowWidth, (newValue) => {
           >Login</AppButton
         >
         <AppButton v-if="useAuthStore().isAuthenticated" @click="goToProfile" class="menu-btn"
-          >Profile</AppButton
+          ><i class="fa-solid fa-user"></i></AppButton
         >
       </div>
     </nav>

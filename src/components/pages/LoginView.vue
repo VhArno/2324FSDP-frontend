@@ -14,10 +14,11 @@ const errors = ref<string[]>([])
 const title = useTitle()
 title.value = 'Login | Odisee specialisatie test'
 
-function login() {
+async function login() {
   errors.value = []
   if (email.value && password.value) {
-    authStore.login({ email: email.value, password: password.value })
+    const message = await authStore.login({ email: email.value, password: password.value })
+    errors.value.push(message)
   } else {
     email.value ? '' : errors.value.push('Fill in an email address')
     password.value ? '' : errors.value.push('Fill in the password field')
@@ -34,7 +35,11 @@ function login() {
         Login
       </h1>
 
-      <div class="errors" v-for="(err, index) in errors" :key="index">{{ err }}</div>
+      <div class="errors" v-if="errors.length>0">
+        <h2>Looks like something went wrong:</h2>
+        <div v-for="(err, index) in errors" :key="index">{{ err }}</div>
+      </div>
+      
 
       <div>
         <label for="email">Email</label>
@@ -63,6 +68,10 @@ function login() {
     display: flex;
     flex-flow: column;
     gap: 1rem;
+
+    .errors {
+      color: var(--accent-links)
+    }
 
     div {
       display: flex;
