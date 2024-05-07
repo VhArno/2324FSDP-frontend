@@ -1,9 +1,8 @@
-import type { RegisterPayload, User } from '@/types'
+import type { LoginResponse, RegisterPayload, User } from '@/types'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import router from '@/router'
 import { getUser, postLogin, postLogout, postRegister } from '@/services/authService'
-import type { AxiosResponse } from 'axios'
 
 export const useAuthStore = defineStore(
   'auth',
