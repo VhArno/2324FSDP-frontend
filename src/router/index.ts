@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/components/pages/HomeView.vue'
 import TestView from '@/components/pages/TestView.vue'
-import QuestionsView from '@/components/pages/QuestionsView.vue'
-import ResultsView from '@/components/pages/ResultsView.vue'
 import ProfileView from '@/components/pages/ProfileView.vue'
 import LoginView from '@/components/pages/LoginView.vue'
 import RegisterView from '@/components/pages/RegisterView.vue'
@@ -12,6 +10,9 @@ import { authGuard } from '@/guards/authGuard'
 import { loginGuard } from '@/guards/loginGuard'
 import { adminGuard } from '@/guards/adminGuard'
 import { useAuthStore } from '@/stores/auth'
+import AppTest from '@/components/organisms/AppTest.vue'
+import AppTestQuestions from '@/components/organisms/AppTestQuestions.vue'
+import AppTestResult from '@/components/organisms/AppTestResult.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,18 +25,25 @@ const router = createRouter({
     {
       path: '/test',
       name: 'test',
-      component: TestView
-    },
-    {
-      path: '/questions/:id',
-      name: 'questions',
-      props: true,
-      component: QuestionsView
-    },
-    {
-      path: '/result',
-      name: 'result',
-      component: ResultsView
+      component: TestView,
+      children: [
+        {
+          path: '',
+          name: 'testView',
+          component: AppTest
+        },
+        {
+          path: 'questions/:id',
+          name: 'questions',
+          props: true,
+          component: AppTestQuestions
+        },
+        {
+          path: 'result',
+          name: 'result',
+          component: AppTestResult
+        },
+      ]
     },
     {
       path: '/login',
@@ -83,7 +91,7 @@ router.beforeEach((to, from) => {
   }
 
   if (to.meta.role === 'admin' && !useAuthStore().isAdmin) {
-    return false
+    return { path: '/redirect' }
   }
 })
 

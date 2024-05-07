@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from '@/router';
 import AppButton from '../atoms/AppButton.vue'
 import { useUrlSearchParams } from '@vueuse/core'
 import { useTitle } from '@vueuse/core'
@@ -10,8 +11,9 @@ defineProps<{
 const title = useTitle()
 title.value = 'Questions | Odisee specialisatie test'
 
-const params = useUrlSearchParams('history')
-params.question = '1'
+function goToResults() {
+  router.push({name: 'result'})
+}
 </script>
 
 <template>
@@ -22,7 +24,7 @@ params.question = '1'
     </div>
 
     <div class="answers">
-      <AppButton>Web ontwikkeling</AppButton>
+      <AppButton @click="goToResults">Web ontwikkeling</AppButton>
       <AppButton>Infrastructuurbeheer</AppButton>
       <AppButton>Softwareontwikkeling</AppButton>
       <AppButton>Kunstmatige intelligentie en machine learning</AppButton>
