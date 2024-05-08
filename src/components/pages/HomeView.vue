@@ -9,7 +9,7 @@ title.value = 'Home | Odisee specialisatie test'
 const router = useRouter()
 
 function goToTest() {
-  router.push('/test')
+  router.push({ name: 'test' })
 }
 </script>
 

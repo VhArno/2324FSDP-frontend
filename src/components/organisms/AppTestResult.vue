@@ -1,10 +1,41 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
+import { ref } from 'vue'
 
 const title = useTitle()
 title.value = 'Result | Odisee specialisatie test'
+
+const saveErrors = ref<string[]>([])
+const emailErrors = ref<string[]>([])
+
+const saveName = ref<string>('')
+const email = ref<string>('')
+
+function saveResult() {
+  saveErrors.value = []
+
+  if (useAuthStore().isAuthenticated && saveName.value) {
+    // save result
+  } else {
+    !useAuthStore().isAuthenticated ? saveErrors.value.push('Log eerst in') : ''
+    !saveName.value ? saveErrors.value.push('Vul een geldige naam in') : ''
+  }
+}
+
+function sendResult() {
+  emailErrors.value = []
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+  if (emailRegex.test(email.value)) {
+    // send email
+  } else {
+    emailErrors.value.push('Vul een geldig email adres in')
+  }
+}
 </script>
 
 <template>
@@ -13,7 +44,7 @@ title.value = 'Result | Odisee specialisatie test'
       <img src="/src/assets/imgs/frame3.svg" alt="odisee icon" />
     </div>
 
-    <h1 tabindex=-1>Resultaat</h1>
+    <h1 tabindex="-1">Resultaat</h1>
 
     <div class="text">
       <p>
@@ -31,16 +62,18 @@ title.value = 'Result | Odisee specialisatie test'
     <div class="save">
       <div class="save-result">
         <label for="name">Naam resultaat</label>
-        <AppInput type="text" id="name" name="name"></AppInput>
-        <AppButton>Sla op</AppButton>
+        <div class="error" v-if="saveErrors.length > 0">{{ saveErrors[0] }}</div>
+        <AppInput type="text" id="name" name="name" v-model:value="saveName"></AppInput>
+        <AppButton @click="saveResult">Sla op</AppButton>
       </div>
 
       <span></span>
 
       <div class="send-result">
         <label for="email">Email</label>
-        <AppInput type="email" id="email" name="email"></AppInput>
-        <AppButton>Verstuur via email</AppButton>
+        <div class="error" v-if="emailErrors.length > 0">{{ emailErrors[0] }}</div>
+        <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
+        <AppButton @click="sendResult">Verstuur via email</AppButton>
       </div>
     </div>
 
@@ -74,6 +107,10 @@ title.value = 'Result | Odisee specialisatie test'
     justify-content: center;
     margin: 4rem auto;
     gap: 2rem;
+
+    .error {
+      color: red;
+    }
 
     div {
       display: flex;

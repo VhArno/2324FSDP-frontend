@@ -49,7 +49,7 @@ export const useAuthStore = defineStore(
         await postLogin(payload)
         await initUser()
         router.push('/profile')
-      } catch(err: any) {
+      } catch (err: any) {
         return err.response.data.message
       }
     }
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore(
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false
-      router.push('/login')
+      router.push({ name: 'login' })
     }
 
     const register = async (payload: RegisterPayload) => {
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore(
         await postRegister(payload)
         await login({ email: payload.email, password: payload.password })
         router.push('/profile')
-      } catch(err: any) {
+      } catch (err: any) {
         return err.response.data.message
       }
     }

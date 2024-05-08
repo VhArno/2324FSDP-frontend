@@ -24,12 +24,12 @@ const router = createRouter({
     },
     {
       path: '/test',
-      name: 'test',
+      name: 'testView',
       component: TestView,
       children: [
         {
           path: '',
-          name: 'testView',
+          name: 'test',
           component: AppTest
         },
         {
@@ -42,7 +42,7 @@ const router = createRouter({
           path: 'result',
           name: 'result',
           component: AppTestResult
-        },
+        }
       ]
     },
     {

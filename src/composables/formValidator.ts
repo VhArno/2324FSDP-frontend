@@ -1,22 +1,22 @@
-import type { RegisterPayload } from "@/types";
-import { watch } from "vue";
-import { ref } from "vue";
+import type { RegisterPayload } from '@/types'
+import { watch } from 'vue'
+import { ref } from 'vue'
 
 export function useFormValidator(payload: RegisterPayload) {
-    const valid = ref<boolean>(false)
-    const errs = ref<string[]>([])
+  const valid = ref<boolean>(false)
+  const errs = ref<string[]>([])
 
-    !payload.firstname ? errs.value.push('Fill in a firstname') : ''
-    !payload.lastname ? errs.value.push('Fill in a lastname') : ''
-    !payload.email ? errs.value.push('Fill in an email') : ''
-    !payload.password ? errs.value.push('Fill in a password') : ''
-    !payload.passwordRepeat ? errs.value.push('Fill in a password repeat') : ''
-    
-    if (errs.value.length == 0 && payload.password === payload.passwordRepeat) {
-        valid.value = true
-    } else {
-        errs.value.push('Password and password repeat must be the same')
-    }
+  !payload.firstname ? errs.value.push('Vul uw voornaam in') : ''
+  !payload.lastname ? errs.value.push('Vul uw achternaam in') : ''
+  !payload.email ? errs.value.push('Vul een email in') : ''
+  !payload.password ? errs.value.push('Vul een wachtwoord in') : ''
+  !payload.passwordRepeat ? errs.value.push('Herhaal uw wachtwoord') : ''
 
-    return { valid, errs }
+  if (errs.value.length == 0 && payload.password === payload.passwordRepeat) {
+    valid.value = true
+  } else {
+    errs.value.push('Wachtwoord en herhaal wachtwoord zijn niet hetzelfde')
+  }
+
+  return { valid, errs }
 }
