@@ -145,12 +145,14 @@ function sendResult() {
     }
 
     :nth-child(1) {
+      z-index: -1;
       flex: 1;
       width: 50%;
       max-width: 10em;
     }
 
     :nth-child(2) {
+      z-index: -1;
       flex: 1;
       width: 50%;
       max-width: 10em;

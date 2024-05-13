@@ -29,10 +29,16 @@ lint:
     - pnpm lint
     - pnpm lint --fix
 
-test:
+vitest:
   stage: lint/test
   script:
-    - pnpm lint
+    - pnpm test:unit
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/clover.xml
 
 plesk:
   stage: deploy

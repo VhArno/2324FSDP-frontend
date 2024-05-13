@@ -15,7 +15,7 @@ export const useAuthStore = defineStore(
       console.log('Checking if user already logged in')
       try {
         if (user.value !== null) {
-          initUser()
+          initUser().catch(() => {})
         } else {
           logout()
         }
@@ -55,8 +55,8 @@ export const useAuthStore = defineStore(
     }
 
     const logout = async () => {
-      await postLogout()
-      await getCsrfCookie()
+      await postLogout().catch(() => {})
+      await getCsrfCookie().catch(() => {})
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false
