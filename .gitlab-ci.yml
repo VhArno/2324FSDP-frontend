@@ -4,8 +4,7 @@ variables:
   FOLDER_NAME: '/'
 
 stages:
-  - lint
-  - test
+  - lint/test
   - deploy
 
 cache:
@@ -25,13 +24,13 @@ before_script:
   - pnpm install
 
 lint:
-  stage: lint
+  stage: lint/test
   script:
     - pnpm lint
     - pnpm lint --fix
 
 test:
-  stage: test
+  stage: lint/test
   script:
     - pnpm lint
 
