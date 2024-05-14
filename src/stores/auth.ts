@@ -30,7 +30,6 @@ export const useAuthStore = defineStore(
 
       try {
         const { data: user } = await getUser<ApiResponse>()
-
         return user.data
       } catch (e) {
         console.error(e)
@@ -58,7 +57,9 @@ export const useAuthStore = defineStore(
 
     const logout = async () => {
       await postLogout().catch(() => {})
-      await getCsrfCookie().catch(() => {})
+      await getCsrfCookie().catch((err) => {
+        console.log(err)
+      })
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false

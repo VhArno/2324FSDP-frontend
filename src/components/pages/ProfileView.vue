@@ -45,6 +45,13 @@ function formatDate(date: Date) {
           <h3>{{ formatDate(result.created_at) }}</h3>
           <h3>{{ result.specialisation.name }}</h3>
         </div>
+
+        <div v-if="!user?.results?.length">
+          <h3>
+            Whoops you don't have any results saved yet! Go to
+            <RouterLink :to="{ name: 'test' }">test</RouterLink>.
+          </h3>
+        </div>
       </div>
     </div>
 

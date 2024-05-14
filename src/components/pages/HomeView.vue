@@ -93,11 +93,14 @@ function goToTest() {
   color: var(--bg);
 
   > div {
+    z-index: 2;
     padding: 0 2rem 2rem 2rem;
   }
 
   .frame {
+    z-index: 1;
     width: 50%;
+    max-width: 30%;
     transform: rotate(-90deg);
   }
 
