@@ -17,12 +17,6 @@ app.use(pinia)
 app.use(VueQueryPlugin)
 app.use(router)
 
-<<<<<<< Updated upstream
-app.mount('#app')
-
 await getCsrfCookie().catch(() => {})
-=======
-await getCsrfCookie()
 
 app.mount('#app')
->>>>>>> Stashed changes
