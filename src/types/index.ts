@@ -21,8 +21,8 @@ export interface User {
     id: number
     name: string
     description: string
-    specialisation_id: number
     created_at: Date
+    specialisation: Specialisation
   }[]
 }
 

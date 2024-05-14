@@ -13,6 +13,11 @@ const { user } = storeToRefs(authStore)
 const logout = () => {
   authStore.logout()
 }
+
+function formatDate(date: Date) {
+  const formattedDate = new Date(date)
+  return formattedDate.toLocaleString('en-GB')
+}
 </script>
 
 <template>
@@ -37,8 +42,8 @@ const logout = () => {
       <div class="results">
         <div v-for="result in user?.results" :key="result.id">
           <h3>{{ result.name }}</h3>
-          <h3>{{ result.created_at }}</h3>
-          <h3>{{ result.specialisation_id }}</h3>
+          <h3>{{ formatDate(result.created_at) }}</h3>
+          <h3>{{ result.specialisation.name }}</h3>
         </div>
       </div>
     </div>

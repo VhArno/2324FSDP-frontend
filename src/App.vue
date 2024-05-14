@@ -2,8 +2,6 @@
 import AppHeader from './components/molecules/AppHeader.vue'
 import AppFooter from './components/molecules/AppFooter.vue'
 import { useAuthStore } from './stores/auth'
-import { getQuestions } from '@/services/dataService'
-import { useQuery } from '@tanstack/vue-query'
 
 useAuthStore().readUserDetails()
 </script>
