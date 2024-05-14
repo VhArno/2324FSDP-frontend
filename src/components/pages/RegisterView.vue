@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { ref } from 'vue';
-import { useFormValidator } from '@/composables/formValidator';
+import { ref } from 'vue'
+import { useFormValidator } from '@/composables/formValidator'
 
 const authStore = useAuthStore()
 
@@ -34,11 +34,11 @@ async function register() {
   console.log(payload)
 
   if (valid.value) {
-    console.log("Form validator valid")
+    console.log('Form validator valid')
     const message = await authStore.register(payload)
     errors.value.push(message)
   } else {
-    console.log("Form validator invalid")
+    //console.log("Form validator invalid")
     errors.value.push(...errs.value)
   }
 }
@@ -47,13 +47,13 @@ async function register() {
 <template>
   <section class="register">
     <form class="register-form">
-      <h1 tabindex=-1>
+      <h1 tabindex="-1">
         Elektronica-ICT Test
         <br />
         Register
       </h1>
 
-      <div class="errors" v-if="errors.length>0">
+      <div class="errors" v-if="errors.length > 0">
         <h2>Looks like something went wrong:</h2>
         <div v-for="(err, index) in errors" :key="index">{{ err }}</div>
       </div>
@@ -80,7 +80,12 @@ async function register() {
 
       <div>
         <label for="passwordRepeat">Herhaal wachtwoord</label>
-        <AppInput type="password" id="passwordRepeat" name="passwordRepeat" v-model:value="passwordRepeat"></AppInput>
+        <AppInput
+          type="password"
+          id="passwordRepeat"
+          name="passwordRepeat"
+          v-model:value="passwordRepeat"
+        ></AppInput>
       </div>
 
       <div class="btns">
@@ -102,7 +107,7 @@ async function register() {
     gap: 1rem;
 
     .errors {
-      color: var(--accent-links)
+      color: var(--accent-links);
     }
 
     div {

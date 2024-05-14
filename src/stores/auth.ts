@@ -12,7 +12,6 @@ export const useAuthStore = defineStore(
     const isAdmin = ref<boolean>(false)
 
     const readUserDetails = () => {
-      console.log('Checking if user already logged in')
       try {
         if (user.value !== null) {
           initUser().catch(() => {})
