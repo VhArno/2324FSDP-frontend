@@ -1,5 +1,5 @@
 import type { RegisterPayload, User } from '@/types'
-import { defineStore } from 'pinia'
+import { defineStore } from '@pinia'
 import { ref } from 'vue'
 import router from '@/router'
 import { getCsrfCookie, getUser, postLogin, postLogout, postRegister } from '@/services/authService'
@@ -16,7 +16,9 @@ export const useAuthStore = defineStore(
         if (user.value !== null) {
           initUser().catch(() => {})
         } else {
-          logout()
+          user.value = null
+          isAuthenticated.value = false
+          isAdmin.value = false
         }
       } catch (err) {
         console.log(err)
