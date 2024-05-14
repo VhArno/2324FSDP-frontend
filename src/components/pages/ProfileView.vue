@@ -35,10 +35,10 @@ const logout = () => {
       <h2>Resultaten</h2>
 
       <div class="results">
-        <div>
-          <h3>Test 1</h3>
-          <h3>24/04/2024</h3>
-          <h3>Telecommunications Engineer (Elektronica)</h3>
+        <div v-for="result in user?.results" :key="result.id">
+          <h3>{{ result.name }}</h3>
+          <h3>{{ result.created_at }}</h3>
+          <h3>{{ result.specialisation_id }}</h3>
         </div>
       </div>
     </div>

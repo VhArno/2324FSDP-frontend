@@ -6,11 +6,6 @@ import { getQuestions } from '@/services/dataService'
 import { useQuery } from '@tanstack/vue-query'
 
 useAuthStore().readUserDetails()
-
-const { isPending, isError, data, error } = useQuery({
-  queryKey: ['questions'],
-  queryFn: getQuestions
-})
 </script>
 
 <template>

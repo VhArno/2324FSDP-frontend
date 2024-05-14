@@ -3,10 +3,16 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import type { Result, Specialisation } from '@/types'
+import { useResultStore } from '@/stores/result'
+import { storeToRefs } from 'pinia'
 
 const title = useTitle()
 title.value = 'Result | Odisee specialisatie test'
+
+const resultStore = useResultStore()
+const { results } = storeToRefs(resultStore)
 
 const saveErrors = ref<string[]>([])
 const emailErrors = ref<string[]>([])
@@ -14,11 +20,48 @@ const emailErrors = ref<string[]>([])
 const saveName = ref<string>('')
 const email = ref<string>('')
 
+const result = ref<Specialisation>()
+
+function calculateResult() {
+  const specializationWeights: Map<number, number> = new Map()
+
+  // Calculate weights for each specialization
+  results.value?.forEach((result) => {
+    const specializationId = result.answer.specialisation.id
+    const weight = result.answer.weight
+
+    if (specializationWeights.has(specializationId)) {
+      specializationWeights.set(
+        specializationId,
+        specializationWeights.get(specializationId)! + weight
+      )
+    } else {
+      specializationWeights.set(specializationId, weight)
+    }
+  })
+
+  // Find specialization with the highest total weight
+  let highestWeight = -Infinity
+
+  specializationWeights.forEach((weight, specializationId) => {
+    if (weight > highestWeight) {
+      highestWeight = weight
+      result.value = results.value?.find(
+        (result) => result.answer.specialisation.id === specializationId
+      )?.answer.specialisation
+    }
+  })
+}
+
 function saveResult() {
   saveErrors.value = []
 
-  if (useAuthStore().isAuthenticated && saveName.value) {
-    // save result
+  if (useAuthStore().isAuthenticated && saveName.value && result.value) {
+    resultStore.saveResult({
+      name: saveName.value,
+      description: 'test',
+      specialisation_id: result.value.id
+    })
   } else {
     !useAuthStore().isAuthenticated ? saveErrors.value.push('Log eerst in') : ''
     !saveName.value ? saveErrors.value.push('Vul een geldige naam in') : ''
@@ -36,6 +79,10 @@ function sendResult() {
     emailErrors.value.push('Vul een geldig email adres in')
   }
 }
+
+onMounted(() => {
+  calculateResult()
+})
 </script>
 
 <template>
@@ -52,7 +99,7 @@ function sendResult() {
         hee, student van hogeschool Odisee. Deze elektronica-ICT specialisatie matcht het best bij
         jouw profiel:
       </p>
-      <h2 class="result">Software & AI Developer</h2>
+      <h2 class="result">{{ result?.name }}</h2>
       <p>
         Ben je verrast, of helemaal niet? Check zeker ook de andere opleidingen die aansluiten bij
         jouw interesses. Zo mis je geen enkele kans in je zoektocht naar een goede opleiding.

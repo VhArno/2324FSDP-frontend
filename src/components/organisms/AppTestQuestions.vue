@@ -2,31 +2,52 @@
 import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
 import { useTitle } from '@vueuse/core'
+import { getQuestions } from '@/services/dataService'
+import { useQuery } from '@tanstack/vue-query'
+import type { Question, QuestionData, Result } from '@/types'
+import AppQuestion from '../molecules/AppQuestion.vue'
+import { ref } from 'vue'
 
 defineProps<{
-  id: number
+  id: string
 }>()
 
 const title = useTitle()
 title.value = 'Questions | Odisee specialisatie test'
 
-function goToResults() {
-  router.push({name: 'result'})
-}
+const { isPending, isError, data, error } = useQuery({
+  queryKey: ['questions'],
+  queryFn: getQuestions<QuestionData>
+})
+
+const results = ref<Result[]>([])
+
+/*const data = { data: { data: [] } }
+const isPending = true
+const isError = false*/
 </script>
 
 <template>
   <section class="test">
-    <div class="title">
-      <h1 tabindex="-1">Wat is jouw favoriete aspect van informatica?</h1>
-      <p>1/10</p>
+    <AppQuestion
+      v-if="
+        data &&
+        data.data &&
+        data.data.data[parseInt(id) - 1] !== undefined &&
+        !isPending &&
+        !isError
+      "
+      :question="data.data.data[parseInt(id) - 1]"
+      v-model:results="results"
+    ></AppQuestion>
+
+    <div class="error" v-if="isPending">
+      <h1>Loading test...</h1>
     </div>
 
-    <div class="answers">
-      <AppButton @click="goToResults">Web ontwikkeling</AppButton>
-      <AppButton>Infrastructuurbeheer</AppButton>
-      <AppButton>Softwareontwikkeling</AppButton>
-      <AppButton>Kunstmatige intelligentie en machine learning</AppButton>
+    <div class="error" v-if="isError">
+      <h1>Something went wrong! Try again later</h1>
+      <p>The test couldn't be loaded</p>
     </div>
 
     <div class="frame-bottom">
@@ -40,27 +61,8 @@ function goToResults() {
   margin-top: 2rem;
   text-align: center;
 
-  .title {
-    margin: 2rem 0;
-    display: flex;
-    flex-flow: column-reverse;
-  }
-
-  .answers {
-    display: flex;
-    flex-flow: column;
-    gap: 0.5rem;
-    margin: 2rem auto;
-    justify-content: space-between;
-
-    button {
-      color: var(--main);
-      font-weight: 700;
-      background-color: var(--main-light);
-      word-wrap: break-word;
-      padding: 1rem;
-      flex: 1;
-    }
+  .error {
+    margin: 2rem;
   }
 
   .frame-bottom {
