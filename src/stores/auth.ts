@@ -1,8 +1,8 @@
-import type { RegisterPayload, User } from '@/types'
-import { defineStore } from '@pinia'
+import type { ApiResponse, RegisterPayload, User } from '@/types'
 import { ref } from 'vue'
 import router from '@/router'
 import { getCsrfCookie, getUser, postLogin, postLogout, postRegister } from '@/services/authService'
+import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -29,8 +29,9 @@ export const useAuthStore = defineStore(
       if (user.value) return user.value
 
       try {
-        const { data: user } = await getUser<User>()
-        return user
+        const { data: user } = await getUser<ApiResponse>()
+
+        return user.data
       } catch (e) {
         console.error(e)
         logout()

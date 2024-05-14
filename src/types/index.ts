@@ -1,3 +1,7 @@
+export interface ApiResponse {
+  data: User
+}
+
 export interface RegisterPayload {
   firstname: string
   lastname: string

@@ -17,6 +17,6 @@ app.use(pinia)
 app.use(VueQueryPlugin)
 app.use(router)
 
-await getCsrfCookie().catch(() => {})
-
 app.mount('#app')
+
+await getCsrfCookie().catch(() => {})
