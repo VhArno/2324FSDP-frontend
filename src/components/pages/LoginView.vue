@@ -54,7 +54,7 @@ async function login() {
       <div>
         <label for="email">
           <span>Email</span>
-          <span class="errors" data-test="email-error">{{ emailError }}</span>
+          <span v-if="emailError" class="errors" data-test="email-error">{{ emailError }}</span>
         </label>
         <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
       </div>
@@ -62,7 +62,9 @@ async function login() {
       <div>
         <label for="password">
           <span>Password</span>
-          <span class="errors" data-test="password-error">{{ passwordError }}</span>
+          <span v-if="passwordError" class="errors" data-test="password-error">{{
+            passwordError
+          }}</span>
         </label>
         <AppInput type="password" id="password" name="password" v-model:value="password"></AppInput>
       </div>
