@@ -20,8 +20,8 @@ async function login() {
     const message = await authStore.login({ email: email.value, password: password.value })
     errors.value.push(message)
   } else {
-    email.value ? '' : errors.value.push('Fill in an email address')
-    password.value ? '' : errors.value.push('Fill in the password field')
+    email.value ? '' : errors.value.push('Email address is a required field')
+    password.value ? '' : errors.value.push('Password field is a required field')
   }
 }
 </script>
@@ -35,11 +35,10 @@ async function login() {
         Login
       </h1>
 
-      <div class="errors" v-if="errors.length>0">
+      <div class="errors" v-if="errors.length > 0" data-test="email-error">
         <h2>Looks like something went wrong:</h2>
         <div v-for="(err, index) in errors" :key="index">{{ err }}</div>
       </div>
-      
 
       <div>
         <label for="email">Email</label>
@@ -52,7 +51,7 @@ async function login() {
       </div>
 
       <div class="btns">
-        <AppButton @click.prevent="login">Login</AppButton>
+        <AppButton type="submit" @click.prevent="login">Login</AppButton>
         <RouterLink to="/register">Heb je nog geen account?</RouterLink>
       </div>
     </form>
@@ -70,7 +69,7 @@ async function login() {
     gap: 1rem;
 
     .errors {
-      color: var(--accent-links)
+      color: var(--accent-links);
     }
 
     div {

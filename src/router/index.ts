@@ -49,6 +49,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+      meta: { title: 'Login' },
       beforeEnter: [loginGuard]
     },
     {
@@ -68,7 +69,7 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminPanel,
-      meta: { requiresAuth: true, role: 'admin' },
+      meta: { requiresAuth: true, role: 'admin', title: 'Adminpanel' },
       beforeEnter: [authGuard, adminGuard]
     },
     {
