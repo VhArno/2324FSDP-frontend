@@ -52,8 +52,10 @@ function nextQuestion() {
 }
 
 function finishTest() {
-  useResultStore().results = results.value
-  router.push({ name: 'result' })
+  if (results.value?.length === 10) {
+    useResultStore().results = results.value
+    router.push({ name: 'result' })
+  }
 }
 </script>
 
@@ -76,7 +78,11 @@ function finishTest() {
     </div>
 
     <div class="buttons">
-      <AppButton class="btn-result" @click="finishTest" v-show="question.id === 10"
+      <AppButton
+        class="btn-result"
+        @click="finishTest"
+        v-show="question.id === 10"
+        :disabled="results?.length !== 10"
         >Finish test</AppButton
       >
       <div>
@@ -152,6 +158,11 @@ function finishTest() {
     width: 100%;
     background-color: var(--main);
     padding: 1rem 2rem;
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: var(--secondary);
+    }
   }
 }
 
