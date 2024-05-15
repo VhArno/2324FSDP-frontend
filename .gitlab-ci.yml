@@ -33,7 +33,7 @@ vitest:
   stage: lint/test
   script:
     - pnpm test:unit
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     reports:
       coverage_report:
