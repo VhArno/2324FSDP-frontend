@@ -1,6 +1,6 @@
-import type { Result, ResultPayload } from '@/types'
+import type { EmailPayload, Result, ResultPayload } from '@/types'
 import { defineStore } from 'pinia'
-import { postResult } from '@/services/authService'
+import { postResult, mailResult } from '@/services/authService'
 import { ref } from 'vue'
 
 export const useResultStore = defineStore('result', () => {
@@ -10,5 +10,9 @@ export const useResultStore = defineStore('result', () => {
     await postResult(payload).catch(() => {})
   }
 
-  return { results, saveResult }
+  const sendResult = async (payload: EmailPayload) => {
+    await mailResult(payload).catch(() => {})
+  }
+
+  return { results, saveResult, sendResult }
 })

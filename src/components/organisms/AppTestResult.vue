@@ -73,8 +73,11 @@ function sendResult() {
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-  if (emailRegex.test(email.value)) {
-    // send email
+  if (emailRegex.test(email.value) && result.value) {
+    resultStore.sendResult({
+      email: email.value,
+      specialisation_id: result.value.id
+    })
   } else {
     emailErrors.value.push('Vul een geldig email adres in')
   }

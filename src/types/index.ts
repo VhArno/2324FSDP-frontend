@@ -60,3 +60,8 @@ export interface ResultPayload {
   description?: string
   specialisation_id: number
 }
+
+export interface EmailPayload {
+  email: string
+  specialisation_id: number
+}
