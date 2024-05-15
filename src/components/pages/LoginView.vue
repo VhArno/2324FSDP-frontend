@@ -3,25 +3,41 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { ref } from 'vue'
-
-const authStore = useAuthStore()
-
-const email = ref<string>('')
-const password = ref<string>('')
-const errors = ref<string[]>([])
+import { computed, ref } from 'vue'
 
 const title = useTitle()
 title.value = 'Login | Odisee specialisatie test'
 
+const authStore = useAuthStore()
+
+const submitted = ref(false)
+const email = ref<string>('')
+const password = ref<string>('')
+
+const emailError = computed(() => {
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+  if (!submitted.value) return
+  if (!email.value) return 'Email is a required field and was not provided'
+  if (!emailRegex.test(email.value))
+    return 'The email provided does not follow the pattern name@domain.extension'
+
+  return null
+})
+
+const passwordError = computed(() => {
+  if (!submitted.value) return null
+  if (!password.value) return 'Password is a required field and was not provided'
+
+  return null
+})
+
 async function login() {
-  errors.value = []
-  if (email.value && password.value) {
+  submitted.value = true
+
+  if (emailError.value === null && passwordError.value === null) {
     const message = await authStore.login({ email: email.value, password: password.value })
-    errors.value.push(message)
-  } else {
-    email.value ? '' : errors.value.push('Email address is a required field')
-    password.value ? '' : errors.value.push('Password field is a required field')
   }
 }
 </script>
@@ -35,18 +51,19 @@ async function login() {
         Login
       </h1>
 
-      <div class="errors" v-if="errors.length > 0" data-test="email-error">
-        <h2>Looks like something went wrong:</h2>
-        <div v-for="(err, index) in errors" :key="index">{{ err }}</div>
-      </div>
-
       <div>
-        <label for="email">Email</label>
+        <label for="email">
+          <span>Email</span>
+          <span class="errors" data-test="email-error">{{ emailError }}</span>
+        </label>
         <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
       </div>
 
       <div>
-        <label for="password">Password</label>
+        <label for="password">
+          <span>Password</span>
+          <span class="errors" data-test="password-error">{{ passwordError }}</span>
+        </label>
         <AppInput type="password" id="password" name="password" v-model:value="password"></AppInput>
       </div>
 
@@ -81,6 +98,8 @@ async function login() {
 
       label {
         text-align: left;
+        display: flex;
+        flex-flow: column;
       }
     }
 

@@ -6,6 +6,9 @@ import { useTitle } from '@vueuse/core'
 import { ref } from 'vue'
 import { useFormValidator } from '@/composables/formValidator'
 
+const title = useTitle()
+title.value = 'Register | Odisee specialisatie test'
+
 const authStore = useAuthStore()
 
 const firstname = ref<string>('')
@@ -14,9 +17,6 @@ const email = ref<string>('')
 const password = ref<string>('')
 const passwordRepeat = ref<string>('')
 const errors = ref<string[]>([])
-
-const title = useTitle()
-title.value = 'Register | Odisee specialisatie test'
 
 async function register() {
   errors.value = []
