@@ -74,10 +74,10 @@ watch(windowWidth, (newValue) => {
             ></a>
           </li>
         </ul>
-        <AppButton v-if="!authStore?.isAuthenticated" @click="goToLogin" class="menu-btn"
+        <AppButton v-if="!authStore.isAuthenticated" @click="goToLogin" class="menu-btn"
           >Login</AppButton
         >
-        <AppButton v-if="authStore?.isAuthenticated" @click="goToProfile" class="menu-btn"
+        <AppButton v-if="authStore.isAuthenticated" @click="goToProfile" class="menu-btn"
           ><i class="fa-solid fa-user"></i> Profile</AppButton
         >
       </div>
