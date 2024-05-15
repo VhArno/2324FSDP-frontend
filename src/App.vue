@@ -2,12 +2,18 @@
 import AppHeader from './components/molecules/AppHeader.vue'
 import AppFooter from './components/molecules/AppFooter.vue'
 import { useAuthStore } from './stores/auth'
+import { onMounted, ref } from 'vue'
 
-useAuthStore().readUserDetails()
+const piniaLoaded = ref<boolean>(false)
+
+onMounted(async () => {
+  await useAuthStore().readUserDetails()
+  piniaLoaded.value = true
+})
 </script>
 
 <template>
-  <AppHeader></AppHeader>
+  <AppHeader v-if="piniaLoaded"></AppHeader>
 
   <main>
     <div class="content">

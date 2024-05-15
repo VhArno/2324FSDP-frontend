@@ -11,10 +11,10 @@ export const useAuthStore = defineStore(
     const isAuthenticated = ref<boolean>(false)
     const isAdmin = ref<boolean>(false)
 
-    const readUserDetails = () => {
+    const readUserDetails = async () => {
       try {
         if (user.value !== null) {
-          initUser().catch(() => {})
+          await initUser().catch(() => {})
         } else {
           user.value = null
           isAuthenticated.value = false

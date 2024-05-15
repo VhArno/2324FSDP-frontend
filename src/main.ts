@@ -9,10 +9,10 @@ import App from './App.vue'
 import router from './router'
 import { getCsrfCookie } from './services/authService'
 
-const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
+const app = createApp(App)
 app.use(pinia)
 app.use(VueQueryPlugin)
 app.use(router)

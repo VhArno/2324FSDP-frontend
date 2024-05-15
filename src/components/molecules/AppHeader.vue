@@ -4,6 +4,8 @@ import AppButton from '../atoms/AppButton.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
+
 const openMenu = ref(true)
 const windowWidth = ref(window.innerWidth)
 
@@ -72,10 +74,10 @@ watch(windowWidth, (newValue) => {
             ></a>
           </li>
         </ul>
-        <AppButton v-if="!useAuthStore().isAuthenticated" @click="goToLogin" class="menu-btn"
+        <AppButton v-if="!authStore?.isAuthenticated" @click="goToLogin" class="menu-btn"
           >Login</AppButton
         >
-        <AppButton v-if="useAuthStore().isAuthenticated" @click="goToProfile" class="menu-btn"
+        <AppButton v-if="authStore?.isAuthenticated" @click="goToProfile" class="menu-btn"
           ><i class="fa-solid fa-user"></i> Profile</AppButton
         >
       </div>
