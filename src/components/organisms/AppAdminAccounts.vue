@@ -7,6 +7,7 @@ defineProps<{
 </script>
 
 <template>
+    <h1>Accounts</h1>
     <div>
         <div class="account" v-for="account in accounts" :key="account.id">
             <h2>{{ account.email }}</h2>

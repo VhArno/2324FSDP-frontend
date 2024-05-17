@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Question } from '@/types';
+import type { Question } from '@/types'
+import AppButton from '@/components/atoms/AppButton.vue'
 
 defineProps<{
     questions: Question[]
