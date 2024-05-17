@@ -14,7 +14,11 @@ export const useAuthStore = defineStore(
     const readUserDetails = async () => {
       try {
         if (user.value !== null) {
-          await initUser().catch(() => {})
+          await initUser().catch(() => {
+            user.value = null
+            isAuthenticated.value = false
+            isAdmin.value = false
+          })
         } else {
           user.value = null
           isAuthenticated.value = false
@@ -39,7 +43,7 @@ export const useAuthStore = defineStore(
     }
 
     const initUser = async () => {
-      user.value = await getUserDetails()
+      user.value = await getUserDetails().catch()
       isAuthenticated.value = true
       if (user.value?.role == 'admin' || user.value?.role == 'superadmin') isAdmin.value = true
     }

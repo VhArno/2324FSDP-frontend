@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-const openMenu = ref(true)
+const openMenu = ref(false)
 const windowWidth = ref(window.innerWidth)
 
 const thresholdWidthEm = 45
