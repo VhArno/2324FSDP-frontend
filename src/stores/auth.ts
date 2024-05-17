@@ -47,6 +47,7 @@ export const useAuthStore = defineStore(
     const login = async (payload: { email: string; password: string }) => {
       try {
         user.value = null
+        await getCsrfCookie().catch()
         await postLogin(payload)
         await initUser()
         router.push('/profile')
@@ -57,9 +58,7 @@ export const useAuthStore = defineStore(
 
     const logout = async () => {
       await postLogout().catch(() => {})
-      await getCsrfCookie().catch((err) => {
-        console.log(err)
-      })
+
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false
@@ -70,7 +69,6 @@ export const useAuthStore = defineStore(
       try {
         await postRegister(payload)
         await login({ email: payload.email, password: payload.password })
-        router.push('/profile')
       } catch (err: any) {
         return err.response.data.message
       }

@@ -17,13 +17,7 @@ export interface User {
   email: string
   created_at: Date
   role: string
-  results: {
-    id: number
-    name: string
-    description: string
-    created_at: Date
-    specialisation: Specialisation
-  }[]
+  results: SavedResults[]
 }
 
 export interface QuestionData {
@@ -64,4 +58,16 @@ export interface ResultPayload {
 export interface EmailPayload {
   email: string
   specialisation_id: number
+}
+
+export interface ApiResponseResults {
+  data: SavedResults[]
+}
+
+export interface SavedResults {
+  id: number
+  name: string
+  description: string
+  created_at: Date
+  specialisation: Specialisation
 }

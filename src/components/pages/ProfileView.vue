@@ -3,12 +3,17 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import { useTitle } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
+import { useResultStore } from '@/stores/result';
 
 const title = useTitle()
 title.value = 'Profile | Odisee specialisatie test'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
+
+const resultStore = useResultStore()
+resultStore.loadResults()
+const { results } = storeToRefs(resultStore)
 
 const logout = () => {
   authStore.logout()
@@ -40,13 +45,13 @@ function formatDate(date: Date) {
       <h2>Resultaten</h2>
 
       <div class="results">
-        <div v-for="result in user?.results" :key="result.id">
+        <div v-for="result in results" :key="result.id">
           <h3>{{ result.name }}</h3>
           <h3>{{ formatDate(result.created_at) }}</h3>
           <h3>{{ result.specialisation.name }}</h3>
         </div>
 
-        <div v-if="!user?.results?.length">
+        <div v-if="!results?.length">
           <h3>
             Whoops you don't have any results saved yet! Go to
             <RouterLink :to="{ name: 'test' }">test</RouterLink>.

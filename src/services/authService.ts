@@ -42,4 +42,4 @@ const mailResult = async <T>(payload: EmailPayload): Promise<AxiosResponse<T>> =
   return authAxios.post<T>(`/results/mail`, payload)
 }
 
-export { getCsrfCookie, postLogin, postLogout, postRegister, getUser, postResult, mailResult }
+export { getCsrfCookie, postLogin, postLogout, postRegister, getUser, getResults, postResult, mailResult }
