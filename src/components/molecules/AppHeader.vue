@@ -33,6 +33,7 @@ function handleResize() {
 }
 
 onMounted(() => {
+  openMenu.value = window.innerWidth >= 45 ? true : false
   window.addEventListener('resize', handleResize)
 })
 

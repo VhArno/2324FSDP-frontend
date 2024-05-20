@@ -43,6 +43,7 @@ const isError = false*/
 
     <div class="error" v-if="isPending">
       <h1>Loading test...</h1>
+      <div class="custom-loader"></div>
     </div>
 
     <div class="error" v-if="isError">
@@ -62,7 +63,23 @@ const isError = false*/
   text-align: center;
 
   .error {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
     margin: 2rem;
+
+    .custom-loader {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: 
+        radial-gradient(farthest-side, var(--main),#0000) top/8px 8px no-repeat,
+        conic-gradient(#0000 30%, var(--main));
+      -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+      animation:s3 1s infinite linear;
+    }
   }
 
   .frame-bottom {
@@ -83,5 +100,9 @@ const isError = false*/
     width: 80%;
     margin: 0 auto;
   }
+}
+
+@keyframes s3{ 
+  100%{transform: rotate(1turn)}
 }
 </style>
