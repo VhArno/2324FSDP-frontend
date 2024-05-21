@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
+import AppLoading from '../atoms/AppLoading.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useFormValidator } from '@/composables/formValidator'
 
 const title = useTitle()
@@ -11,6 +12,7 @@ title.value = 'Register | Odisee specialisatie test'
 
 const authStore = useAuthStore()
 
+const submitted = ref(false)
 const firstname = ref<string>('')
 const lastname = ref<string>('')
 const email = ref<string>('')
@@ -18,7 +20,49 @@ const password = ref<string>('')
 const passwordRepeat = ref<string>('')
 const errors = ref<string[]>([])
 
+const firstnameError = computed(() => {
+  if (!submitted.value) return null
+  if (!firstname.value) return 'Firstname is a required field and was not provided'
+
+  return null
+})
+
+const lastnameError = computed(() => {
+  if (!submitted.value) return null
+  if (!lastname.value) return 'Lastname is a required field and was not provided'
+
+  return null
+})
+
+const emailError = computed(() => {
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+  if (!submitted.value) return
+  if (!email.value) return 'Email is a required field and was not provided'
+  if (!emailRegex.test(email.value))
+    return 'The email provided does not follow the pattern name@domain.extension'
+
+  return null
+})
+
+const passwordError = computed(() => {
+  if (!submitted.value) return null
+  if (!password.value) return 'Password is a required field and was not provided'
+
+  return null
+})
+
+const passwordrepeatError = computed(() => {
+  if (!submitted.value) return null
+  if (!passwordRepeat.value) return 'Password repeat is a required field and was not provided'
+  if (passwordRepeat.value !== password.value) return 'Password and password repeat must be the same'
+
+  return null
+})
+
 async function register() {
+  submitted.value = true
   errors.value = []
 
   const payload = {
@@ -29,17 +73,11 @@ async function register() {
     passwordRepeat: passwordRepeat.value
   }
 
-  const { valid, errs } = useFormValidator(payload)
+  //const { valid, errs } = useFormValidator(payload)
 
-  console.log(payload)
-
-  if (valid.value) {
-    console.log('Form validator valid')
+  if (firstnameError.value === null && lastnameError.value === null && emailError.value === null && passwordError.value === null && passwordrepeatError.value === null) {
     const message = await authStore.register(payload)
     errors.value.push(message)
-  } else {
-    //console.log("Form validator invalid")
-    errors.value.push(...errs.value)
   }
 }
 </script>
@@ -53,33 +91,51 @@ async function register() {
         Register
       </h1>
 
-      <div class="errors" v-if="errors.length > 0">
-        <h2>Looks like something went wrong:</h2>
-        <div v-for="(err, index) in errors" :key="index">{{ err }}</div>
+      <div class="loading" v-show="authStore.isLoading">
+        <AppLoading></AppLoading>
       </div>
 
-      <div>
-        <label for="firstname">Voornaam</label>
+      <div class="errors form-input" v-if="errors.length > 0">
+        <p v-for="error in errors" :key="error">{{ error }}</p>
+      </div>
+
+      <div class="form-input">
+        <label for="firstname">
+          <span>Voornaam</span>
+          <span v-if="firstnameError" class="errors" data-test="firstname-error">{{ firstnameError }}</span>
+        </label>
         <AppInput type="text" id="firstname" name="firstname" v-model:value="firstname"></AppInput>
       </div>
 
-      <div>
-        <label for="lastname">Familienaam</label>
+      <div class="form-input">
+        <label for="lastname">
+          <span>Lastname</span>
+          <span v-if="lastnameError" class="errors" data-test="lastname-error">{{ lastnameError }}</span>
+        </label>
         <AppInput type="text" id="lastname" name="lastname" v-model:value="lastname"></AppInput>
       </div>
 
-      <div>
-        <label for="email">Email</label>
+      <div class="form-input">
+        <label for="email">
+          <span>Email</span>
+          <span v-if="emailError" class="errors" data-test="email-error">{{ emailError }}</span>
+        </label>
         <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
       </div>
 
-      <div>
-        <label for="password">Wachtwoord</label>
+      <div class="form-input">
+        <label for="password">
+          <span>Wachtwoord</span>
+          <span v-if="passwordError" class="errors" data-test="password-error">{{ passwordError }}</span>
+        </label>
         <AppInput type="password" id="password" name="password" v-model:value="password"></AppInput>
       </div>
 
-      <div>
-        <label for="passwordRepeat">Herhaal wachtwoord</label>
+      <div class="form-input">
+        <label for="passwordRepeat">
+          <span>Herhaal wachtwoord</span>
+          <span v-if="passwordrepeatError" class="errors" data-test="passwordRepeat-error">{{ passwordrepeatError }}</span>
+        </label>
         <AppInput
           type="password"
           id="passwordRepeat"
@@ -106,11 +162,17 @@ async function register() {
     flex-flow: column;
     gap: 1rem;
 
+    .loading {
+      display: flex;
+      flex-flow: column;
+      margin: 0 auto;
+    }
+
     .errors {
       color: var(--accent-links);
     }
 
-    div {
+    .form-input {
       display: flex;
       flex-flow: column;
       width: 100%;
@@ -119,6 +181,8 @@ async function register() {
 
       label {
         text-align: left;
+        display: flex;
+        flex-flow: column;
       }
     }
 

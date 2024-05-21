@@ -10,6 +10,7 @@ export const useAuthStore = defineStore(
     const user = ref<User | null>(null)
     const isAuthenticated = ref<boolean>(false)
     const isAdmin = ref<boolean>(false)
+    const isLoading = ref<boolean>(false)
 
     const readUserDetails = async () => {
       try {
@@ -49,14 +50,17 @@ export const useAuthStore = defineStore(
     }
 
     const login = async (payload: { email: string; password: string }) => {
+      isLoading.value = true
       try {
         user.value = null
-        await getCsrfCookie().catch()
+        await getCsrfCookie()
         await postLogin(payload)
         await initUser()
         router.push('/profile')
       } catch (err: any) {
-        return err.response.data.message
+        return err
+      } finally {
+        isLoading.value = false
       }
     }
 
@@ -70,15 +74,18 @@ export const useAuthStore = defineStore(
     }
 
     const register = async (payload: RegisterPayload) => {
+      isLoading.value = true
       try {
         await postRegister(payload)
         await login({ email: payload.email, password: payload.password })
       } catch (err: any) {
-        return err.response.data.message
+        return err
+      } finally {
+        isLoading.value = false
       }
     }
 
-    return { user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }
+    return { isLoading, user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }
   },
   {
     persist: {

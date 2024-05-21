@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
+import AppLoading from '../atoms/AppLoading.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { errorMessages } from 'vue/compiler-sfc'
 
 const title = useTitle()
 title.value = 'Login | Odisee specialisatie test'
@@ -11,6 +13,7 @@ title.value = 'Login | Odisee specialisatie test'
 const authStore = useAuthStore()
 
 const submitted = ref(false)
+const errors = ref<string[]>([])
 const email = ref<string>('')
 const password = ref<string>('')
 
@@ -35,9 +38,12 @@ const passwordError = computed(() => {
 
 async function login() {
   submitted.value = true
+  errors.value = []
 
   if (emailError.value === null && passwordError.value === null) {
     const message = await authStore.login({ email: email.value, password: password.value })
+    console.log(message)
+    errors.value.push(message)
   }
 }
 </script>
@@ -51,7 +57,15 @@ async function login() {
         Login
       </h1>
 
-      <div>
+      <div class="loading" v-show="authStore.isLoading">
+        <AppLoading></AppLoading>
+      </div>
+
+      <div class="errors form-input" v-if="errors.length > 0">
+        <p v-for="error in errors" :key="error">{{ error }}</p>
+      </div>
+
+      <div class="form-input">
         <label for="email">
           <span>Email</span>
           <span v-if="emailError" class="errors" data-test="email-error">{{ emailError }}</span>
@@ -59,7 +73,7 @@ async function login() {
         <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
       </div>
 
-      <div>
+      <div class="form-input">
         <label for="password">
           <span>Password</span>
           <span v-if="passwordError" class="errors" data-test="password-error">{{
@@ -87,11 +101,17 @@ async function login() {
     flex-flow: column;
     gap: 1rem;
 
+    .loading {
+      display: flex;
+      flex-flow: column;
+      margin: 0 auto;
+    }
+
     .errors {
       color: var(--accent-links);
     }
 
-    div {
+    .form-input {
       display: flex;
       flex-flow: column;
       width: 100%;
