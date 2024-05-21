@@ -78,7 +78,8 @@ async function register() {
 
   if (firstnameError.value === null && lastnameError.value === null && emailError.value === null && passwordError.value === null && passwordrepeatError.value === null) {
     const message = await authStore.register(payload)
-    errors.value.push(message)
+    console.log(message)
+    errors.value.push(message === null || message === undefined ? '500 network error' : message)
   }
 }
 </script>

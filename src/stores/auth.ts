@@ -11,6 +11,7 @@ export const useAuthStore = defineStore(
     const isAuthenticated = ref<boolean>(false)
     const isAdmin = ref<boolean>(false)
     const isLoading = ref<boolean>(false)
+    const failed = ref<boolean>(false)
 
     const readUserDetails = async () => {
       try {
@@ -78,14 +79,16 @@ export const useAuthStore = defineStore(
       try {
         await postRegister(payload)
         await login({ email: payload.email, password: payload.password })
+        failed.value = false
       } catch (err: any) {
-        return err.response.data.message
+        failed.value = true
+        return err.response?.data?.message
       } finally {
         isLoading.value = false
       }
     }
 
-    return { isLoading, user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }
+    return { isLoading, failed, user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }
   },
   {
     persist: {
