@@ -58,7 +58,7 @@ export const useAuthStore = defineStore(
         await initUser()
         router.push('/profile')
       } catch (err: any) {
-        return err
+        return err.response.data.message
       } finally {
         isLoading.value = false
       }
@@ -79,7 +79,7 @@ export const useAuthStore = defineStore(
         await postRegister(payload)
         await login({ email: payload.email, password: payload.password })
       } catch (err: any) {
-        return err
+        return err.response.data.message
       } finally {
         isLoading.value = false
       }

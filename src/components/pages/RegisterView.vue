@@ -49,6 +49,7 @@ const emailError = computed(() => {
 const passwordError = computed(() => {
   if (!submitted.value) return null
   if (!password.value) return 'Password is a required field and was not provided'
+  if (password.value.length < 5) return 'Password must at least be 5 characters'
 
   return null
 })
