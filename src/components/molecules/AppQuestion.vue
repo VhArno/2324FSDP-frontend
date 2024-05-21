@@ -54,6 +54,7 @@ function nextQuestion() {
 function finishTest() {
   if (results.value?.length === 10) {
     useResultStore().results = results.value
+    useResultStore().testDone = true
     router.push({ name: 'result' })
   }
 }

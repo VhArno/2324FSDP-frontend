@@ -8,6 +8,7 @@ import AdminPanel from '@/components/pages/AdminPanel.vue'
 import NotFoundView from '@/components/pages/NotFoundView.vue'
 import { authGuard } from '@/guards/authGuard'
 import { loginGuard } from '@/guards/loginGuard'
+import { testGuard } from '@/guards/testGuard'
 import { adminGuard } from '@/guards/adminGuard'
 import { useAuthStore } from '@/stores/auth'
 import AppTest from '@/components/organisms/AppTest.vue'
@@ -41,7 +42,8 @@ const router = createRouter({
         {
           path: 'result',
           name: 'result',
-          component: AppTestResult
+          component: AppTestResult,
+          beforeEnter: [testGuard]
         }
       ]
     },

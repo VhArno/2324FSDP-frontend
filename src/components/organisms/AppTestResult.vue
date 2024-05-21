@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { Result, Specialisation } from '@/types'
 import { useResultStore } from '@/stores/result'
 import { storeToRefs } from 'pinia'
@@ -14,13 +14,36 @@ title.value = 'Result | Odisee specialisatie test'
 const resultStore = useResultStore()
 const { results } = storeToRefs(resultStore)
 
-const saveErrors = ref<string[]>([])
-const emailErrors = ref<string[]>([])
-
-const saveName = ref<string>('')
-const email = ref<string>('')
-
 const result = ref<Specialisation>()
+
+const resultSaved = ref<string|null>(null)
+const resultSend = ref<string|null>(null)
+
+const nameSubmitted = ref<boolean>(false)
+const saveName = ref<string>('')
+const nameError = computed(() => {
+  if (!nameSubmitted.value) return null
+  if (!useAuthStore().isAuthenticated) return 'Login first'
+  if (!saveName.value) return 'Enter a save name in'
+  if (result.value === undefined) return 'Error saving result'
+
+  return null
+})
+
+const emailSubmitted = ref<boolean>(false)
+const email = ref<string>('')
+const emailError = computed(() => {
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+  if (!emailSubmitted.value) return
+  if (!email.value) return 'Email is a required field and was not provided'
+  if (!emailRegex.test(email.value))
+    return 'The email provided does not follow the pattern name@domain.extension'
+  if (result.value === undefined) return 'Error sending result'
+
+  return null
+})
 
 function calculateResult() {
   const specializationWeights: Map<number, number> = new Map()
@@ -54,32 +77,33 @@ function calculateResult() {
 }
 
 function saveResult() {
-  saveErrors.value = []
+  nameSubmitted.value = true
 
-  if (useAuthStore().isAuthenticated && saveName.value && result.value) {
+  if (resultSaved.value !== null) {
+    resultSaved.value = 'Result already saved!'
+  }
+
+  if (nameError.value === null && result.value !== undefined && resultSaved.value === null) {
     resultStore.saveResult({
       name: saveName.value,
       description: 'test',
       specialisation_id: result.value.id
-    })
-  } else {
-    !useAuthStore().isAuthenticated ? saveErrors.value.push('Log eerst in') : ''
-    !saveName.value ? saveErrors.value.push('Vul een geldige naam in') : ''
+    }).then(() => {resultSaved.value = 'Result saved'}).catch()
   }
 }
 
 function sendResult() {
-  emailErrors.value = []
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  emailSubmitted.value = true
 
-  if (emailRegex.test(email.value) && result.value) {
+  if (resultSend.value !== null) {
+    resultSend.value = 'Result already send!'
+  }
+
+  if (emailError.value === null && result.value !== undefined && resultSend.value === null) {
     resultStore.sendResult({
       email: email.value,
       specialisation_id: result.value.id
-    })
-  } else {
-    emailErrors.value.push('Vul een geldig email adres in')
+    }).then(() => {resultSend.value = 'Result send'}).catch()
   }
 }
 
@@ -111,8 +135,11 @@ onMounted(() => {
 
     <div class="save">
       <div class="save-result">
-        <label for="name">Naam resultaat</label>
-        <div class="error" v-if="saveErrors.length > 0">{{ saveErrors[0] }}</div>
+        <label for="name">
+          <span class="info">Naam resultaat</span>
+          <span v-if="nameError" class="error" data-test="name-error">{{ nameError }}</span>
+          <span v-if="resultSaved !== null" class="success">{{ resultSaved }}</span>
+        </label>
         <AppInput type="text" id="name" name="name" v-model:value="saveName"></AppInput>
         <AppButton @click="saveResult">Sla op</AppButton>
       </div>
@@ -120,8 +147,11 @@ onMounted(() => {
       <span></span>
 
       <div class="send-result">
-        <label for="email">Email</label>
-        <div class="error" v-if="emailErrors.length > 0">{{ emailErrors[0] }}</div>
+        <label for="email">
+          <span class="info">Email adres</span>
+          <span v-if="emailError" class="error" data-test="email-error">{{ emailError }}</span>
+          <span v-if="resultSend !== null" class="success">{{ resultSend }}</span>
+        </label>
         <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
         <AppButton @click="sendResult">Verstuur via email</AppButton>
       </div>
@@ -158,8 +188,21 @@ onMounted(() => {
     margin: 4rem auto;
     gap: 2rem;
 
-    .error {
-      color: red;
+    label {
+      display: flex;
+      flex-flow: column;
+
+      .info {
+        font-size: 1.1em;
+      }
+
+      .success {
+        color: rgb(74, 74, 201);
+      }
+
+      .error {
+        color: red;
+      }
     }
 
     div {
@@ -178,10 +221,10 @@ onMounted(() => {
       }
     }
 
-    span {
+    /*span {
       width: 80%;
       border: 1px solid var(--main);
-    }
+    }*/
   }
 
   .frames {
@@ -236,10 +279,10 @@ onMounted(() => {
     .save {
       flex-flow: row;
 
-      span {
+      /*span {
         transform: rotate(90deg);
         max-width: 11em;
-      }
+      }*/
     }
   }
 

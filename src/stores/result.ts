@@ -6,6 +6,7 @@ import { ref } from 'vue'
 export const useResultStore = defineStore('result', () => {
   const results = ref<Result[]>()
   const savedResults = ref<SavedResults[]>()
+  const testDone = ref<boolean>(false)
 
   const saveResult = async (payload: ResultPayload) => {
     await postResult(payload).catch(() => {})
@@ -32,5 +33,5 @@ export const useResultStore = defineStore('result', () => {
     }).catch((err) => console.log(err))
   }
 
-  return { results, savedResults, loadResults, saveResult, sendResult }
+  return { testDone, results, savedResults, loadResults, saveResult, sendResult }
 })
