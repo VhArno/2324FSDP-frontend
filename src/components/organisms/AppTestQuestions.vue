@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import router from '@/router'
 import AppLoading from '../atoms/AppLoading.vue'
 import { useTitle } from '@vueuse/core'
 import { getQuestions } from '@/services/dataService'
 import { useQuery } from '@tanstack/vue-query'
-import type { Question, QuestionData, Result } from '@/types'
+import type { QuestionData, UserAnswerDict } from '@/types'
 import AppQuestion from '../molecules/AppQuestion.vue'
 import { ref } from 'vue'
 
@@ -15,16 +14,12 @@ defineProps<{
 const title = useTitle()
 title.value = 'Questions | Odisee specialisatie test'
 
-const { isPending, isError, data, error } = useQuery({
+const { isPending, isError, data } = useQuery({
   queryKey: ['questions'],
   queryFn: getQuestions<QuestionData>
 })
 
-const results = ref<Result[]>([])
-
-/*const data = { data: { data: [] } }
-const isPending = true
-const isError = false*/
+const userAnswers = ref<UserAnswerDict>({})
 </script>
 
 <template>
@@ -38,7 +33,7 @@ const isError = false*/
         !isError
       "
       :question="data.data.data[parseInt(id) - 1]"
-      v-model:results="results"
+      v-model:userAnswers="userAnswers"
     ></AppQuestion>
 
     <div class="error" v-if="isPending">

@@ -12,12 +12,12 @@ const title = useTitle()
 title.value = 'Result | Odisee specialisatie test'
 
 const resultStore = useResultStore()
-const { results } = storeToRefs(resultStore)
+const { userAnswers } = storeToRefs(resultStore)
 
 const result = ref<Specialisation>()
 
-const resultSaved = ref<string|null>(null)
-const resultSend = ref<string|null>(null)
+const resultSaved = ref<string | null>(null)
+const resultSend = ref<string | null>(null)
 
 const nameSubmitted = ref<boolean>(false)
 const saveName = ref<string>('')
@@ -48,32 +48,7 @@ const emailError = computed(() => {
 function calculateResult() {
   const specializationWeights: Map<number, number> = new Map()
 
-  // Calculate weights for each specialization
-  results.value?.forEach((result) => {
-    const specializationId = result.answer.specialisation.id
-    const weight = result.answer.weight
-
-    if (specializationWeights.has(specializationId)) {
-      specializationWeights.set(
-        specializationId,
-        specializationWeights.get(specializationId)! + weight
-      )
-    } else {
-      specializationWeights.set(specializationId, weight)
-    }
-  })
-
-  // Find specialization with the highest total weight
-  let highestWeight = -Infinity
-
-  specializationWeights.forEach((weight, specializationId) => {
-    if (weight > highestWeight) {
-      highestWeight = weight
-      result.value = results.value?.find(
-        (result) => result.answer.specialisation.id === specializationId
-      )?.answer.specialisation
-    }
-  })
+  result.value = { id: 1, name: 'test', description: '' }
 }
 
 function saveResult() {
@@ -84,11 +59,16 @@ function saveResult() {
   }
 
   if (nameError.value === null && result.value !== undefined && resultSaved.value === null) {
-    resultStore.saveResult({
-      name: saveName.value,
-      description: 'test',
-      specialisation_id: result.value.id
-    }).then(() => {resultSaved.value = 'Result saved'}).catch()
+    resultStore
+      .saveResult({
+        name: saveName.value,
+        description: 'test',
+        specialisation_id: result.value.id
+      })
+      .then(() => {
+        resultSaved.value = 'Result saved'
+      })
+      .catch()
   }
 }
 
@@ -100,10 +80,15 @@ function sendResult() {
   }
 
   if (emailError.value === null && result.value !== undefined && resultSend.value === null) {
-    resultStore.sendResult({
-      email: email.value,
-      specialisation_id: result.value.id
-    }).then(() => {resultSend.value = 'Result send'}).catch()
+    resultStore
+      .sendResult({
+        email: email.value,
+        specialisation_id: result.value.id
+      })
+      .then(() => {
+        resultSend.value = 'Result send'
+      })
+      .catch()
   }
 }
 

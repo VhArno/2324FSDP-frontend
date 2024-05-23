@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Answer, Question, Result } from '@/types'
+import type { Answer, Question, UserAnswerDict } from '@/types'
 import AppButton from '../atoms/AppButton.vue'
 import router from '@/router'
-import { computedWithControl } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useResultStore } from '@/stores/result'
 
 const props = defineProps<{
@@ -11,32 +10,26 @@ const props = defineProps<{
 }>()
 
 const selectedAnswer = ref<Answer | undefined>()
-const results = defineModel<Result[]>('results')
+const userAnswers = defineModel<UserAnswerDict>('userAnswers')
 
-onMounted(() => {
+watchEffect(() => {
   setSelectedAnswer()
 })
 
 function setSelectedAnswer() {
-  const result = results.value?.find((result) => result.questionId === props.question.id)
-  selectedAnswer.value = result?.answer ? result.answer : undefined
+  if (userAnswers.value) {
+    const result = userAnswers.value[props.question.id]
+    selectedAnswer.value = result?.answer ? result.answer : undefined
+  }
 }
 
 function handleClick(question: Question, answer: Answer) {
-  const index = results.value?.findIndex((result) => result.questionId === question.id)
-
-  if (index !== -1 && index !== undefined) {
-    results.value?.splice(index, 1, {
+  if (userAnswers.value) {
+    userAnswers.value[question.id] = {
       questionId: question.id,
       question: question.question,
       answer: answer
-    })
-  } else {
-    results.value?.push({
-      questionId: question.id,
-      question: question.question,
-      answer: answer
-    })
+    }
   }
 
   setSelectedAnswer()
@@ -52,8 +45,8 @@ function nextQuestion() {
 }
 
 function finishTest() {
-  if (results.value?.length === 10) {
-    useResultStore().results = results.value
+  if (Object.keys(userAnswers.value as UserAnswerDict).length === 10) {
+    useResultStore().userAnswers = userAnswers.value as UserAnswerDict
     useResultStore().testDone = true
     router.push({ name: 'result' })
   }
@@ -83,9 +76,12 @@ function finishTest() {
         class="btn-result"
         @click="finishTest"
         v-show="question.id === 10"
-        :disabled="results?.length !== 10"
+        :disabled="Object.keys(userAnswers as UserAnswerDict).length !== 10"
         >Finish test</AppButton
       >
+      <p v-show="Object.keys(userAnswers as UserAnswerDict).length !== 10 && question.id === 10">
+        Fill in all questions!
+      </p>
       <div>
         <AppButton @click="previousQuestion" :disabled="question.id <= 1">Previous</AppButton>
         <AppButton @click="nextQuestion" :disabled="question.id >= 10">Next</AppButton>

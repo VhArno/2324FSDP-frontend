@@ -71,3 +71,7 @@ export interface SavedResults {
   created_at: Date
   specialisation: Specialisation
 }
+
+export type UserAnswerDict = {
+  [key: number]: Result
+}
