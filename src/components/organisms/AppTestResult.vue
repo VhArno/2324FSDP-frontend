@@ -46,9 +46,34 @@ const emailError = computed(() => {
 })
 
 function calculateResult() {
-  const specializationWeights: Map<number, number> = new Map()
+  const specializationWeights: Map<Specialisation, number> = new Map()
 
-  result.value = { id: 1, name: 'test', description: '' }
+  for (const key in userAnswers.value) {
+    console.log(key)
+    const specialisation = { ...userAnswers.value[key].answer.specialisation }
+    const weight = userAnswers.value[key].answer.weight
+
+    console.log(specializationWeights.keys())
+    console.log(specialisation)
+
+    if (!specializationWeights.has(specialisation)) {
+      console.log('Specialisation not in list')
+
+      specializationWeights.set(specialisation, weight)
+    } else {
+      console.log('Specialisation in list')
+
+      const specWeight = specializationWeights.get(specialisation) ?? 0
+      specializationWeights.set(specialisation, specWeight + weight)
+    }
+  }
+
+  const mapArray = Array.from(specializationWeights.entries())
+  mapArray.sort((a, b) => b[1] - a[1])
+  result.value = mapArray[0][0]
+
+  console.log(specializationWeights)
+  console.log(mapArray)
 }
 
 function saveResult() {
@@ -70,6 +95,10 @@ function saveResult() {
       })
       .catch()
   }
+}
+
+function saveUserAnswers() {
+  resultStore.saveUserAnswers()
 }
 
 function sendResult() {
@@ -94,6 +123,7 @@ function sendResult() {
 
 onMounted(() => {
   calculateResult()
+  saveUserAnswers()
 })
 </script>
 

@@ -1,3 +1,4 @@
+// Interfaces
 export interface ApiResponse {
   data: User
 }
@@ -60,6 +61,11 @@ export interface EmailPayload {
   specialisation_id: number
 }
 
+export interface UserAnswerPayload {
+  questions: Question[]
+  answers: Answer[]
+}
+
 export interface ApiResponseResults {
   data: SavedResults[]
 }
@@ -72,6 +78,7 @@ export interface SavedResults {
   specialisation: Specialisation
 }
 
+// types
 export type UserAnswerDict = {
   [key: number]: Result
 }
