@@ -44,22 +44,12 @@ export const useResultStore = defineStore('result', () => {
   }
 
   const saveUserAnswers = async () => {
-    const questions = <Question[]>[]
-    const answers = <Answer[]>[]
-
     for (const key in userAnswers.value) {
-      questions.push({
-        id: userAnswers.value[key].questionId,
-        question: userAnswers.value[key].question,
-        answers: []
-      })
-      answers.push(userAnswers.value[key].answer)
+      await postUserAnswers({
+        question_id: userAnswers.value[key].questionId,
+        answer_id: userAnswers.value[key].answer.id
+      }).catch(() => {})
     }
-
-    await postUserAnswers({
-      questions: questions,
-      answers: answers
-    }).catch(() => {})
   }
 
   return {

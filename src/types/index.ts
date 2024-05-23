@@ -62,8 +62,8 @@ export interface EmailPayload {
 }
 
 export interface UserAnswerPayload {
-  questions: Question[]
-  answers: Answer[]
+  question_id: number
+  answer_id: number
 }
 
 export interface ApiResponseResults {
