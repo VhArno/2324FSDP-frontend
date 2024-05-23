@@ -72,6 +72,12 @@ function finishTest() {
     </div>
 
     <div class="buttons">
+      <h2
+        class="error"
+        v-show="Object.keys(userAnswers as UserAnswerDict).length !== 10 && question.id === 10"
+      >
+        Vul alle vragen in!
+      </h2>
       <AppButton
         class="btn-result"
         @click="finishTest"
@@ -79,9 +85,6 @@ function finishTest() {
         :disabled="Object.keys(userAnswers as UserAnswerDict).length !== 10"
         >Finish test</AppButton
       >
-      <p v-show="Object.keys(userAnswers as UserAnswerDict).length !== 10 && question.id === 10">
-        Fill in all questions!
-      </p>
       <div>
         <AppButton @click="previousQuestion" :disabled="question.id <= 1">Previous</AppButton>
         <AppButton @click="nextQuestion" :disabled="question.id >= 10">Next</AppButton>
@@ -133,6 +136,10 @@ function finishTest() {
   margin-bottom: 2rem;
   width: 70%;
   margin: 0 auto;
+
+  .error {
+    color: var(--accent-links);
+  }
 
   > div {
     display: flex;
