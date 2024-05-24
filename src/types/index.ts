@@ -25,6 +25,14 @@ export interface QuestionData {
   data: Question[]
 }
 
+export interface UsersData {
+  data: User[]
+}
+
+export interface ResultsData {
+  data: SavedResults[]
+}
+
 export interface Question {
   id: number
   question: string
@@ -76,6 +84,15 @@ export interface SavedResults {
   description: string
   created_at: Date
   specialisation: Specialisation
+}
+
+export interface AllResults {
+  id: number
+  name: string
+  description: string
+  created_at: Date
+  specialisation: Specialisation
+  user: User
 }
 
 /* Admin interfaces */

@@ -61,7 +61,7 @@ const { accounts, results } = storeToRefs(adminStore)
   </section>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .content {
   width: 100% !important;
 }
