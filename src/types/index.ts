@@ -78,6 +78,29 @@ export interface SavedResults {
   specialisation: Specialisation
 }
 
+/* Admin interfaces */
+export interface PostQuestionPayload {
+  question: Question
+}
+
+export interface PatchQuestionPayload {
+  question_id: number
+  question: Question
+}
+
+export interface PostAnswerPayload {
+  answer: Answer
+  weight: number
+  question_id: number
+  specialisation_id: number
+}
+
+export interface PatchAnswerPayload {
+  answer_id: number
+  answer: Answer
+  weight: number
+}
+
 // types
 export type UserAnswerDict = {
   [key: number]: Result

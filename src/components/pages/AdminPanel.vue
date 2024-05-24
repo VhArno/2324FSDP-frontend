@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { getQuestions } from '@/services/dataService';
-import type { QuestionData } from '@/types';
-import { useQuery } from '@tanstack/vue-query';
+import { getQuestions } from '@/services/dataService'
+import type { QuestionData } from '@/types'
+import { useQuery } from '@tanstack/vue-query'
 import AppButton from '../atoms/AppButton.vue'
 import { useTitle } from '@vueuse/core'
 import AppAdminQuestions from '@/components/organisms/AppAdminQuestions.vue'
 import AppAdminResults from '@/components/organisms/AppAdminResults.vue'
 import AppAdminAccounts from '@/components/organisms/AppAdminAccounts.vue'
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useAdminStore } from '@/stores/admin';
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAdminStore } from '@/stores/admin'
 
 const title = useTitle()
 title.value = 'Admin | Odisee specialisatie test'
@@ -30,53 +30,88 @@ const { accounts, results } = storeToRefs(adminStore)
 <template>
   <section class="admin-panel">
     <div class="side-menu">
-      <h2>Menu</h2>
+      <h2>Admin panel</h2>
       <div>
-        <button @click="menuItem = 'questions'">Vragen</button>
-        <button @click="menuItem = 'results'">Resultaten</button>
-        <button @click="menuItem = 'accounts'">Accounts</button>
+        <button :class="{ selected: menuItem === 'questions' }" @click="menuItem = 'questions'">
+          Vragen
+        </button>
+        <button :class="{ selected: menuItem === 'results' }" @click="menuItem = 'results'">
+          Resultaten
+        </button>
+        <button :class="{ selected: menuItem === 'accounts' }" @click="menuItem = 'accounts'">
+          Accounts
+        </button>
       </div>
     </div>
 
     <div class="content">
-
-      <AppAdminQuestions v-if="data && menuItem === 'questions'" :questions="data.data.data"></AppAdminQuestions>
-      <AppAdminResults v-if="results && menuItem === 'results'" :results="results"></AppAdminResults>
-      <AppAdminAccounts v-if="accounts && menuItem === 'accounts'" :accounts="accounts"></AppAdminAccounts>
-      
+      <AppAdminQuestions
+        v-if="data && menuItem === 'questions'"
+        :questions="data.data.data"
+      ></AppAdminQuestions>
+      <AppAdminResults
+        v-if="results && menuItem === 'results'"
+        :results="results"
+      ></AppAdminResults>
+      <AppAdminAccounts
+        v-if="accounts && menuItem === 'accounts'"
+        :accounts="accounts"
+      ></AppAdminAccounts>
     </div>
   </section>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
+.content {
+  width: 100% !important;
+}
+
 .admin-panel {
   display: flex;
   flex-flow: column;
-  margin: 2rem auto;
 
   .side-menu {
     background-color: var(--bg-accent);
-    padding: 1rem;
     border-radius: 10px;
+    padding-bottom: 1rem;
+
+    h2 {
+      padding: 1rem;
+      text-align: center;
+    }
 
     div {
       display: flex;
       flex-flow: column;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      width: 100%;
 
       button {
         font-size: 1.1em;
         text-align: left;
         border: none;
         background-color: transparent;
+        padding: 0.5rem 2rem;
+        margin-left: 5px;
         cursor: pointer;
+
+        &:hover {
+          margin-left: 0;
+          background-color: var(--main-light);
+          border-left: 5px solid var(--main);
+        }
+      }
+
+      .selected {
+        margin-left: 0;
+        background-color: var(--main-light);
+        border-left: 5px solid var(--main);
       }
     }
   }
 
   .content {
     width: 100%;
+    margin: 1rem 1rem 1rem 0;
   }
 }
 
@@ -86,11 +121,9 @@ const { accounts, results } = storeToRefs(adminStore)
     gap: 3rem;
 
     .side-menu {
-      
     }
 
     .content {
-
     }
   }
 }
