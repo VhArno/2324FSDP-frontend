@@ -2,10 +2,13 @@
 import type { Answer, Question } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { ref } from 'vue'
+import { useAdminStore } from '@/stores/admin';
 
 defineProps<{
   question: Question
 }>()
+
+const adminStore = useAdminStore()
 
 const showAnswers = ref<boolean>(false)
 
@@ -14,16 +17,22 @@ const handleShowAnswers = () => {
   showAnswers.value = !showAnswers.value
 }
 
-const deleteQuestion = (question: Question) => {}
+const deleteQuestion = (question: Question) => {
+  adminStore.removeQuestion(question)
+}
 
-const editQuestion = (question: Question) => {}
+const editQuestion = (question: Question) => {
+  adminStore.editQuestion()
+}
 
 // Answers
 const addAnswer = () => {}
 
 const editAnswer = (answer: Answer) => {}
 
-const deleteAnswer = (answer: Answer) => {}
+const deleteAnswer = (answer: Answer) => {
+  adminStore.removeAnswer(answer)
+}
 </script>
 
 <template>

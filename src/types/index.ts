@@ -106,7 +106,7 @@ export interface PatchQuestionPayload {
 }
 
 export interface PostAnswerPayload {
-  answer: Answer
+  answer: string
   weight: number
   question_id: number
   specialisation_id: number

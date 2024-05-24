@@ -1,30 +1,9 @@
 <script setup lang="ts">
-import { getQuestions } from '@/services/dataService'
-import type { QuestionData } from '@/types'
-import { useQuery } from '@tanstack/vue-query'
-import AppButton from '../atoms/AppButton.vue'
-import { useTitle } from '@vueuse/core'
-import AppAdminQuestions from '@/components/organisms/AppAdminQuestions.vue'
-import AppAdminResults from '@/components/organisms/AppAdminResults.vue'
-import AppAdminAccounts from '@/components/organisms/AppAdminAccounts.vue'
-import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useAdminStore } from '@/stores/admin'
+import router from '@/router'
+import { useTitle } from '@vueuse/core';
 
 const title = useTitle()
 title.value = 'Admin | Odisee specialisatie test'
-
-const { isPending, isError, data, error } = useQuery({
-  queryKey: ['questions'],
-  queryFn: getQuestions<QuestionData>
-})
-
-const menuItem = ref<string>('questions')
-
-const adminStore = useAdminStore()
-adminStore.loadAccounts()
-adminStore.loadResults()
-const { accounts, results } = storeToRefs(adminStore)
 </script>
 
 <template>
@@ -32,40 +11,25 @@ const { accounts, results } = storeToRefs(adminStore)
     <div class="side-menu">
       <h2>Admin panel</h2>
       <div>
-        <button :class="{ selected: menuItem === 'questions' }" @click="menuItem = 'questions'">
+        <button :class="{ selected: $route.name == 'adminQuestions' }" @click="router.push({name:'adminQuestions'})">
           Vragen
         </button>
-        <button :class="{ selected: menuItem === 'results' }" @click="menuItem = 'results'">
+        <button :class="{ selected: $route.name == 'adminResults' }" @click="router.push({name:'adminResults'})">
           Resultaten
         </button>
-        <button :class="{ selected: menuItem === 'accounts' }" @click="menuItem = 'accounts'">
+        <button :class="{ selected: $route.name == 'adminAccounts' }" @click="router.push({name:'adminAccounts'})">
           Accounts
         </button>
       </div>
     </div>
 
     <div class="content">
-      <AppAdminQuestions
-        v-if="data && menuItem === 'questions'"
-        :questions="data.data.data"
-      ></AppAdminQuestions>
-      <AppAdminResults
-        v-if="results && menuItem === 'results'"
-        :results="results"
-      ></AppAdminResults>
-      <AppAdminAccounts
-        v-if="accounts && menuItem === 'accounts'"
-        :accounts="accounts"
-      ></AppAdminAccounts>
+      <RouterView></RouterView>
     </div>
   </section>
 </template>
 
 <style scoped lang="scss">
-.content {
-  width: 100% !important;
-}
-
 .admin-panel {
   display: flex;
   flex-flow: column;
@@ -119,12 +83,6 @@ const { accounts, results } = storeToRefs(adminStore)
   .admin-panel {
     flex-flow: row;
     gap: 3rem;
-
-    .side-menu {
-    }
-
-    .content {
-    }
   }
 }
 </style>

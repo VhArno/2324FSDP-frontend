@@ -14,6 +14,9 @@ import { useAuthStore } from '@/stores/auth'
 import AppTest from '@/components/organisms/AppTest.vue'
 import AppTestQuestions from '@/components/organisms/AppTestQuestions.vue'
 import AppTestResult from '@/components/organisms/AppTestResult.vue'
+import AppAdminQuestions from '@/components/organisms/AppAdminQuestions.vue'
+import AppAdminResults from '@/components/organisms/AppAdminResults.vue'
+import AppAdminAccounts from '@/components/organisms/AppAdminAccounts.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,7 +75,24 @@ const router = createRouter({
       name: 'admin',
       component: AdminPanel,
       meta: { requiresAuth: true, role: 'admin', title: 'Adminpanel' },
-      beforeEnter: [authGuard, adminGuard]
+      beforeEnter: [authGuard, adminGuard],
+      children: [
+        {
+          path: 'questions',
+          name: 'adminQuestions',
+          component: AppAdminQuestions
+        },
+        {
+          path: 'results',
+          name: 'adminResults',
+          component: AppAdminResults
+        },
+        {
+          path: 'accounts',
+          name: 'adminAccounts',
+          component: AppAdminAccounts
+        }
+      ]
     },
     {
       path: '/redirect',

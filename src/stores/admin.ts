@@ -1,53 +1,38 @@
-import type { AllResults, ApiResponseResults, SavedResults, User, UsersData } from '@/types'
+import type { Answer, Question } from '@/types'
 import { defineStore } from 'pinia'
-import { getAllAccounts, getAllResults } from '@/services/adminService'
-import { ref } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
+import { deleteAnswer, deleteQuestion, patchQuestion, postAnswer, postQuestion } from '@/services/adminService'
 
 export const useAdminStore = defineStore('admin', () => {
-  const accounts = ref<User[]>()
-  const results = ref<AllResults[]>()
-
-  const loadAccounts = async () => {
-    accounts.value = []
-
-    getAllAccounts<{ data: User[] }>()
-      .then((response) => {
-        const res: User[] = response.data.data.map((x) => {
-          return {
-            id: x.id,
-            firstname: x.firstname,
-            lastname: x.lastname,
-            email: x.email,
-            created_at: x.created_at,
-            role: x.role,
-            results: []
-          }
-        })
-        accounts.value?.push(...res)
-      })
-      .catch((err) => console.log(err))
+  // Questions
+  const addQuestion = async (question: Question) => {
+    await postQuestion({ question })
   }
 
-  const loadResults = async () => {
-    results.value = []
-
-    getAllResults<{ data: AllResults[] }>()
-      .then((response) => {
-        const res: AllResults[] = response.data.data.map((x) => {
-          return {
-            id: x.id,
-            name: x.name,
-            description: x.description,
-            created_at: x.created_at,
-            specialisation: x.specialisation,
-            user: x.user
-          }
-        })
-        results.value?.push(...res)
-      })
-      .catch((err) => console.log(err))
+  const editQuestion = async (question: Question) => {
+    await patchQuestion()
   }
 
-  return { accounts, results, loadAccounts, loadResults }
+  const removeQuestion = async (question: Question) => {
+    await deleteQuestion(question.id)
+  }
+
+  // Answers
+  const addAnswer = async (question_id: number, answer: Answer) => {
+    await postAnswer({
+      answer: answer.answer,
+      weight: answer.weight,
+      question_id: question_id,
+      specialisation_id: answer.specialisation.id
+    })
+  }
+
+  const editAnswer = async (answer: Answer) => {
+    await patchQuestion()
+  }
+
+  const removeAnswer = async (answer: Answer) => {
+    await deleteAnswer(answer.id)
+  }
+
+  return { addQuestion, editQuestion, removeQuestion, addAnswer, editAnswer, removeAnswer }
 })

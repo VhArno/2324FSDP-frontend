@@ -21,7 +21,7 @@ const logout = () => {
 }
 
 const adminPanel = () => {
-  router.push({ name: 'admin'})
+  router.push({ name: 'adminQuestions'})
 }
 
 function formatDate(date: Date) {
