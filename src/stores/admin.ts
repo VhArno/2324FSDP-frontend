@@ -9,7 +9,7 @@ export const useAdminStore = defineStore('admin', () => {
   }
 
   const editQuestion = async (question: Question) => {
-    await patchQuestion()
+    //await patchQuestion()
   }
 
   const removeQuestion = async (question: Question) => {
@@ -27,7 +27,7 @@ export const useAdminStore = defineStore('admin', () => {
   }
 
   const editAnswer = async (answer: Answer) => {
-    await patchQuestion()
+    //await patchQuestion()
   }
 
   const removeAnswer = async (answer: Answer) => {

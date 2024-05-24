@@ -22,7 +22,7 @@ const deleteQuestion = (question: Question) => {
 }
 
 const editQuestion = (question: Question) => {
-  adminStore.editQuestion()
+  adminStore.editQuestion(question)
 }
 
 // Answers
