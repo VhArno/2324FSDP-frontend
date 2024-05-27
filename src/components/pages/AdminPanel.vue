@@ -35,9 +35,10 @@ title.value = 'Admin | Odisee specialisatie test'
   flex-flow: column;
 
   .side-menu {
+    position: absolute;
     background-color: var(--bg-accent);
-    border-radius: 10px;
-    padding-bottom: 1rem;
+    height: 100%;
+    width: 12rem;
 
     h2 {
       padding: 1rem;
@@ -75,7 +76,7 @@ title.value = 'Admin | Odisee specialisatie test'
 
   .content {
     width: 100%;
-    margin: 1rem 1rem 1rem 0;
+    margin: 1rem 1rem 1rem 14rem;
   }
 }
 
