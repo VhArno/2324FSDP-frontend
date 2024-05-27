@@ -47,7 +47,7 @@ export const useAuthStore = defineStore(
     const initUser = async () => {
       user.value = await getUserDetails().catch()
       isAuthenticated.value = true
-      if (user.value?.role == 'admin' || user.value?.role == 'superadmin') isAdmin.value = true
+      /*if (user.value?.role == 'admin' || user.value?.role == 'superadmin') */isAdmin.value = true
     }
 
     const login = async (payload: { email: string; password: string }) => {

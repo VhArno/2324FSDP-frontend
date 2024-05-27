@@ -42,6 +42,7 @@ vitest:
 
 plesk:
   stage: deploy
+  artifacts: /dist
   script:
     # !! ADD PLESK_DIRECTORY variable ( e.g. 'vue.voornaamnaam.ikdoeict.be/labo1/')
     # !! ADD SSH_USERNAME variable ( e.g. 'bart.delrue')
