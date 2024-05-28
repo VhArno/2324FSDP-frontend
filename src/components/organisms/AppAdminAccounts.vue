@@ -6,6 +6,7 @@ import AppLoading from '../atoms/AppLoading.vue';
 import AppButton from '../atoms/AppButton.vue';
 import { ref } from 'vue';
 import AppInput from '../atoms/AppInput.vue';
+import AppOptions from '@/components/atoms/AppOptions.vue'
 
 const { isPending, isError, data, error } = useQuery({
   queryKey: ['accounts'],
@@ -14,9 +15,31 @@ const { isPending, isError, data, error } = useQuery({
 
 const searchValue = ref<string>('')
 
-const openMore = (account: User) => {
-  
+const showOptions = ref<boolean>(false)
+const optionsStyle = ref<object>({})
+const selectedAccount = ref<User | null>(null)
+
+const openMore = (account: User, event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  const rect = target.getBoundingClientRect()
+  optionsStyle.value = {
+    top: `${rect.bottom + window.scrollY}px`,
+    right: `${rect.left + window.scrollX}px`
+  }
+  selectedAccount.value = account;
+  showOptions.value = true;
 }
+
+const closeOptions = () => {
+  showOptions.value = false;
+}
+
+window.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement
+  if (!target.closest('.account-options') && !target.closest('.fa-ellipsis-vertical')) {
+    closeOptions()
+  }
+})
 </script>
 
 <template>
@@ -70,11 +93,18 @@ const openMore = (account: User) => {
           <td>{{ account.email }}</td>
           <td>{{ account.role }}</td>
           <td>{{ account.created_at }}</td>
-          <td><i class="fa-solid fa-ellipsis-vertical options" @click="openMore(account)"></i></td>
+          <td><i class="fa-solid fa-ellipsis-vertical options" @click="openMore(account, $event)"></i></td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <AppOptions 
+    v-if="showOptions && selectedAccount" 
+    :visible="showOptions" 
+    :style="optionsStyle" 
+    :account="selectedAccount" 
+  />
 </template>
 
 <style scoped lang="scss">
@@ -133,6 +163,10 @@ const openMore = (account: User) => {
     tbody {
       tr {
         border-bottom: 1px solid var(--main-light);
+
+        .account {
+          position: relative;
+        }
 
         .options {
           padding: 0.5rem;
