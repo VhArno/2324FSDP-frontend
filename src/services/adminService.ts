@@ -12,6 +12,10 @@ const getAllAccounts = async <T>(): Promise<AxiosResponse<T>> => {
   return authAxios.get<T>(`/admin/users`)
 }
 
+const deleteAccount = async <T>(id: number): Promise<AxiosResponse<T>> => {
+  return authAxios.delete<T>(`/admin/users/${id}`)
+}
+
 // Results
 const getAllResults = async <T>(): Promise<AxiosResponse<T>> => {
   return authAxios.get<T>(`/admin/results`)
@@ -19,6 +23,10 @@ const getAllResults = async <T>(): Promise<AxiosResponse<T>> => {
 
 // Questions & Answers
 /* Questions */
+const getQuestion = async <T>(id: number): Promise<AxiosResponse<T>> => {
+  return authAxios.get<T>(`/questions/${id}`)
+}
+
 const postQuestion = async <T>(payload: PostQuestionPayload): Promise<AxiosResponse<T>> => {
   return authAxios.post<T>(`/admin/questions`, payload)
 }
@@ -46,7 +54,9 @@ const deleteAnswer = async <T>(id: number): Promise<AxiosResponse<T>> => {
 
 export {
   getAllAccounts,
+  deleteAccount,
   getAllResults,
+  getQuestion,
   postQuestion,
   patchQuestion,
   deleteQuestion,

@@ -1,11 +1,17 @@
 import type { Answer, Question } from '@/types'
 import { defineStore } from 'pinia'
-import { deleteAnswer, deleteQuestion, patchQuestion, postAnswer, postQuestion } from '@/services/adminService'
+import {
+  deleteAnswer,
+  deleteQuestion,
+  patchQuestion,
+  postAnswer,
+  postQuestion
+} from '@/services/adminService'
 
 export const useAdminStore = defineStore('admin', () => {
   // Questions
   const addQuestion = async (question: Question) => {
-    await postQuestion({ question })
+    await postQuestion({ question: question.question })
   }
 
   const editQuestion = async (question: Question) => {

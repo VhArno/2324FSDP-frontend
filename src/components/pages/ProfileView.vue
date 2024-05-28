@@ -3,8 +3,9 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import { useTitle } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import { useResultStore } from '@/stores/result';
-import router from '@/router';
+import { useResultStore } from '@/stores/result'
+import router from '@/router'
+import { useDateFormater } from '@/composables/dateFormater'
 
 const title = useTitle()
 title.value = 'Profile | Odisee specialisatie test'
@@ -21,12 +22,7 @@ const logout = () => {
 }
 
 const adminPanel = () => {
-  router.push({ name: 'adminQuestions'})
-}
-
-function formatDate(date: Date) {
-  const formattedDate = new Date(date)
-  return formattedDate.toLocaleString('en-GB')
+  router.push({ name: 'adminQuestions' })
 }
 </script>
 
@@ -53,7 +49,7 @@ function formatDate(date: Date) {
       <div class="results">
         <div v-for="result in savedResults" :key="result.id">
           <h3>{{ result.name }}</h3>
-          <h3>{{ formatDate(result.created_at) }}</h3>
+          <h3>{{ useDateFormater(result.created_at).newDate }}</h3>
           <h3>{{ result.specialisation.name }}</h3>
         </div>
 

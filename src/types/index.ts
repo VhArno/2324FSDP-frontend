@@ -102,7 +102,7 @@ export interface PostQuestionPayload {
 
 export interface PatchQuestionPayload {
   question_id: number
-  question: Question
+  question: string
 }
 
 export interface PostAnswerPayload {
@@ -116,6 +116,11 @@ export interface PatchAnswerPayload {
   answer_id: number
   answer: Answer
   weight: number
+}
+
+export interface PopupStyle {
+  top: number
+  right: number
 }
 
 // types

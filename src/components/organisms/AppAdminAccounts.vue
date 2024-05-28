@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { getAllAccounts } from '@/services/adminService';
-import type { User } from '@/types'
-import { useQuery } from '@tanstack/vue-query';
-import AppLoading from '../atoms/AppLoading.vue';
-import AppButton from '../atoms/AppButton.vue';
-import { ref } from 'vue';
-import AppInput from '../atoms/AppInput.vue';
+import { getAllAccounts } from '@/services/adminService'
+import type { PopupStyle, User } from '@/types'
+import { useQuery } from '@tanstack/vue-query'
+import AppLoading from '../atoms/AppLoading.vue'
+import AppButton from '../atoms/AppButton.vue'
+import { ref } from 'vue'
+import AppInput from '../atoms/AppInput.vue'
 import AppOptions from '@/components/atoms/AppOptions.vue'
+import { useDateFormater } from '@/composables/dateFormater'
 
 const { isPending, isError, data, error } = useQuery({
   queryKey: ['accounts'],
@@ -16,22 +17,15 @@ const { isPending, isError, data, error } = useQuery({
 const searchValue = ref<string>('')
 
 const showOptions = ref<boolean>(false)
-const optionsStyle = ref<object>({})
 const selectedAccount = ref<User | null>(null)
 
-const openMore = (account: User, event: MouseEvent) => {
-  const target = event.target as HTMLElement
-  const rect = target.getBoundingClientRect()
-  optionsStyle.value = {
-    top: `${rect.bottom + window.scrollY}px`,
-    right: `${rect.left + window.scrollX}px`
-  }
-  selectedAccount.value = account;
-  showOptions.value = true;
+const openMore = (account: User) => {
+  selectedAccount.value = account
+  showOptions.value = true
 }
 
 const closeOptions = () => {
-  showOptions.value = false;
+  showOptions.value = false
 }
 
 window.addEventListener('click', (event) => {
@@ -72,7 +66,7 @@ window.addEventListener('click', (event) => {
         </div>
       </div>
     </div>
-    
+
     <table class="account-table">
       <thead>
         <tr>
@@ -92,19 +86,19 @@ window.addEventListener('click', (event) => {
           <td>{{ account.lastname }}</td>
           <td>{{ account.email }}</td>
           <td>{{ account.role }}</td>
-          <td>{{ account.created_at }}</td>
-          <td><i class="fa-solid fa-ellipsis-vertical options" @click="openMore(account, $event)"></i></td>
+          <td>{{ useDateFormater(account.created_at).newDate }}</td>
+          <td>
+            <i class="fa-solid fa-ellipsis-vertical options" @click="openMore(account)"></i>
+          </td>
         </tr>
+        <AppOptions
+          v-if="showOptions && selectedAccount"
+          :visible="showOptions"
+          :account="selectedAccount"
+        ></AppOptions>
       </tbody>
     </table>
   </div>
-
-  <AppOptions 
-    v-if="showOptions && selectedAccount" 
-    :visible="showOptions" 
-    :style="optionsStyle" 
-    :account="selectedAccount" 
-  />
 </template>
 
 <style scoped lang="scss">
@@ -161,12 +155,10 @@ window.addEventListener('click', (event) => {
     }
 
     tbody {
+      position: relative;
+
       tr {
         border-bottom: 1px solid var(--main-light);
-
-        .account {
-          position: relative;
-        }
 
         .options {
           padding: 0.5rem;

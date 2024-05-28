@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import type { Answer, Question } from '@/types'
+import type { Answer, Question, QuestionData } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { ref } from 'vue'
-import AppQuestionForm from '@/components/molecules/AppQuestionForm.vue'
+import AppEditQuestion from '@/components/molecules/AppEditQuestion.vue'
 import AppDeleteForm from '@/components/molecules/AppDeleteForm.vue'
+import { useQuery, useQueryClient } from '@tanstack/vue-query'
+import { getQuestions } from '@/services/dataService'
+
+const queryClient = useQueryClient()
 
 defineProps<{
   question: Question
@@ -37,8 +41,12 @@ const addAnswer = () => {}
 
 const editAnswer = (answer: Answer) => {}
 
-const deleteAnswer = (answer: Answer) => {
-  
+const deleteAnswer = (answer: Answer) => {}
+
+// close overlays
+const closeOverlay = () => {
+  showDeleteOverlay.value = false
+  showQuestionOverlay.value = false
 }
 </script>
 
@@ -71,8 +79,17 @@ const deleteAnswer = (answer: Answer) => {
     </div>
   </div>
 
-  <AppDeleteForm v-if="showDeleteOverlay && selectedQuestion !== null" :question="selectedQuestion" @close="showDeleteOverlay = false"></AppDeleteForm>
-  <AppQuestionForm v-if="showQuestionOverlay" :question="selectedQuestion" @close="showQuestionOverlay = false"></AppQuestionForm>
+  <AppDeleteForm
+    v-if="showDeleteOverlay && selectedQuestion !== null"
+    :question="selectedQuestion"
+    @close="closeOverlay()"
+  ></AppDeleteForm>
+
+  <AppEditQuestion
+    v-if="showQuestionOverlay && selectedQuestion !== null"
+    v-model:questionValue="selectedQuestion"
+    @close="closeOverlay()"
+  ></AppEditQuestion>
 </template>
 
 <style scoped lang="scss">
