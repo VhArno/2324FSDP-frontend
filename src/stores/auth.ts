@@ -77,6 +77,7 @@ export const useAuthStore = defineStore(
     const register = async (payload: RegisterPayload) => {
       isLoading.value = true
       try {
+        await getCsrfCookie()
         await postRegister(payload)
         await login({ email: payload.email, password: payload.password })
         failed.value = false
@@ -88,7 +89,17 @@ export const useAuthStore = defineStore(
       }
     }
 
-    return { isLoading, failed, user, isAuthenticated, isAdmin, readUserDetails, login, logout, register }
+    return {
+      isLoading,
+      failed,
+      user,
+      isAuthenticated,
+      isAdmin,
+      readUserDetails,
+      login,
+      logout,
+      register
+    }
   },
   {
     persist: {

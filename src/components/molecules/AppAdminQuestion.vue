@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import type { Answer, Question, QuestionData } from '@/types'
+import type { Answer, Question } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { ref } from 'vue'
-import AppEditQuestion from '@/components/molecules/AppEditQuestion.vue'
-import AppDeleteForm from '@/components/molecules/AppDeleteForm.vue'
-import { useQuery, useQueryClient } from '@tanstack/vue-query'
-import { getQuestions } from '@/services/dataService'
+import AppEditQuestion from '@/components/molecules/questions/AppEditForm.vue'
+import AppDeleteForm from '@/components/molecules/questions/AppDeleteForm.vue'
+import AppAddAnswer from '@/components/molecules/answers/AppAddForm.vue'
+import AppEditAnswer from '@/components/molecules/answers/AppEditForm.vue'
+import AppDeleteAnswer from '@/components/molecules/answers/AppDeleteForm.vue'
+import { storeToRefs } from 'pinia'
+import { useSpecialisationStore } from '@/stores/specialisation'
 
-const queryClient = useQueryClient()
+const specialisationStore = useSpecialisationStore()
+const { specialisations } = storeToRefs(specialisationStore)
 
 defineProps<{
   question: Question
@@ -20,6 +24,10 @@ const selectedQuestion = ref<Question | null>(null)
 // overlays
 const showDeleteOverlay = ref<boolean>(false)
 const showQuestionOverlay = ref<boolean>(false)
+
+const showAnswerAddOverlay = ref<boolean>(false)
+const showAnswerEditOverlay = ref<boolean>(false)
+const showAnswerDeleteOverlay = ref<boolean>(false)
 
 // Questions
 const handleShowAnswers = () => {
@@ -37,7 +45,10 @@ const editQuestion = (question: Question) => {
 }
 
 // Answers
-const addAnswer = () => {}
+const addAnswer = (question: Question) => {
+  selectedQuestion.value = question
+  showAnswerAddOverlay.value = !showAnswerAddOverlay.value
+}
 
 const editAnswer = (answer: Answer) => {}
 
@@ -47,6 +58,9 @@ const deleteAnswer = (answer: Answer) => {}
 const closeOverlay = () => {
   showDeleteOverlay.value = false
   showQuestionOverlay.value = false
+  showAnswerAddOverlay.value = false
+  showAnswerEditOverlay.value = false
+  showAnswerDeleteOverlay.value = false
 }
 </script>
 
@@ -75,7 +89,7 @@ const closeOverlay = () => {
         </div>
       </div>
 
-      <AppButton @click="addAnswer()">+</AppButton>
+      <AppButton @click="addAnswer(question)">+</AppButton>
     </div>
   </div>
 
@@ -84,12 +98,20 @@ const closeOverlay = () => {
     :question="selectedQuestion"
     @close="closeOverlay()"
   ></AppDeleteForm>
-
   <AppEditQuestion
     v-if="showQuestionOverlay && selectedQuestion !== null"
     v-model:questionValue="selectedQuestion"
     @close="closeOverlay()"
   ></AppEditQuestion>
+
+  <AppAddAnswer
+    v-if="showAnswerAddOverlay && selectedQuestion !== null"
+    :specialisations="specialisations"
+    :question="selectedQuestion"
+    @close="closeOverlay()"
+  ></AppAddAnswer>
+  <AppEditAnswer v-if="showAnswerEditOverlay" @close="closeOverlay()"></AppEditAnswer>
+  <AppDeleteAnswer v-if="showAnswerDeleteOverlay" @close="closeOverlay()"></AppDeleteAnswer>
 </template>
 
 <style scoped lang="scss">

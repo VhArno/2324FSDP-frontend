@@ -5,15 +5,10 @@ import AppAdminQuestion from '@/components/molecules/AppAdminQuestion.vue'
 import { getQuestions } from '@/services/dataService'
 import { useQuery } from '@tanstack/vue-query'
 import AppLoading from '../atoms/AppLoading.vue'
-import AppQuestionForm from '@/components/molecules/AppAddQuestion.vue'
-import { storeToRefs } from 'pinia'
-import { useSpecialisationStore } from '@/stores/specialisation'
+import AppQuestionForm from '@/components/molecules/questions/AppAddForm.vue'
 import { ref } from 'vue'
 
 const showOverlay = ref<boolean>(false)
-
-const specialisationStore = useSpecialisationStore()
-const { specialisations } = storeToRefs(specialisationStore)
 
 const { isPending, isError, data, error } = useQuery({
   queryKey: ['questions'],

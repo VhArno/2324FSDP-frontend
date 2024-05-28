@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
-import AppButton from './AppButton.vue'
-import { useMutation } from '@tanstack/vue-query'
+import { defineProps } from 'vue'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { deleteAccount } from '@/services/adminService'
-import type { PopupStyle } from '@/types'
+
+const queryClient = useQueryClient()
 
 const { isPending, isError, error, isSuccess, mutate } = useMutation({
-  mutationFn: (id: number) => deleteAccount(id)
+  mutationFn: (id: number) => deleteAccount(id),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['accounts'] })
+  }
 })
 
 const props = defineProps<{

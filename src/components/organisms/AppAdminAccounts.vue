@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getAllAccounts } from '@/services/adminService'
-import type { PopupStyle, User } from '@/types'
+import type { User } from '@/types'
 import { useQuery } from '@tanstack/vue-query'
 import AppLoading from '../atoms/AppLoading.vue'
 import AppButton from '../atoms/AppButton.vue'

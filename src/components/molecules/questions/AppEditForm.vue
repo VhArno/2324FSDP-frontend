@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Specialisation, Question, Answer, PatchQuestionPayload } from '@/types'
+import type { Question } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
-import AppInput from '../atoms/AppInput.vue'
+import AppInput from '@/components/atoms/AppInput.vue'
 import { computed, ref } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { patchQuestion } from '@/services/adminService'

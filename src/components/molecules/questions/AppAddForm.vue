@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppButton from '@/components/atoms/AppButton.vue'
-import AppInput from '../atoms/AppInput.vue'
+import AppInput from '@/components/atoms/AppInput.vue'
 import { computed, ref } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { postQuestion } from '@/services/adminService'
@@ -27,7 +27,7 @@ const { error, isSuccess, mutate } = useMutation({
   }
 })
 
-function addTodo() {
+function addQuestion() {
   mutate(question.value)
 }
 
@@ -35,7 +35,7 @@ const saveQuestion = () => {
   submitted.value = true
 
   if (questionError.value === null) {
-    addTodo()
+    addQuestion()
 
     if (isSuccess) {
       closeOverlay()
