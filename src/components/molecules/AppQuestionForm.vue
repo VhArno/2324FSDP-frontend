@@ -10,6 +10,7 @@ import { postQuestion } from '@/services/adminService';
 const submitted = ref<boolean>(false)
 const question = ref<string>('')
 const showOverlay = defineModel<boolean>('showOverlay')
+const errors = ref<string[]>([])
 
 defineProps<{
     specialisations: Specialisation[]
@@ -39,10 +40,8 @@ const saveQuestion = () => {
         if (isSuccess) {
             closeOverlay()  
         } else {
-            console.log("Error creating question")
+            error.value?.message ? errors.value.push(error.value?.message) : ''
         }
-    } else {
-        console.log("Error creating question")
     }
 }
 

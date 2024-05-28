@@ -1,12 +1,49 @@
 <script setup lang="ts">
 import AppButton from '@/components/atoms/AppButton.vue'
+import { deleteQuestion } from '@/services/adminService'
+import type { Question } from '@/types';
+import { useMutation } from '@tanstack/vue-query'
+import { ref } from 'vue';
+
+const props = defineProps<{
+    question: Question
+}>()
+const emit = defineEmits(['close'])
+const errors = ref<string[]>([])
+
+const { isPending, isError, error, isSuccess, mutate } = useMutation({
+  mutationFn: (questionId: number) => deleteQuestion(questionId),
+})
+
+function removeQuestion() {
+  mutate(props.question.id)
+}
+
+const handleClick = () => {
+    removeQuestion()
+
+    if (isSuccess) {
+        emit('close')
+    } else {
+        error.value?.message ? errors.value.push(error.value?.message) : ''
+    }
+}
+
+const closeForm = () => {
+  emit('close')
+}
 </script>
 
 <template>
     <div class="overlay">
         <div class="content">
             <h2>Are you sure u want to delete the question?</h2>
-            <AppButton></AppButton>
+            <p><i>{{ question.question }}</i></p>
+            <div class="errors">
+                <p v-for="error in errors" :key="error">{{ error }}</p>
+            </div>
+            <AppButton @click.prevent=handleClick()>DELETE</AppButton>
+            <AppButton @click="closeForm()">Cancel</AppButton>
         </div>
     </div>
 </template>

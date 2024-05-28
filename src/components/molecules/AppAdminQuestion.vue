@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import type { Answer, Question } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
-import AppDeleteForm from '@/components/molecules/AppDeleteForm.vue'
 import { ref } from 'vue'
-import { useAdminStore } from '@/stores/admin';
+import { useAdminStore } from '@/stores/admin'
+import AppDeleteForm from '@/components/molecules/AppDeleteForm.vue'
 
 defineProps<{
   question: Question
 }>()
 
-const adminStore = useAdminStore()
-
 const showAnswers = ref<boolean>(false)
+
+const selectedQuestion = ref<Question | null>(null)
+
+// overlays
+const showDeleteOverlay = ref<boolean>(false)
 
 // Questions
 const handleShowAnswers = () => {
@@ -19,11 +22,12 @@ const handleShowAnswers = () => {
 }
 
 const deleteQuestion = (question: Question) => {
-  adminStore.removeQuestion(question)
+  selectedQuestion.value = question
+  showDeleteOverlay.value = !showDeleteOverlay.value
 }
 
 const editQuestion = (question: Question) => {
-  adminStore.editQuestion(question)
+  
 }
 
 // Answers
@@ -32,7 +36,7 @@ const addAnswer = () => {}
 const editAnswer = (answer: Answer) => {}
 
 const deleteAnswer = (answer: Answer) => {
-  adminStore.removeAnswer(answer)
+  
 }
 </script>
 
@@ -65,7 +69,7 @@ const deleteAnswer = (answer: Answer) => {
     </div>
   </div>
 
-
+  <AppDeleteForm v-if="showDeleteOverlay && selectedQuestion !== null" :question="selectedQuestion" @close="showDeleteOverlay = false"></AppDeleteForm>
 </template>
 
 <style scoped lang="scss">
