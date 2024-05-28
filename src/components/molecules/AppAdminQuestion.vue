@@ -20,6 +20,7 @@ defineProps<{
 const showAnswers = ref<boolean>(false)
 
 const selectedQuestion = ref<Question | null>(null)
+const selectedAnswer = ref<Answer | null>(null)
 
 // overlays
 const showDeleteOverlay = ref<boolean>(false)
@@ -52,7 +53,10 @@ const addAnswer = (question: Question) => {
 
 const editAnswer = (answer: Answer) => {}
 
-const deleteAnswer = (answer: Answer) => {}
+const deleteAnswer = (answer: Answer) => {
+  selectedAnswer.value = answer
+  showAnswerDeleteOverlay.value = !showAnswerDeleteOverlay.value
+}
 
 // close overlays
 const closeOverlay = () => {
@@ -111,7 +115,12 @@ const closeOverlay = () => {
     @close="closeOverlay()"
   ></AppAddAnswer>
   <AppEditAnswer v-if="showAnswerEditOverlay" @close="closeOverlay()"></AppEditAnswer>
-  <AppDeleteAnswer v-if="showAnswerDeleteOverlay" @close="closeOverlay()"></AppDeleteAnswer>
+  <AppDeleteAnswer
+    v-if="showAnswerDeleteOverlay && selectedAnswer !== null && selectedQuestion !== null"
+    :answer="selectedAnswer"
+    :question="selectedQuestion"
+    @close="closeOverlay()"
+  ></AppDeleteAnswer>
 </template>
 
 <style scoped lang="scss">

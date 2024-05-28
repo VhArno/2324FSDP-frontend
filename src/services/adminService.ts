@@ -45,11 +45,11 @@ const postAnswer = async <T>(payload: PostAnswerPayload): Promise<AxiosResponse<
 }
 
 const patchAnswer = async <T>(payload: PatchAnswerPayload): Promise<AxiosResponse<T>> => {
-  return authAxios.patch<T>(`/admin/questions`, payload)
+  return authAxios.patch<T>(`/admin/answers`, payload)
 }
 
 const deleteAnswer = async <T>(id: number): Promise<AxiosResponse<T>> => {
-  return authAxios.delete<T>(`/admin/questions/${id}`)
+  return authAxios.delete<T>(`/admin/answers/${id}`)
 }
 
 export {

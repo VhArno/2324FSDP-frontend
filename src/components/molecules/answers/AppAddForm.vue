@@ -3,8 +3,8 @@ import AppButton from '@/components/atoms/AppButton.vue'
 import AppInput from '@/components/atoms/AppInput.vue'
 import { computed, ref } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { postAnswer, postQuestion } from '@/services/adminService'
-import type { Answer, PostAnswerPayload, Question, Specialisation } from '@/types'
+import { postAnswer } from '@/services/adminService'
+import type { PostAnswerPayload, Question, Specialisation } from '@/types'
 import AppSelect from '@/components/atoms/AppSelect.vue'
 
 const queryClient = useQueryClient()
