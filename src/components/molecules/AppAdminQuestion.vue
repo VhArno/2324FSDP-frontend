@@ -51,7 +51,10 @@ const addAnswer = (question: Question) => {
   showAnswerAddOverlay.value = !showAnswerAddOverlay.value
 }
 
-const editAnswer = (answer: Answer) => {}
+const editAnswer = (answer: Answer) => {
+  selectedAnswer.value = answer
+  showAnswerEditOverlay.value = true
+}
 
 const deleteAnswer = (answer: Answer) => {
   selectedAnswer.value = answer
@@ -114,7 +117,12 @@ const closeOverlay = () => {
     :question="selectedQuestion"
     @close="closeOverlay()"
   ></AppAddAnswer>
-  <AppEditAnswer v-if="showAnswerEditOverlay" @close="closeOverlay()"></AppEditAnswer>
+  <AppEditAnswer
+    v-if="showAnswerEditOverlay && selectedAnswer !== null"
+    :answer="selectedAnswer"
+    :specialisations="specialisations"
+    @close="closeOverlay()"
+  ></AppEditAnswer>
   <AppDeleteAnswer
     v-if="showAnswerDeleteOverlay && selectedAnswer !== null && selectedQuestion !== null"
     :answer="selectedAnswer"

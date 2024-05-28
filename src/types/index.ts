@@ -114,8 +114,9 @@ export interface PostAnswerPayload {
 
 export interface PatchAnswerPayload {
   answer_id: number
-  answer: Answer
+  answer: string
   weight: number
+  specialisation_id: number
 }
 
 export interface PopupStyle {
