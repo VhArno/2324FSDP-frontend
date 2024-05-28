@@ -10,14 +10,21 @@ import AppSelect from '@/components/atoms/AppSelect.vue'
 const queryClient = useQueryClient()
 
 const submitted = ref<boolean>(false)
-const answerValue = ref<string>('')
-const specialisation = ref<number>(0)
-const weight = ref<number>(0)
 const errors = ref<string[]>([])
+
+const answerValue = defineModel<Answer>('answerValue')
+const answer = ref<string>(answerValue.value ? answerValue.value.answer : '')
+const specialisation = ref<number>(answerValue.value ? answerValue.value.specialisation.id : 0)
+const weight = ref<number>(answerValue.value ? answerValue.value.weight : 0)
+
+const props = defineProps<{
+  specialisations: Specialisation[]
+}>()
+const emit = defineEmits(['close'])
 
 const answerError = computed(() => {
   if (!submitted.value) return null
-  if (!answerValue.value) return 'Answer is a required field and was not provided'
+  if (!answer.value) return 'Answer is a required field and was not provided'
 
   return null
 })
@@ -38,12 +45,6 @@ const weightError = computed(() => {
   return null
 })
 
-const props = defineProps<{
-  specialisations: Specialisation[]
-  answer: Answer
-}>()
-const emit = defineEmits(['close'])
-
 const { error, isSuccess, mutate } = useMutation({
   mutationFn: (answer: {
     id: number
@@ -63,12 +64,14 @@ const { error, isSuccess, mutate } = useMutation({
 })
 
 function editAnswer() {
-  mutate({
-    id: props.answer.id,
-    newAnswer: '',
-    weight: weight.value,
-    specialisation_id: specialisation.value
-  })
+  if (answerValue.value) {
+    mutate({
+      id: answerValue.value.id,
+      newAnswer: answer.value,
+      weight: weight.value,
+      specialisation_id: specialisation.value
+    })
+  }
 }
 
 const saveChange = () => {
@@ -107,7 +110,7 @@ const closeOverlay = () => {
           <span>Answer</span>
           <span v-if="answerError" class="errors" data-test="answer-error">{{ answerError }}</span>
         </label>
-        <AppInput type="text" id="answer" name="answer" v-model:value="answerValue"></AppInput>
+        <AppInput type="text" id="answer" name="answer" v-model:value="answer"></AppInput>
       </div>
 
       <div class="form-div">

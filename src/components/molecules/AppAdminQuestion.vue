@@ -90,7 +90,7 @@ const closeOverlay = () => {
         <span class="answer-text">{{ answer.answer }}</span>
         <span>{{ answer.specialisation.name }}</span>
         <div class="icons">
-          <span>1</span>
+          <span>{{ answer.weight }}</span>
           <span @click="editAnswer(answer)"><i class="fa-solid fa-pen"></i></span>
           <span @click="deleteAnswer(answer)"><i class="fa-solid fa-trash"></i></span>
         </div>
@@ -119,7 +119,7 @@ const closeOverlay = () => {
   ></AppAddAnswer>
   <AppEditAnswer
     v-if="showAnswerEditOverlay && selectedAnswer !== null"
-    :answer="selectedAnswer"
+    v-model:answerValue="selectedAnswer"
     :specialisations="specialisations"
     @close="closeOverlay()"
   ></AppEditAnswer>
