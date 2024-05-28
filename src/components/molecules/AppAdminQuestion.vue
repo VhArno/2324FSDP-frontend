@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Answer, Question } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
+import AppDeleteForm from '@/components/molecules/AppDeleteForm.vue'
 import { ref } from 'vue'
 import { useAdminStore } from '@/stores/admin';
 
@@ -63,6 +64,8 @@ const deleteAnswer = (answer: Answer) => {
       <AppButton @click="addAnswer()">+</AppButton>
     </div>
   </div>
+
+
 </template>
 
 <style scoped lang="scss">

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { getAllResults } from '@/services/adminService';
+import { getAllResults } from '@/services/adminService'
 import type { AllResults } from '@/types'
-import { useQuery } from '@tanstack/vue-query';
-import AppLoading from '../atoms/AppLoading.vue';
+import { useQuery } from '@tanstack/vue-query'
+import AppLoading from '../atoms/AppLoading.vue'
 
 const { isPending, isError, data, error } = useQuery({
   queryKey: ['results'],
@@ -22,6 +22,10 @@ const { isPending, isError, data, error } = useQuery({
   <div class="error" v-if="isError">
     <h1>Something went wrong! Try again later...</h1>
     <p>{{ error }}</p>
+  </div>
+
+  <div class="error" v-if="!isError && !isPending && data?.data.data && data?.data.data?.length <= 0">
+    <h1>There are no results yet</h1>
   </div>
 
   <div class="results" v-if="!isPending && !isError">

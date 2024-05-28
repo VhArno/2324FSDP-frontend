@@ -97,7 +97,7 @@ export interface AllResults {
 
 /* Admin interfaces */
 export interface PostQuestionPayload {
-  question: Question
+  question: string
 }
 
 export interface PatchQuestionPayload {

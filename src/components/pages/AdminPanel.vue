@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import router from '@/router'
+import { useSpecialisationStore } from '@/stores/specialisation';
 import { useTitle } from '@vueuse/core';
 
 const title = useTitle()
 title.value = 'Admin | Odisee specialisatie test'
+
+const specialisationStore = useSpecialisationStore()
+specialisationStore.loadSpecialisations()
 </script>
 
 <template>

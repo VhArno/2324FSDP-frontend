@@ -5,4 +5,8 @@ const getQuestions = async <T>(): Promise<AxiosResponse<T>> => {
     return authAxios.get<T>(`/questions`)
 }
 
-export { getQuestions }
+const getSpecialisations = async <T>(): Promise<AxiosResponse<T>> => {
+    return authAxios.get<T>(`/specialisations`)
+}
+
+export { getQuestions, getSpecialisations }
