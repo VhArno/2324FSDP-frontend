@@ -2,7 +2,7 @@
 import type { Answer, Question } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { ref } from 'vue'
-import { useAdminStore } from '@/stores/admin'
+import AppQuestionForm from '@/components/molecules/AppQuestionForm.vue'
 import AppDeleteForm from '@/components/molecules/AppDeleteForm.vue'
 
 defineProps<{
@@ -15,6 +15,7 @@ const selectedQuestion = ref<Question | null>(null)
 
 // overlays
 const showDeleteOverlay = ref<boolean>(false)
+const showQuestionOverlay = ref<boolean>(false)
 
 // Questions
 const handleShowAnswers = () => {
@@ -27,7 +28,8 @@ const deleteQuestion = (question: Question) => {
 }
 
 const editQuestion = (question: Question) => {
-  
+  selectedQuestion.value = question
+  showQuestionOverlay.value = !showQuestionOverlay.value
 }
 
 // Answers
@@ -70,6 +72,7 @@ const deleteAnswer = (answer: Answer) => {
   </div>
 
   <AppDeleteForm v-if="showDeleteOverlay && selectedQuestion !== null" :question="selectedQuestion" @close="showDeleteOverlay = false"></AppDeleteForm>
+  <AppQuestionForm v-if="showQuestionOverlay" :question="selectedQuestion" @close="showQuestionOverlay = false"></AppQuestionForm>
 </template>
 
 <style scoped lang="scss">

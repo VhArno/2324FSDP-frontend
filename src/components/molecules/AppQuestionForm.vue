@@ -9,12 +9,9 @@ import { postQuestion } from '@/services/adminService';
 
 const submitted = ref<boolean>(false)
 const question = ref<string>('')
-const showOverlay = defineModel<boolean>('showOverlay')
 const errors = ref<string[]>([])
 
-defineProps<{
-    specialisations: Specialisation[]
-}>()
+const emit = defineEmits(['close'])
 
 const questionError = computed(() => {
   if (!submitted.value) return null
@@ -46,7 +43,7 @@ const saveQuestion = () => {
 }
 
 const closeOverlay = () => {
-    showOverlay.value = !showOverlay.value
+  emit('close')
 }
 </script>
 

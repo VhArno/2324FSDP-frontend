@@ -50,7 +50,7 @@ const addQuestion = () => {
     </div>
   </div>
 
-  <AppQuestionForm v-show="showOverlay" v-model:showOverlay="showOverlay" :specialisations="specialisations"></AppQuestionForm>
+  <AppQuestionForm v-show="showOverlay" @close="showOverlay = false"></AppQuestionForm>
 </template>
 
 <style scoped lang="scss">

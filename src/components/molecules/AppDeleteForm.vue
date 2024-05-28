@@ -11,7 +11,7 @@ const props = defineProps<{
 const emit = defineEmits(['close'])
 const errors = ref<string[]>([])
 
-const { isPending, isError, error, isSuccess, mutate } = useMutation({
+const { error, isSuccess, mutate } = useMutation({
   mutationFn: (questionId: number) => deleteQuestion(questionId),
 })
 
@@ -38,11 +38,11 @@ const closeForm = () => {
     <div class="overlay">
         <div class="content">
             <h2>Are you sure u want to delete the question?</h2>
-            <p><i>{{ question.question }}</i></p>
+            <p><i>'{{ question.question }}'</i></p>
             <div class="errors">
                 <p v-for="error in errors" :key="error">{{ error }}</p>
             </div>
-            <AppButton @click.prevent=handleClick()>DELETE</AppButton>
+            <AppButton class="delete" @click.prevent=handleClick()>DELETE</AppButton>
             <AppButton @click="closeForm()">Cancel</AppButton>
         </div>
     </div>
@@ -70,6 +70,14 @@ const closeForm = () => {
         padding: 20px;
         box-sizing: border-box;
         overflow: auto;
+
+        .delete {
+            background-color: var(--accent-links);
+
+            &:hover {
+                background-color: rgb(194, 0, 0);
+            }
+        }
     }
 }
 </style>
