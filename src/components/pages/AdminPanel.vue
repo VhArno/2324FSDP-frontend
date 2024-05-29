@@ -99,14 +99,15 @@ specialisationStore.loadSpecialisations()
       position: absolute;
       background-color: var(--bg-accent);
       height: 100%;
-      width: 12rem;
+      width: 20%;
+      max-width: 20rem;
       margin: 0;
     }
 
     .content {
-      position: relative;
-      margin: 1rem 1rem 1rem 14rem;
-      width: 100%;
+      position: absolute;
+      margin: 1rem 1rem 1rem 25%;
+      width: 70%;
     }
   }
 }
