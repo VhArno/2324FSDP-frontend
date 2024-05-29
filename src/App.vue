@@ -2,7 +2,6 @@
 import AppHeader from './components/molecules/AppHeader.vue'
 import AppFooter from './components/molecules/AppFooter.vue'
 import { useAuthStore } from './stores/auth'
-import router from './router';
 
 useAuthStore().readUserDetails()
 </script>
@@ -11,7 +10,14 @@ useAuthStore().readUserDetails()
   <AppHeader></AppHeader>
 
   <main>
-    <div :class="{ content: $route.name !== 'adminQuestions' && $route.name !== 'adminResults' && $route.name !== 'adminAccounts' }">
+    <div
+      :class="{
+        content:
+          $route.name !== 'adminQuestions' &&
+          $route.name !== 'adminResults' &&
+          $route.name !== 'adminAccounts'
+      }"
+    >
       <RouterView />
     </div>
   </main>

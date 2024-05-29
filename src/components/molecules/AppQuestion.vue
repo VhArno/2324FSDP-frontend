@@ -7,6 +7,7 @@ import { useResultStore } from '@/stores/result'
 
 const props = defineProps<{
   question: Question
+  testLength: number
 }>()
 
 const selectedAnswer = ref<Answer | undefined>()
@@ -45,7 +46,7 @@ function nextQuestion() {
 }
 
 function finishTest() {
-  if (Object.keys(userAnswers.value as UserAnswerDict).length === 10) {
+  if (Object.keys(userAnswers.value as UserAnswerDict).length === 11) {
     useResultStore().userAnswers = userAnswers.value as UserAnswerDict
     useResultStore().testDone = true
     router.push({ name: 'result' })
@@ -57,7 +58,7 @@ function finishTest() {
   <div>
     <div class="title">
       <h1 tabindex="-1">{{ question.question }}</h1>
-      <p>{{ question?.id }}/10</p>
+      <p>{{ question?.id }}/{{ testLength }}</p>
     </div>
 
     <div class="answers">
@@ -74,20 +75,23 @@ function finishTest() {
     <div class="buttons">
       <h2
         class="error"
-        v-show="Object.keys(userAnswers as UserAnswerDict).length !== 10 && question.id === 10"
+        v-show="
+          Object.keys(userAnswers as UserAnswerDict).length !== testLength &&
+          question.id === testLength
+        "
       >
         Vul alle vragen in!
       </h2>
       <AppButton
         class="btn-result"
         @click="finishTest"
-        v-show="question.id === 10"
-        :disabled="Object.keys(userAnswers as UserAnswerDict).length !== 10"
+        v-show="question.id === testLength"
+        :disabled="Object.keys(userAnswers as UserAnswerDict).length !== testLength"
         >Finish test</AppButton
       >
       <div>
         <AppButton @click="previousQuestion" :disabled="question.id <= 1">Previous</AppButton>
-        <AppButton @click="nextQuestion" :disabled="question.id >= 10">Next</AppButton>
+        <AppButton @click="nextQuestion" :disabled="question.id >= testLength">Next</AppButton>
       </div>
     </div>
   </div>
