@@ -46,7 +46,7 @@ function nextQuestion() {
 }
 
 function finishTest() {
-  if (Object.keys(userAnswers.value as UserAnswerDict).length === 11) {
+  if (Object.keys(userAnswers.value as UserAnswerDict).length === props.testLength) {
     useResultStore().userAnswers = userAnswers.value as UserAnswerDict
     useResultStore().testDone = true
     router.push({ name: 'result' })
@@ -84,7 +84,7 @@ function finishTest() {
       </h2>
       <AppButton
         class="btn-result"
-        @click="finishTest"
+        @click="finishTest()"
         v-show="question.id === testLength"
         :disabled="Object.keys(userAnswers as UserAnswerDict).length !== testLength"
         >Finish test</AppButton

@@ -181,6 +181,8 @@ const closeOverlay = () => {
     display: flex;
     flex-flow: row;
     gap: 1rem;
+    align-items: center;
+    justify-content: center;
 
     span {
       i {

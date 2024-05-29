@@ -130,6 +130,28 @@ export interface PopupStyle {
   right: number
 }
 
+export interface UserAnswers {
+  answers: UserAnswer[]
+  id: number
+  question: string
+}
+
+export interface UserAnswer {
+  answer: string
+  id: number
+  user: User[]
+}
+
+// chart.js
+export interface ChartData {
+  labels: string[]
+  datasets: [
+    {
+      data: number[]
+    }
+  ]
+}
+
 // types
 export type UserAnswerDict = {
   [key: number]: Result

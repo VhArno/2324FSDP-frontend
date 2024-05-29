@@ -32,6 +32,10 @@ const getAllResults = async <T>(): Promise<AxiosResponse<T>> => {
   return authAxios.get<T>(`/admin/results`)
 }
 
+const getUserAnswers = async <T>(): Promise<AxiosResponse<T>> => {
+  return authAxios.get<T>(`/admin/users/answers`)
+}
+
 // Questions & Answers
 /* Questions */
 const getQuestion = async <T>(id: number): Promise<AxiosResponse<T>> => {
@@ -67,6 +71,7 @@ export {
   getAllAccounts,
   deleteAccount,
   getAllResults,
+  getUserAnswers,
   getQuestion,
   postQuestion,
   patchQuestion,

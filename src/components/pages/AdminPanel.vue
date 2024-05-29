@@ -14,7 +14,7 @@ specialisationStore.loadSpecialisations()
   <section class="admin-panel">
     <div class="side-menu">
       <h2>Admin panel</h2>
-      <div>
+      <div class="menu">
         <button
           :class="{ selected: $route.name == 'adminQuestions' }"
           @click="router.push({ name: 'adminQuestions' })"
@@ -50,6 +50,11 @@ specialisationStore.loadSpecialisations()
   .side-menu {
     background-color: var(--bg-accent);
     margin: 1rem;
+
+    .menu {
+      position: static;
+      top: 0;
+    }
 
     h2 {
       padding: 1rem;
@@ -99,15 +104,19 @@ specialisationStore.loadSpecialisations()
       position: absolute;
       background-color: var(--bg-accent);
       height: 100%;
-      width: 20%;
-      max-width: 20rem;
+      width: 12rem;
       margin: 0;
+
+      .menu {
+        position: sticky;
+        top: 0;
+      }
     }
 
     .content {
-      position: absolute;
-      margin: 1rem 1rem 1rem 25%;
-      width: 70%;
+      margin: 1rem 1rem 1rem 13rem;
+      width: 100%;
+      overflow-x: hidden;
     }
   }
 }
