@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
-import { useSpecialisationStore } from '@/stores/specialisation';
-import { useTitle } from '@vueuse/core';
+import { useSpecialisationStore } from '@/stores/specialisation'
+import { useTitle } from '@vueuse/core'
 
 const title = useTitle()
 title.value = 'Admin | Odisee specialisatie test'
@@ -15,13 +15,22 @@ specialisationStore.loadSpecialisations()
     <div class="side-menu">
       <h2>Admin panel</h2>
       <div>
-        <button :class="{ selected: $route.name == 'adminQuestions' }" @click="router.push({name:'adminQuestions'})">
+        <button
+          :class="{ selected: $route.name == 'adminQuestions' }"
+          @click="router.push({ name: 'adminQuestions' })"
+        >
           Vragen
         </button>
-        <button :class="{ selected: $route.name == 'adminResults' }" @click="router.push({name:'adminResults'})">
+        <button
+          :class="{ selected: $route.name == 'adminResults' }"
+          @click="router.push({ name: 'adminResults' })"
+        >
           Resultaten
         </button>
-        <button :class="{ selected: $route.name == 'adminAccounts' }" @click="router.push({name:'adminAccounts'})">
+        <button
+          :class="{ selected: $route.name == 'adminAccounts' }"
+          @click="router.push({ name: 'adminAccounts' })"
+        >
           Accounts
         </button>
       </div>
@@ -39,10 +48,8 @@ specialisationStore.loadSpecialisations()
   flex-flow: column;
 
   .side-menu {
-    position: absolute;
     background-color: var(--bg-accent);
-    height: 100%;
-    width: 12rem;
+    margin: 1rem;
 
     h2 {
       padding: 1rem;
@@ -79,8 +86,7 @@ specialisationStore.loadSpecialisations()
   }
 
   .content {
-    width: 100%;
-    margin: 1rem 1rem 1rem 14rem;
+    margin: 2rem;
   }
 }
 
@@ -88,6 +94,20 @@ specialisationStore.loadSpecialisations()
   .admin-panel {
     flex-flow: row;
     gap: 3rem;
+
+    .side-menu {
+      position: absolute;
+      background-color: var(--bg-accent);
+      height: 100%;
+      width: 12rem;
+      margin: 0;
+    }
+
+    .content {
+      position: relative;
+      margin: 1rem 1rem 1rem 14rem;
+      width: 100%;
+    }
   }
 }
 </style>

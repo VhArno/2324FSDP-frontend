@@ -96,6 +96,12 @@ export interface AllResults {
 }
 
 /* Admin interfaces */
+export interface GetAccountsPayload {
+  term?: string
+  role_id?: number
+  sort?: string
+}
+
 export interface PostQuestionPayload {
   question: string
 }

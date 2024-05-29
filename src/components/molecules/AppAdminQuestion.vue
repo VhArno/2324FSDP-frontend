@@ -88,7 +88,7 @@ const closeOverlay = () => {
     <div class="answers" v-show="showAnswers">
       <div class="answer" v-for="answer in question.answers" :key="answer.id">
         <span class="answer-text">{{ answer.answer }}</span>
-        <span>{{ answer.specialisation.name }}</span>
+        <span class="answer-spec">{{ answer.specialisation.name }}</span>
         <div class="icons">
           <span>{{ answer.weight }}</span>
           <span @click="editAnswer(answer)"><i class="fa-solid fa-pen"></i></span>
@@ -156,15 +156,19 @@ const closeOverlay = () => {
 
     .answer {
       display: flex;
-      flex-flow: row;
+      flex-flow: column;
       justify-content: space-between;
-      padding: 0.5rem;
+      padding: 1rem;
       background-color: var(--bg-accent);
       border-radius: 10px;
+      flex: 1;
 
       .answer-text {
         font-size: 1em;
         font-weight: 600;
+      }
+
+      .answer-spec {
       }
     }
 
@@ -189,6 +193,76 @@ const closeOverlay = () => {
 
       &:hover {
         cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (min-width: 45em) {
+  .question-div {
+    .question {
+      display: flex;
+      flex-flow: row;
+      justify-content: space-between;
+      padding: 0.5rem;
+      background-color: var(--main-light);
+      border-radius: 10px;
+
+      .question-text {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+    }
+
+    .answers {
+      display: flex;
+      flex-flow: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+
+      .answer {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        padding: 1rem;
+        background-color: var(--bg-accent);
+        border-radius: 10px;
+        flex: 1;
+
+        .answer-text {
+          font-size: 1em;
+          font-weight: 600;
+          width: 50%;
+        }
+
+        .answer-spec {
+          width: 30%;
+        }
+      }
+
+      button {
+        width: fit-content;
+      }
+    }
+
+    .icons {
+      display: flex;
+      flex-flow: row;
+      gap: 1rem;
+
+      span {
+        i {
+          font-size: 1.1em;
+        }
+
+        .show {
+          transform: rotate(180deg);
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }

@@ -1,5 +1,6 @@
 import { authAxios } from '@/instances/myAxios'
 import type {
+  GetAccountsPayload,
   PatchAnswerPayload,
   PatchQuestionPayload,
   PostAnswerPayload,
@@ -8,8 +9,18 @@ import type {
 import type { AxiosResponse } from 'axios'
 
 // Accounts
-const getAllAccounts = async <T>(): Promise<AxiosResponse<T>> => {
-  return authAxios.get<T>(`/admin/users`)
+const getAllAccounts = async <T>(payload?: GetAccountsPayload): Promise<AxiosResponse<T>> => {
+  let requestString = `/admin/users?`
+
+  if (payload) {
+    for (const [key, value] of Object.entries(payload)) {
+      if (key && value != 0) {
+        requestString += `${key}=${value}&`
+      }
+    }
+  }
+
+  return authAxios.get<T>(requestString)
 }
 
 const deleteAccount = async <T>(id: number): Promise<AxiosResponse<T>> => {
