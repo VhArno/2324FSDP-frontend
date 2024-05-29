@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/vue-query'
 import AppLoading from '../atoms/AppLoading.vue'
 import AppChart from '@/components/atoms/AppChart.vue'
 import AppAnswerChart from '@/components/molecules/AppAnswerChart.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useSpecialisationStore } from '@/stores/specialisation'
 import { storeToRefs } from 'pinia'
 import { useDateFormater } from '@/composables/dateFormater'
@@ -39,11 +39,6 @@ data.value?.data.data.map((rest) => {
     specializationCount.set(rest.specialisation.name, value + 1)
   }
 })
-
-const labels = ref(Array.from(specializationCount.keys()))
-const values = ref(Array.from(specializationCount.values()))
-
-// answers chart
 </script>
 
 <template>
@@ -66,7 +61,10 @@ const values = ref(Array.from(specializationCount.values()))
     <h2>There are no results yet</h2>
   </div>
 
-  <div class="results" v-if="!isPending && !isError">
+  <div
+    class="results"
+    v-if="!isPending && !isError && data?.data.data && data?.data.data?.length > 0"
+  >
     <h2>All saved results</h2>
     <div class="result">
       <p>id</p>
@@ -87,12 +85,18 @@ const values = ref(Array.from(specializationCount.values()))
     </div>
   </div>
 
-  <div class="charts">
+  <div
+    class="charts"
+    v-if="!isError && !isPending && data?.data.data && data?.data.data?.length > 0"
+  >
     <h2>Result charts</h2>
 
     <div class="result-chart">
       <h3>Results per specialisation</h3>
-      <AppChart :labels="labels" :values="values"></AppChart>
+      <AppChart
+        :labels="Array.from(specializationCount.keys())"
+        :values="Array.from(specializationCount.values())"
+      ></AppChart>
     </div>
 
     <h3>Results per question</h3>
@@ -173,6 +177,5 @@ const values = ref(Array.from(specializationCount.values()))
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin: 1rem;
 }
 </style>

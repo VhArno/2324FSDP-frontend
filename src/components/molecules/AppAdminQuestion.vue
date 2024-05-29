@@ -167,9 +167,6 @@ const closeOverlay = () => {
         font-size: 1em;
         font-weight: 600;
       }
-
-      .answer-spec {
-      }
     }
 
     button {
@@ -182,7 +179,6 @@ const closeOverlay = () => {
     flex-flow: row;
     gap: 1rem;
     align-items: center;
-    justify-content: center;
 
     span {
       i {
