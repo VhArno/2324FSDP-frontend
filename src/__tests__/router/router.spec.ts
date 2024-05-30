@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import router from '@/router'
 import { useTitle } from '@vueuse/core'
-import { shallowMount } from '@vue/test-utils'
 
 const mocks = vi.hoisted(() => ({
   useAuthStore: vi.fn(() => ({
@@ -15,8 +14,6 @@ vi.mock('@/stores/auth', () => ({
 }))
 
 describe('page title', () => {
-  test('every route has a title value', async () => {})
-
   test('after every navigation, the page title should be updated', async () => {
     await router.push('/')
     const title = useTitle()

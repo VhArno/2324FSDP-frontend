@@ -4,7 +4,6 @@ import { createPinia, setActivePinia } from 'pinia'
 vi.mock('@/instances/myAxios.ts')
 
 describe('authStore', () => {
-
   beforeEach(() => {
     setActivePinia(createPinia())
     vi.resetAllMocks()

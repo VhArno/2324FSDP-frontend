@@ -5,7 +5,6 @@ import AppLoading from '../atoms/AppLoading.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
 import { computed, ref } from 'vue'
-import { errorMessages } from 'vue/compiler-sfc'
 
 const title = useTitle()
 title.value = 'Login | Odisee specialisatie test'
@@ -85,7 +84,7 @@ async function login() {
       </div>
 
       <div class="btns">
-        <AppButton type="submit" @click.prevent="login">Login</AppButton>
+        <AppButton class="submit-btn" type="submit" @click.prevent="login">Login</AppButton>
         <RouterLink to="/register">Heb je nog geen account?</RouterLink>
       </div>
     </form>

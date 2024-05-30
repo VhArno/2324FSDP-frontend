@@ -28,11 +28,13 @@ describe('Views / LoginView', () => {
     expect(error).toBe(false)
   })
 
-  /*it<{ wrapper: VueWrapper }>('should show required errors', async ({ wrapper }) => {
+  it<{ wrapper: VueWrapper }>('should show required errors', async ({ wrapper }) => {
     const email = wrapper.find('input[name="email"]')
-    const form = wrapper.find('form')
+    const form = wrapper.find('.login-form')
+
     await email.setValue('')
     await form.trigger('submit')
+
     const error = wrapper.find('[data-test=email-error]')
     expect(error.text()).toContain('required')
   })
@@ -57,5 +59,5 @@ describe('Views / LoginView', () => {
     await form.trigger('submit.prevent')
 
     expect(useAuthStore().login).toHaveBeenCalledWith(payload)
-  })*/
+  })
 })
