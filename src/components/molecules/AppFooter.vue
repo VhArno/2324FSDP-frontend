@@ -46,6 +46,7 @@
   justify-content: center;
   padding: 2rem 5rem;
   gap: 1rem;
+  text-align: center;
 
   a {
     font-size: 1.1em;
@@ -85,7 +86,6 @@
     flex-flow: row wrap;
     gap: 3rem;
 
-    
     .socials {
       flex-flow: row;
       gap: 0rem;

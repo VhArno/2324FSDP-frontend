@@ -4,7 +4,7 @@ import type { GetAccountsPayload, User } from '@/types'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import AppLoading from '../atoms/AppLoading.vue'
 import AppButton from '../atoms/AppButton.vue'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import AppInput from '../atoms/AppInput.vue'
 import AppOptions from '@/components/atoms/AppOptions.vue'
 import { useDateFormater } from '@/composables/dateFormater'
@@ -47,6 +47,14 @@ window.addEventListener('click', (event) => {
   const target = event.target as HTMLElement
   if (!target.closest('.account-options') && !target.closest('.fa-ellipsis-vertical')) {
     closeOptions()
+  }
+})
+
+watchEffect(() => {
+  if (searchValue.value === '') {
+    console.log('Refetching accounts')
+    getPayload.value.term = ''
+    queryClient.invalidateQueries({ queryKey: ['accounts'] })
   }
 })
 </script>

@@ -15,7 +15,7 @@ export const useAuthStore = defineStore(
 
     const readUserDetails = async () => {
       try {
-        if (user.value !== null) {
+        if (user.value !== null || user.value !== undefined) {
           await initUser().catch(() => {
             user.value = null
             isAuthenticated.value = false
@@ -27,7 +27,7 @@ export const useAuthStore = defineStore(
           isAdmin.value = false
         }
       } catch (err) {
-        console.log(err)
+        //console.log(err)
       }
     }
 
@@ -38,16 +38,22 @@ export const useAuthStore = defineStore(
         const { data: user } = await getUser<ApiResponse>()
         return user.data
       } catch (e) {
-        console.error(e)
-        logout()
+        user.value = null
+        isAuthenticated.value = false
+        isAdmin.value = false
         return null
       }
     }
 
     const initUser = async () => {
-      user.value = await getUserDetails()
-      isAuthenticated.value = true
-      if (user.value?.role == 'admin' || user.value?.role == 'superadmin') isAdmin.value = true
+      user.value = await getUserDetails().catch(() => {
+        return null
+      })
+
+      if (user.value !== null) {
+        isAuthenticated.value = true
+        if (user.value?.role == 'admin' || user.value?.role == 'superadmin') isAdmin.value = true
+      }
     }
 
     const login = async (payload: { email: string; password: string }) => {
@@ -57,9 +63,12 @@ export const useAuthStore = defineStore(
         await getCsrfCookie()
         await postLogin(payload)
         await initUser()
+
+        failed.value = false
         router.push('/profile')
       } catch (err: any) {
-        return err.response.data.message
+        failed.value = true
+        return err.response.data.message ? err.response.data.message : 'error'
       } finally {
         isLoading.value = false
       }

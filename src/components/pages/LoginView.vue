@@ -61,7 +61,8 @@ async function login() {
         <AppLoading></AppLoading>
       </div>
 
-      <div class="errors form-input" v-if="errors.length > 0">
+      <div class="errors form-input" v-if="authStore.failed">
+        <h3>Something went wrong</h3>
         <p v-for="error in errors" :key="error">{{ error }}</p>
       </div>
 

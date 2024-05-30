@@ -31,9 +31,17 @@ main {
   position: relative;
 
   .content {
-    width: 80%;
+    width: 90%;
     height: auto;
     margin: 0 auto;
+  }
+}
+
+@media (min-width: 45em) {
+  main {
+    .content {
+      width: 80%;
+    }
   }
 }
 </style>
