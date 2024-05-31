@@ -42,7 +42,11 @@ const props = defineProps<{
   specialisations: Specialisation[]
   question: Question
 }>()
-const emit = defineEmits(['close'])
+
+const emit = defineEmits<{
+  close: []
+  showNotfi: [text: string, color: string]
+}>()
 
 const { error, isSuccess, mutate } = useMutation({
   mutationFn: (answer: PostAnswerPayload) =>
@@ -77,6 +81,7 @@ const saveQuestion = () => {
     addAnswer()
 
     if (isSuccess) {
+      emit('showNotfi', 'Answer added succesfully', 'green')
       closeOverlay()
     } else {
       error.value?.message ? errors.value.push(error.value?.message) : ''

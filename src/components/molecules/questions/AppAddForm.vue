@@ -11,7 +11,10 @@ const submitted = ref<boolean>(false)
 const question = ref<string>('')
 const errors = ref<string[]>([])
 
-const emit = defineEmits(['close'])
+const emit = defineEmits<{
+  close: []
+  showNotfi: [text: string, color: string]
+}>()
 
 const questionError = computed(() => {
   if (!submitted.value) return null
@@ -38,6 +41,7 @@ const saveQuestion = () => {
     addQuestion()
 
     if (isSuccess) {
+      emit('showNotfi', 'Question added succesfully', 'green')
       closeOverlay()
     } else {
       error.value?.message ? errors.value.push(error.value?.message) : ''

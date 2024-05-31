@@ -11,7 +11,12 @@ const props = defineProps<{
   question: Question
   answer: Answer
 }>()
-const emit = defineEmits(['close'])
+
+const emit = defineEmits<{
+  close: []
+  showNotfi: [text: string, color: string]
+}>()
+
 const errors = ref<string[]>([])
 
 const { error, isSuccess, mutate } = useMutation({
@@ -29,6 +34,7 @@ const handleClick = () => {
   removeQuestion()
 
   if (isSuccess) {
+    emit('showNotfi', 'Answer deleted succesfully', 'red')
     emit('close')
   } else {
     error.value?.message ? errors.value.push(error.value?.message) : ''

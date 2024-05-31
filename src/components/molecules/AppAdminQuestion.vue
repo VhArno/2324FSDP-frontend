@@ -7,6 +7,7 @@ import AppDeleteForm from '@/components/molecules/questions/AppDeleteForm.vue'
 import AppAddAnswer from '@/components/molecules/answers/AppAddForm.vue'
 import AppEditAnswer from '@/components/molecules/answers/AppEditForm.vue'
 import AppDeleteAnswer from '@/components/molecules/answers/AppDeleteForm.vue'
+import AppNotification from '@/components/atoms/AppNotification.vue'
 import { storeToRefs } from 'pinia'
 import { useSpecialisationStore } from '@/stores/specialisation'
 
@@ -69,9 +70,32 @@ const closeOverlay = () => {
   showAnswerEditOverlay.value = false
   showAnswerDeleteOverlay.value = false
 }
+
+// Notification
+const showNoti = ref<boolean>(false)
+
+const notiText = ref<string>('')
+const notiColor = ref<string>('')
+
+const showNotification = (text: string, color: string) => {
+  notiText.value = text
+  notiColor.value = color
+  showNoti.value = true
+}
+
+const hideNotification = () => {
+  showNoti.value = false
+}
 </script>
 
 <template>
+  <AppNotification
+    v-if="showNoti"
+    :text="notiText"
+    :color="notiColor"
+    @close="hideNotification"
+  ></AppNotification>
+
   <div class="question-div">
     <div class="question">
       <span>{{ question.id }}</span>
@@ -103,11 +127,13 @@ const closeOverlay = () => {
   <AppDeleteForm
     v-if="showDeleteOverlay && selectedQuestion !== null"
     :question="selectedQuestion"
+    @showNotfi="showNotification"
     @close="closeOverlay()"
   ></AppDeleteForm>
   <AppEditQuestion
     v-if="showQuestionOverlay && selectedQuestion !== null"
     v-model:questionValue="selectedQuestion"
+    @showNotfi="showNotification"
     @close="closeOverlay()"
   ></AppEditQuestion>
 
@@ -115,18 +141,21 @@ const closeOverlay = () => {
     v-if="showAnswerAddOverlay && selectedQuestion !== null"
     :specialisations="specialisations"
     :question="selectedQuestion"
+    @showNotfi="showNotification"
     @close="closeOverlay()"
   ></AppAddAnswer>
   <AppEditAnswer
     v-if="showAnswerEditOverlay && selectedAnswer !== null"
     v-model:answerValue="selectedAnswer"
     :specialisations="specialisations"
+    @showNotfi="showNotification"
     @close="closeOverlay()"
   ></AppEditAnswer>
   <AppDeleteAnswer
     v-if="showAnswerDeleteOverlay && selectedAnswer !== null && selectedQuestion !== null"
     :answer="selectedAnswer"
     :question="selectedQuestion"
+    @showNotfi="showNotification"
     @close="closeOverlay()"
   ></AppDeleteAnswer>
 </template>

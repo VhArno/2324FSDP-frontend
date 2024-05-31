@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/vue-query'
 import AppLoading from '../atoms/AppLoading.vue'
 import AppQuestionForm from '@/components/molecules/questions/AppAddForm.vue'
 import { ref } from 'vue'
+import AppNotification from '@/components/atoms/AppNotification.vue'
 
 const showOverlay = ref<boolean>(false)
 
@@ -18,9 +19,32 @@ const { isPending, isError, data, error } = useQuery({
 const addQuestion = () => {
   showOverlay.value = !showOverlay.value
 }
+
+// Notification
+const showNoti = ref<boolean>(false)
+
+const notiText = ref<string>('')
+const notiColor = ref<string>('')
+
+const showNotification = (text: string, color: string) => {
+  notiText.value = text
+  notiColor.value = color
+  showNoti.value = true
+}
+
+const hideNotification = () => {
+  showNoti.value = false
+}
 </script>
 
 <template>
+  <AppNotification
+    v-if="showNoti"
+    :text="notiText"
+    :color="notiColor"
+    @close="hideNotification"
+  ></AppNotification>
+
   <div>
     <h1>Edit vragen</h1>
 
@@ -45,7 +69,11 @@ const addQuestion = () => {
     </div>
   </div>
 
-  <AppQuestionForm v-show="showOverlay" @close="showOverlay = false"></AppQuestionForm>
+  <AppQuestionForm
+    v-show="showOverlay"
+    @close="showOverlay = false"
+    @showNotfi="showNotification"
+  ></AppQuestionForm>
 </template>
 
 <style scoped lang="scss">

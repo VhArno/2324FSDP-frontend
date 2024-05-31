@@ -17,10 +17,14 @@ const answer = ref<string>(answerValue.value ? answerValue.value.answer : '')
 const specialisation = ref<number>(answerValue.value ? answerValue.value.specialisation.id : 0)
 const weight = ref<number>(answerValue.value ? answerValue.value.weight : 0)
 
-const props = defineProps<{
+defineProps<{
   specialisations: Specialisation[]
 }>()
-const emit = defineEmits(['close'])
+
+const emit = defineEmits<{
+  close: []
+  showNotfi: [text: string, color: string]
+}>()
 
 const answerError = computed(() => {
   if (!submitted.value) return null
@@ -85,6 +89,7 @@ const saveChange = () => {
     editAnswer()
 
     if (isSuccess) {
+      emit('showNotfi', 'Answer updated succesfully', 'blue')
       closeOverlay()
     } else {
       error.value?.message ? errors.value.push(error.value?.message) : ''
