@@ -6,6 +6,7 @@ import { ref, watchEffect } from 'vue'
 import { useResultStore } from '@/stores/result'
 
 const props = defineProps<{
+  index: number
   question: Question
   testLength: number
 }>()
@@ -38,11 +39,11 @@ function handleClick(question: Question, answer: Answer) {
 
 // navigation
 function previousQuestion() {
-  router.push({ name: 'questions', params: { id: props.question.id - 1 } })
+  router.push({ name: 'questions', params: { id: props.index - 1 } })
 }
 
 function nextQuestion() {
-  router.push({ name: 'questions', params: { id: props.question.id + 1 } })
+  router.push({ name: 'questions', params: { id: props.index + 1 } })
 }
 
 function finishTest() {
@@ -58,7 +59,7 @@ function finishTest() {
   <div>
     <div class="title">
       <h1 tabindex="-1">{{ question.question }}</h1>
-      <p>{{ question?.id }}/{{ testLength }}</p>
+      <p>{{ index }}/{{ testLength }}</p>
     </div>
 
     <div class="answers">
@@ -76,8 +77,7 @@ function finishTest() {
       <h2
         class="error"
         v-show="
-          Object.keys(userAnswers as UserAnswerDict).length !== testLength &&
-          question.id === testLength
+          Object.keys(userAnswers as UserAnswerDict).length !== testLength && index === testLength
         "
       >
         Vul alle vragen in!
@@ -85,13 +85,13 @@ function finishTest() {
       <AppButton
         class="btn-result"
         @click="finishTest()"
-        v-show="question.id === testLength"
+        v-show="index === testLength"
         :disabled="Object.keys(userAnswers as UserAnswerDict).length !== testLength"
         >Finish test</AppButton
       >
       <div>
-        <AppButton @click="previousQuestion" :disabled="question.id <= 1">Previous</AppButton>
-        <AppButton @click="nextQuestion" :disabled="question.id >= testLength">Next</AppButton>
+        <AppButton @click="previousQuestion" :disabled="index <= 1">Previous</AppButton>
+        <AppButton @click="nextQuestion" :disabled="index >= testLength">Next</AppButton>
       </div>
     </div>
   </div>

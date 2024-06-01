@@ -32,6 +32,7 @@ const userAnswers = ref<UserAnswerDict>({})
         !isPending &&
         !isError
       "
+      :index="parseInt(id)"
       :question="data.data.data[parseInt(id) - 1]"
       :testLength="data.data.data.length"
       v-model:userAnswers="userAnswers"
