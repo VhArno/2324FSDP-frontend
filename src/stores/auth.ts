@@ -32,13 +32,12 @@ export const useAuthStore = defineStore(
     }
 
     const getUserDetails = async () => {
-      try {
+      if (user.value) return user.value
+
+      if (user.value) {
         const { data: user } = await getUser<ApiResponse>()
         return user.data
-      } catch (e) {
-        user.value = null
-        isAuthenticated.value = false
-        isAdmin.value = false
+      } else {
         return null
       }
     }
