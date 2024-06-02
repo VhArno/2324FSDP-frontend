@@ -12,7 +12,7 @@ const emit = defineEmits<{
 
 const countdown = ref(4) // Initial countdown value
 const barWidth = ref(100) // Initial width of the bar (100%)
-let intervalId: number | undefined = undefined
+let intervalId: ReturnType<typeof setInterval> | undefined = undefined
 const countingDown = ref(false) // To prevent multiple countdowns
 
 // Start the countdown

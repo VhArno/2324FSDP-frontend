@@ -32,8 +32,6 @@ export const useAuthStore = defineStore(
     }
 
     const getUserDetails = async () => {
-      if (user.value) return user.value
-
       try {
         const { data: user } = await getUser<ApiResponse>()
         return user.data
