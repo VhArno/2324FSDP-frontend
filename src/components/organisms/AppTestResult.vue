@@ -7,10 +7,16 @@ import { computed, onMounted, ref } from 'vue'
 import type { Result, Specialisation } from '@/types'
 import { useResultStore } from '@/stores/result'
 import { storeToRefs } from 'pinia'
+import { useSpecialisationStore } from '@/stores/specialisation'
 
 const title = useTitle()
 title.value = 'Result | Odisee specialisatie test'
 
+// Specialisations store
+const specialisationStore = useSpecialisationStore()
+const { specialisations } = storeToRefs(specialisationStore)
+
+// Results store
 const resultStore = useResultStore()
 const { userAnswers } = storeToRefs(resultStore)
 
@@ -48,23 +54,19 @@ const emailError = computed(() => {
 function calculateResult() {
   const specializationWeights: Map<Specialisation, number> = new Map()
 
+  specialisations.value.forEach((spec) => {
+    specializationWeights.set({ ...spec }, 0)
+  })
+
   for (const key in userAnswers.value) {
-    console.log(key)
     const specialisation = { ...userAnswers.value[key].answer.specialisation }
     const weight = userAnswers.value[key].answer.weight
 
-    console.log(specializationWeights.keys())
-    console.log(specialisation)
-
-    if (!specializationWeights.has(specialisation)) {
-      console.log('Specialisation not in list')
-
-      specializationWeights.set(specialisation, weight)
-    } else {
-      console.log('Specialisation in list')
-
-      const specWeight = specializationWeights.get(specialisation) ?? 0
-      specializationWeights.set(specialisation, specWeight + weight)
+    for (const k of specializationWeights.keys()) {
+      if (k.id === specialisation.id) {
+        const value = specializationWeights.get(k) ?? 0
+        specializationWeights.set(k, value + weight)
+      }
     }
   }
 

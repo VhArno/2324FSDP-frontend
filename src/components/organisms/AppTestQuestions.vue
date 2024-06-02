@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/vue-query'
 import type { QuestionData, UserAnswerDict } from '@/types'
 import AppQuestion from '../molecules/AppQuestion.vue'
 import { ref } from 'vue'
+import { useSpecialisationStore } from '@/stores/specialisation'
 
 defineProps<{
   id: string
@@ -18,6 +19,9 @@ const { isPending, isError, data } = useQuery({
   queryKey: ['questions'],
   queryFn: getQuestions<QuestionData>
 })
+
+const specialisationStore = useSpecialisationStore()
+specialisationStore.loadSpecialisations()
 
 const userAnswers = ref<UserAnswerDict>({})
 </script>
