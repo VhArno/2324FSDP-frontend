@@ -32,14 +32,14 @@ export const useAuthStore = defineStore(
     }
 
     const getUserDetails = async () => {
-      if (user.value) return user.value
-
       if (user.value) {
+        return user.value
+      } else  {
         const { data: user } = await getUser<ApiResponse>()
-        return user.data
-      } else {
-        return null
+      return user.data
       }
+
+      
     }
 
     const initUser = async () => {
