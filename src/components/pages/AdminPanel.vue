@@ -48,7 +48,7 @@ specialisationStore.loadSpecialisations()
   flex-flow: column;
 
   .side-menu {
-    background-color: var(--bg2);
+    background-color: var(--main-light);
     color: white;
     margin: 1rem;
 
@@ -79,21 +79,21 @@ specialisationStore.loadSpecialisations()
         padding: 0.5rem 2rem;
         margin-left: 5px;
         cursor: pointer;
-        color: white;
+        color: var(--main);
 
         &:hover {
           margin-left: 0;
-          background-color: var(--main-light);
-          color: var(--main);
-          border-left: 8px solid var(--accent-btns);
+          background-color: var(--bg2);
+          color: var(--bg);
+          border-left: 6px solid var(--accent-btns);
         }
       }
 
       .selected {
-        color: var(--main);
+        color: var(--bg);
         margin-left: 0;
-        background-color: var(--main-light);
-        border-left: 8px solid var(--accent-btns);
+        background-color: var(--bg2);
+        border-left: 6px solid var(--accent-btns);
       }
     }
   }

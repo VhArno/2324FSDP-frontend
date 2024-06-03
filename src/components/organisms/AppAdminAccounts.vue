@@ -114,6 +114,9 @@ watchEffect(() => {
           </tr>
         </thead>
         <tbody>
+          <tr v-show="isPending">
+            <td colspan="7">Loading accounts...</td>
+          </tr>
           <tr class="account" v-for="account in data?.data.data" :key="account.id">
             <td>{{ account.id }}</td>
             <td>{{ account.firstname }}</td>
