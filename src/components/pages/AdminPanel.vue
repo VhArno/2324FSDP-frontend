@@ -48,8 +48,13 @@ specialisationStore.loadSpecialisations()
   flex-flow: column;
 
   .side-menu {
-    background-color: var(--bg-accent);
+    background-color: var(--bg2);
+    color: white;
     margin: 1rem;
+
+    h2 {
+      background-color: var(--accent-btns);
+    }
 
     .menu {
       position: static;
@@ -74,18 +79,21 @@ specialisationStore.loadSpecialisations()
         padding: 0.5rem 2rem;
         margin-left: 5px;
         cursor: pointer;
+        color: white;
 
         &:hover {
           margin-left: 0;
           background-color: var(--main-light);
-          border-left: 5px solid var(--main);
+          color: var(--main);
+          border-left: 8px solid var(--accent-btns);
         }
       }
 
       .selected {
+        color: var(--main);
         margin-left: 0;
         background-color: var(--main-light);
-        border-left: 5px solid var(--main);
+        border-left: 8px solid var(--accent-btns);
       }
     }
   }
@@ -102,7 +110,6 @@ specialisationStore.loadSpecialisations()
 
     .side-menu {
       position: absolute;
-      background-color: var(--bg-accent);
       height: 100%;
       width: 12rem;
       margin: 0;

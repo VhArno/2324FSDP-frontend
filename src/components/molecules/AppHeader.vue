@@ -93,6 +93,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
+  margin: auto;
+  width: 80%;
 
   #logo {
     order: -1;
