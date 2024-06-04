@@ -1,12 +1,20 @@
 import type {
   ApiResponseResults,
   EmailPayload,
-  ResultPayload,
+  ResultPostPayload,
+  ResultPatchPayload,
   SavedResults,
-  UserAnswerDict
+  UserAnswerDict,
+  ResultPostResponse
 } from '@/types'
 import { defineStore } from 'pinia'
-import { getResults, postResult, mailResult, postUserAnswers } from '@/services/authService'
+import {
+  getResults,
+  postResult,
+  mailResult,
+  postUserAnswers,
+  patchResult
+} from '@/services/authService'
 import { ref } from 'vue'
 
 export const useResultStore = defineStore('result', () => {
@@ -14,9 +22,18 @@ export const useResultStore = defineStore('result', () => {
   const savedResults = ref<SavedResults[]>()
   const testDone = ref<boolean>(false)
 
-  const saveResult = async (payload: ResultPayload) => {
+  const saveResult = async (payload: ResultPostPayload) => {
     try {
-      await postResult(payload)
+      const res = await postResult<ResultPostResponse>(payload)
+      return res.data.data.id
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const editResult = async (payload: ResultPatchPayload) => {
+    try {
+      await patchResult(payload)
     } catch (err) {
       console.log(err)
     }
@@ -64,6 +81,7 @@ export const useResultStore = defineStore('result', () => {
     savedResults,
     loadResults,
     saveResult,
+    editResult,
     sendResult,
     saveUserAnswers
   }

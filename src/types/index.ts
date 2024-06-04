@@ -58,10 +58,19 @@ export interface Result {
   answer: Answer
 }
 
-export interface ResultPayload {
-  name: string
+export interface ResultPostResponse {
+  data: SavedResults
+}
+
+export interface ResultPostPayload {
   description?: string
   specialisation_id: number
+}
+
+export interface ResultPatchPayload {
+  name: string
+  description?: string
+  result_id: number
 }
 
 export interface EmailPayload {

@@ -21,6 +21,7 @@ const resultStore = useResultStore()
 const { userAnswers } = storeToRefs(resultStore)
 
 const result = ref<[Specialisation, number][]>([])
+const result_id = ref<number | null>(null)
 
 const resultSaved = ref<string | null>(null)
 const resultSend = ref<string | null>(null)
@@ -80,6 +81,22 @@ function calculateResult() {
   return mapArray
 }
 
+async function saveResult() {
+  if (!nameSubmitted.value) {
+    try {
+      const res = await resultStore.saveResult({
+        description: 'test',
+        specialisation_id: result.value[0][0].id
+      })
+      result_id.value = res ?? null // Assign the result or null if undefined
+    } catch (error) {
+      console.error(error)
+    }
+
+    console.log(result_id.value)
+  }
+}
+
 function saveUserResult() {
   nameSubmitted.value = true
 
@@ -87,27 +104,20 @@ function saveUserResult() {
     resultSaved.value = 'Result already saved!'
   }
 
-  if (nameError.value === null && result.value !== undefined && resultSaved.value === null) {
+  if (
+    nameError.value === null &&
+    result.value !== undefined &&
+    resultSaved.value === null &&
+    result_id.value !== null
+  ) {
     resultStore
-      .saveResult({
+      .editResult({
         name: saveName.value,
         description: 'test',
-        specialisation_id: result.value[0][0].id
+        result_id: result_id.value
       })
       .then(() => {
         resultSaved.value = 'Result saved'
-      })
-      .catch()
-  }
-}
-
-function saveResult() {
-  if (!nameSubmitted.value) {
-    resultStore
-      .saveResult({
-        name: 'user test',
-        description: 'test',
-        specialisation_id: result.value[0][0].id
       })
       .catch()
   }
@@ -140,9 +150,6 @@ function sendResult() {
 onMounted(() => {
   calculateResult()
   saveUserAnswers()
-})
-
-onUnmounted(() => {
   saveResult()
 })
 </script>

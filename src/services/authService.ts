@@ -1,5 +1,11 @@
 import { authAxios } from '@/instances/myAxios'
-import type { EmailPayload, RegisterPayload, ResultPayload, UserAnswerPayload } from '@/types'
+import type {
+  EmailPayload,
+  RegisterPayload,
+  ResultPostPayload,
+  ResultPatchPayload,
+  UserAnswerPayload
+} from '@/types'
 import type { AxiosResponse } from 'axios'
 
 // Users
@@ -34,11 +40,11 @@ const getResults = async <T>(): Promise<AxiosResponse<T>> => {
   return authAxios.get<T>(`/user/results`)
 }
 
-const postResult = async <T>(payload: ResultPayload): Promise<AxiosResponse<T>> => {
-  return authAxios.post<T>(`/user/results`, payload)
+const postResult = async <T>(payload: ResultPostPayload): Promise<AxiosResponse<T>> => {
+  return authAxios.post<T>(`/results`, payload)
 }
 
-const patchResult = async <T>(payload: ResultPayload): Promise<AxiosResponse<T>> => {
+const patchResult = async <T>(payload: ResultPatchPayload): Promise<AxiosResponse<T>> => {
   return authAxios.patch<T>(`/user/results`, payload)
 }
 
@@ -59,5 +65,6 @@ export {
   getResults,
   postUserAnswers,
   postResult,
+  patchResult,
   mailResult
 }
