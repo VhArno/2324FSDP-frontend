@@ -4,7 +4,7 @@ import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
-import type { Result, Specialisation } from '@/types'
+import type { Specialisation } from '@/types'
 import { useResultStore } from '@/stores/result'
 import { storeToRefs } from 'pinia'
 import { useSpecialisationStore } from '@/stores/specialisation'
@@ -20,7 +20,7 @@ const { specialisations } = storeToRefs(specialisationStore)
 const resultStore = useResultStore()
 const { userAnswers } = storeToRefs(resultStore)
 
-const result = ref<Specialisation>()
+const result = ref<[Specialisation, number][]>([])
 
 const resultSaved = ref<string | null>(null)
 const resultSend = ref<string | null>(null)
@@ -72,10 +72,12 @@ function calculateResult() {
 
   const mapArray = Array.from(specializationWeights.entries())
   mapArray.sort((a, b) => b[1] - a[1])
-  result.value = mapArray[0][0]
+  result.value = mapArray
 
   console.log(specializationWeights)
   console.log(mapArray)
+
+  return mapArray
 }
 
 function saveResult() {
@@ -90,7 +92,7 @@ function saveResult() {
       .saveResult({
         name: saveName.value,
         description: 'test',
-        specialisation_id: result.value.id
+        specialisation_id: result.value[0][0].id
       })
       .then(() => {
         resultSaved.value = 'Result saved'
@@ -114,7 +116,7 @@ function sendResult() {
     resultStore
       .sendResult({
         email: email.value,
-        specialisation_id: result.value.id
+        specialisation_id: result.value[0][0].id
       })
       .then(() => {
         resultSend.value = 'Result send'
@@ -143,7 +145,11 @@ onMounted(() => {
         hee, student van hogeschool Odisee. Deze elektronica-ICT specialisatie matcht het best bij
         jouw profiel:
       </p>
-      <h2 class="result">{{ result?.name }}</h2>
+      <div class="result">
+        <h2 v-for="(res, index) in result" :key="index" v-show="index < 3 && res[1] !== 0">
+          {{ res[0].name }} : {{ res[1] * 10 }}%
+        </h2>
+      </div>
       <p>
         Ben je verrast, of helemaal niet? Check zeker ook de andere opleidingen die aansluiten bij
         jouw interesses. Zo mis je geen enkele kans in je zoektocht naar een goede opleiding.
