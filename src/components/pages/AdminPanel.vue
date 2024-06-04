@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
+import { useAuthStore } from '@/stores/auth';
 import { useSpecialisationStore } from '@/stores/specialisation'
 import { useTitle } from '@vueuse/core'
 
@@ -32,6 +33,13 @@ specialisationStore.loadSpecialisations()
           @click="router.push({ name: 'adminAccounts' })"
         >
           Accounts
+        </button>
+        <button
+          :class="{ selected: $route.name == 'adminSuggestions' }"
+          @click="router.push({ name: 'adminSuggestions' })"
+          v-if="useAuthStore().isSuperAdmin"
+        >
+          Suggestions
         </button>
       </div>
     </div>

@@ -10,6 +10,7 @@ import { authGuard } from '@/guards/authGuard'
 import { loginGuard } from '@/guards/loginGuard'
 import { testGuard } from '@/guards/testGuard'
 import { adminGuard } from '@/guards/adminGuard'
+import { superadminGuard } from '@/guards/superadminGuard'
 import { useAuthStore } from '@/stores/auth'
 import AppTest from '@/components/organisms/AppTest.vue'
 import AppTestQuestions from '@/components/organisms/AppTestQuestions.vue'
@@ -17,6 +18,7 @@ import AppTestResult from '@/components/organisms/AppTestResult.vue'
 import AppAdminQuestions from '@/components/organisms/AppAdminQuestions.vue'
 import AppAdminResults from '@/components/organisms/AppAdminResults.vue'
 import AppAdminAccounts from '@/components/organisms/AppAdminAccounts.vue'
+import AppAdminSuggestions from '@/components/organisms/AppAdminSuggestions.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -91,6 +93,12 @@ const router = createRouter({
           path: 'accounts',
           name: 'adminAccounts',
           component: AppAdminAccounts
+        },
+        {
+          path: 'suggestions',
+          name: 'adminSuggestions',
+          component: AppAdminSuggestions,
+          beforeEnter: [superadminGuard]
         }
       ]
     },

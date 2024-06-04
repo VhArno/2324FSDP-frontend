@@ -15,7 +15,8 @@ useAuthStore().readUserDetails()
         content:
           $route.name !== 'adminQuestions' &&
           $route.name !== 'adminResults' &&
-          $route.name !== 'adminAccounts'
+          $route.name !== 'adminAccounts' &&
+          $route.name !== 'adminSuggestions'
       }"
     >
       <RouterView />

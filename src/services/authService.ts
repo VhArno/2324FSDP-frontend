@@ -38,6 +38,10 @@ const postResult = async <T>(payload: ResultPayload): Promise<AxiosResponse<T>> 
   return authAxios.post<T>(`/user/results`, payload)
 }
 
+const patchResult = async <T>(payload: ResultPayload): Promise<AxiosResponse<T>> => {
+  return authAxios.patch<T>(`/user/results`, payload)
+}
+
 const postUserAnswers = async <T>(payload: UserAnswerPayload): Promise<AxiosResponse<T>> => {
   return authAxios.post<T>(`/results/answers`, payload)
 }

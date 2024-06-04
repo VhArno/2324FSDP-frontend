@@ -10,6 +10,7 @@ import AppDeleteAnswer from '@/components/molecules/answers/AppDeleteForm.vue'
 import AppNotification from '@/components/atoms/AppNotification.vue'
 import { storeToRefs } from 'pinia'
 import { useSpecialisationStore } from '@/stores/specialisation'
+import { useAuthStore } from '@/stores/auth'
 
 const specialisationStore = useSpecialisationStore()
 const { specialisations } = storeToRefs(specialisationStore)
@@ -102,7 +103,7 @@ const hideNotification = () => {
       <span class="question-text">{{ question.question }}</span>
       <div class="icons">
         <span @click="editQuestion(question)"><i class="fa-solid fa-pen"></i></span>
-        <span @click="deleteQuestion(question)"><i class="fa-solid fa-trash"></i></span>
+        <span v-if="useAuthStore().isSuperAdmin" @click="deleteQuestion(question)"><i class="fa-solid fa-trash"></i></span>
         <span @click="handleShowAnswers()"
           ><i class="fa-solid fa-chevron-down" :class="{ show: showAnswers }"></i
         ></span>
@@ -116,7 +117,7 @@ const hideNotification = () => {
         <div class="icons">
           <span>{{ answer.weight }}</span>
           <span @click="editAnswer(answer)"><i class="fa-solid fa-pen"></i></span>
-          <span @click="deleteAnswer(answer)"><i class="fa-solid fa-trash"></i></span>
+          <span v-if="useAuthStore().isSuperAdmin" @click="deleteAnswer(answer)"><i class="fa-solid fa-trash"></i></span>
         </div>
       </div>
 

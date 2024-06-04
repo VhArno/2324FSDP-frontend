@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { Specialisation } from '@/types'
 import { useResultStore } from '@/stores/result'
 import { storeToRefs } from 'pinia'
@@ -80,7 +80,7 @@ function calculateResult() {
   return mapArray
 }
 
-function saveResult() {
+function saveUserResult() {
   nameSubmitted.value = true
 
   if (resultSaved.value !== null) {
@@ -96,6 +96,18 @@ function saveResult() {
       })
       .then(() => {
         resultSaved.value = 'Result saved'
+      })
+      .catch()
+  }
+}
+
+function saveResult() {
+  if (!nameSubmitted.value) {
+    resultStore
+      .saveResult({
+        name: 'user test',
+        description: 'test',
+        specialisation_id: result.value[0][0].id
       })
       .catch()
   }
@@ -129,6 +141,10 @@ onMounted(() => {
   calculateResult()
   saveUserAnswers()
 })
+
+onUnmounted(() => {
+  saveResult()
+})
 </script>
 
 <template>
@@ -146,7 +162,7 @@ onMounted(() => {
         jouw profiel:
       </p>
       <div class="result">
-        <h2 v-for="(res, index) in result" :key="index" v-show="index < 3 && res[1] !== 0">
+        <h2 v-for="(res, index) in result" :key="index" v-show="res[1] !== 0">
           {{ res[0].name }} : {{ res[1] * 10 }}%
         </h2>
       </div>
@@ -164,7 +180,7 @@ onMounted(() => {
           <span v-if="resultSaved !== null" class="success">{{ resultSaved }}</span>
         </label>
         <AppInput type="text" id="name" name="name" v-model:value="saveName"></AppInput>
-        <AppButton @click="saveResult">Sla op</AppButton>
+        <AppButton @click="saveUserResult">Sla op</AppButton>
       </div>
 
       <span></span>

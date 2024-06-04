@@ -8,6 +8,7 @@ import { ref, watchEffect } from 'vue'
 import AppInput from '../atoms/AppInput.vue'
 import AppOptions from '@/components/atoms/AppOptions.vue'
 import { useDateFormater } from '@/composables/dateFormater'
+import { useAuthStore } from '@/stores/auth'
 
 const queryClient = useQueryClient()
 
@@ -115,7 +116,7 @@ watchEffect(() => {
             <th>email</th>
             <th>role</th>
             <th>created_at</th>
-            <th>action</th>
+            <th v-if="useAuthStore().isSuperAdmin">action</th>
           </tr>
         </thead>
         <tbody>
@@ -129,7 +130,7 @@ watchEffect(() => {
             <td>{{ account.email }}</td>
             <td>{{ account.role }}</td>
             <td>{{ useDateFormater(account.created_at).newDate }}</td>
-            <td>
+            <td v-if="useAuthStore().isSuperAdmin">
               <i class="fa-solid fa-ellipsis-vertical options" @click="openMore(account)"></i>
             </td>
           </tr>

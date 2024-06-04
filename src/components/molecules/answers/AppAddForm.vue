@@ -136,7 +136,7 @@ const closeOverlay = () => {
             specialisationError
           }}</span>
         </label>
-        <AppSelect id="specialisation" v-model:value="specialisation">
+        <AppSelect id="specialisation" name="specialisation" v-model:value="specialisation">
           <option
             v-for="specialisation in specialisations"
             :key="specialisation.id"

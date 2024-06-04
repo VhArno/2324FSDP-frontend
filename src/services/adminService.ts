@@ -67,6 +67,11 @@ const deleteAnswer = async <T>(id: number): Promise<AxiosResponse<T>> => {
   return authAxios.delete<T>(`/admin/answers/${id}`)
 }
 
+// Suggestions
+const getSuggestions = async <T>(): Promise<AxiosResponse<T>> => {
+  return authAxios.get<T>(`/admin/suggestions/`)
+}
+
 export {
   getAllAccounts,
   deleteAccount,

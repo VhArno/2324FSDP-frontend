@@ -86,7 +86,7 @@ async function register() {
 
 <template>
   <section class="register">
-    <form class="register-form">
+    <form class="register-form" @submit.prevent="register">
       <h1 tabindex="-1">
         Elektronica-ICT Test
         <br />
@@ -147,7 +147,7 @@ async function register() {
       </div>
 
       <div class="btns">
-        <AppButton @click.prevent="register">Register</AppButton>
+        <AppButton type="submit">Register</AppButton>
         <RouterLink to="/login">Heb je al een account?</RouterLink>
       </div>
     </form>

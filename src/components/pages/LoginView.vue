@@ -49,7 +49,7 @@ async function login() {
 
 <template>
   <section class="login">
-    <form class="login-form">
+    <form class="login-form"  @submit.prevent="login">
       <h1 tabindex="-1">
         Elektronica-ICT Test
         <br />
@@ -84,7 +84,7 @@ async function login() {
       </div>
 
       <div class="btns">
-        <AppButton class="submit-btn" type="submit" @click.prevent="login">Login</AppButton>
+        <AppButton class="submit-btn" type="submit">Login</AppButton>
         <RouterLink to="/register">Heb je nog geen account?</RouterLink>
       </div>
     </form>

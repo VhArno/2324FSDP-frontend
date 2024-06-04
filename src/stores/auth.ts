@@ -9,6 +9,7 @@ export const useAuthStore = defineStore(
   () => {
     const user = ref<User | null>(null)
     const isAuthenticated = ref<boolean>(false)
+    const isSuperAdmin = ref<boolean>(false)
     const isAdmin = ref<boolean>(false)
     const isLoading = ref<boolean>(false)
     const failed = ref<boolean>(false)
@@ -49,7 +50,12 @@ export const useAuthStore = defineStore(
 
       if (user.value !== null) {
         isAuthenticated.value = true
-        if (user.value?.role == 'admin' || user.value?.role == 'superadmin') isAdmin.value = true
+        if (user.value?.role == 'superadmin') {
+          isSuperAdmin.value = true
+          isAdmin.value = true
+        }
+        
+        if (user.value?.role == 'admin') isAdmin.value = true
       }
     }
 
@@ -77,6 +83,8 @@ export const useAuthStore = defineStore(
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false
+
+      document.cookie = 'XSRF-TOKEN=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       router.push({ name: 'login' })
     }
 
@@ -100,6 +108,7 @@ export const useAuthStore = defineStore(
       failed,
       user,
       isAuthenticated,
+      isSuperAdmin,
       isAdmin,
       readUserDetails,
       login,

@@ -28,7 +28,7 @@ describe('Views / LoginView', () => {
     expect(error).toBe(false)
   })
 
-  /*it<{ wrapper: VueWrapper }>('should show required errors', async ({ wrapper }) => {
+  it<{ wrapper: VueWrapper }>('should show required errors', async ({ wrapper }) => {
     const email = wrapper.find('input[name="email"]')
     const form = wrapper.find('.login-form')
 
@@ -45,7 +45,7 @@ describe('Views / LoginView', () => {
     await email.setValue('test')
     await form.trigger('submit')
     const error = wrapper.find('[data-test=email-error]')
-    expect(error.text()).toContain('Invalid')
+    expect(error.text()).toContain('The email provided does not follow the pattern name@domain.extension')
   })
 
   it<{ wrapper: VueWrapper }>('should submit on correct payload', async ({ wrapper }) => {
@@ -59,5 +59,5 @@ describe('Views / LoginView', () => {
     await form.trigger('submit.prevent')
 
     expect(useAuthStore().login).toHaveBeenCalledWith(payload)
-  })*/
+  })
 })
