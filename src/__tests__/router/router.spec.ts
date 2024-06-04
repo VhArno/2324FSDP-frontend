@@ -5,7 +5,7 @@ import { useTitle } from '@vueuse/core'
 const mocks = vi.hoisted(() => ({
   useAuthStore: vi.fn(() => ({
     isAuthenticated: false,
-    tryAutoLogin: new Promise((resolve) => resolve(false))
+    tryAutoLogin: () => Promise.resolve()
   }))
 }))
 
@@ -30,7 +30,7 @@ describe('authorisation', () => {
   it('should not redirect authenticated users', async () => {
     mocks.useAuthStore.mockReturnValue({
       isAuthenticated: true,
-      tryAutoLogin: new Promise((resolve) => resolve(true))
+      tryAutoLogin: () => Promise.resolve()
     })
 
     await router.push({ name: 'profile' })
