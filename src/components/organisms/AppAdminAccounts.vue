@@ -76,7 +76,12 @@ watchEffect(() => {
     <div class="filters">
       <div class="search">
         <label for="searchValue">Search users</label>
-        <AppInput type="text" id="searchValue" name="searchValue" v-model="searchValue"></AppInput>
+        <AppInput
+          type="text"
+          id="searchValue"
+          name="searchValue"
+          v-model:value="searchValue"
+        ></AppInput>
 
         <AppButton @click="setSearchValue()">Search</AppButton>
       </div>
