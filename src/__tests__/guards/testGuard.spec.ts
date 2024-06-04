@@ -16,7 +16,7 @@ vi.mock('@/stores/auth', () => ({
 
 describe('loginGuard', () => {
   it('should redirect when test is not filled in', async () => {
-    const wrapper = mount(testGuard, {
+    const wrapper = mount({
       global: {
         plugins: [
           createTestingPinia({
@@ -40,7 +40,7 @@ describe('loginGuard', () => {
   })
 
   it('should allow access for when test is filled in', async () => {
-    const wrapper = mount(testGuard, {
+    const wrapper = mount({
       global: {
         plugins: [
           createTestingPinia({
