@@ -14,7 +14,7 @@ export const useAuthStore = defineStore(
     const isLoading = ref<boolean>(false)
     const failed = ref<boolean>(false)
 
-    const readUserDetails = async () => {
+    const tryAutoLogin = async () => {
       try {
         if (user.value !== null || user.value !== undefined) {
           await initUser().catch(() => {
@@ -33,14 +33,8 @@ export const useAuthStore = defineStore(
     }
 
     const getUserDetails = async () => {
-      if (user.value) {
-        return user.value
-      } else  {
-        const { data: user } = await getUser<ApiResponse>()
+      const { data: user } = await getUser<ApiResponse>()
       return user.data
-      }
-
-      
     }
 
     const initUser = async () => {
@@ -50,6 +44,7 @@ export const useAuthStore = defineStore(
 
       if (user.value !== null) {
         isAuthenticated.value = true
+        
         if (user.value?.role == 'superadmin') {
           isSuperAdmin.value = true
           isAdmin.value = true
@@ -110,7 +105,7 @@ export const useAuthStore = defineStore(
       isAuthenticated,
       isSuperAdmin,
       isAdmin,
-      readUserDetails,
+      tryAutoLogin,
       login,
       logout,
       register

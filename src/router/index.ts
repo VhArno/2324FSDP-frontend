@@ -19,6 +19,9 @@ import AppAdminQuestions from '@/components/organisms/AppAdminQuestions.vue'
 import AppAdminResults from '@/components/organisms/AppAdminResults.vue'
 import AppAdminAccounts from '@/components/organisms/AppAdminAccounts.vue'
 import AppAdminSuggestions from '@/components/organisms/AppAdminSuggestions.vue'
+import { ref } from 'vue'
+
+const autoLoggedIn = ref<boolean>(false)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -116,7 +119,12 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
+  if (!autoLoggedIn.value) {
+    await useAuthStore().tryAutoLogin()
+    autoLoggedIn.value = true
+  }
+
   if (to.meta.requiresAuth && !useAuthStore().isAuthenticated) {
     return { path: '/login' }
   }
