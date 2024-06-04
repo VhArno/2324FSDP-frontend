@@ -21,7 +21,7 @@ describe('page title', () => {
   })
 })
 
-describe('authorizatoin', () => {
+describe('authorisation', () => {
   afterEach(async () => {
     await router.push('/')
     vi.restoreAllMocks()
