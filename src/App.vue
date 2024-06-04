@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppHeader from './components/molecules/AppHeader.vue'
 import AppFooter from './components/molecules/AppFooter.vue'
-import { useAuthStore } from './stores/auth'
 </script>
 
 <template>

@@ -5,7 +5,6 @@ import AppLoading from '../atoms/AppLoading.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
 import { computed, ref } from 'vue'
-import { useFormValidator } from '@/composables/formValidator'
 
 const title = useTitle()
 title.value = 'Register | Odisee specialisatie test'
@@ -57,7 +56,8 @@ const passwordError = computed(() => {
 const passwordrepeatError = computed(() => {
   if (!submitted.value) return null
   if (!passwordRepeat.value) return 'Password repeat is a required field and was not provided'
-  if (passwordRepeat.value !== password.value) return 'Password and password repeat must be the same'
+  if (passwordRepeat.value !== password.value)
+    return 'Password and password repeat must be the same'
 
   return null
 })
@@ -76,7 +76,13 @@ async function register() {
 
   //const { valid, errs } = useFormValidator(payload)
 
-  if (firstnameError.value === null && lastnameError.value === null && emailError.value === null && passwordError.value === null && passwordrepeatError.value === null) {
+  if (
+    firstnameError.value === null &&
+    lastnameError.value === null &&
+    emailError.value === null &&
+    passwordError.value === null &&
+    passwordrepeatError.value === null
+  ) {
     const message = await authStore.register(payload)
     console.log(message)
     errors.value.push(message === null || message === undefined ? '500 network error' : message)
@@ -104,7 +110,9 @@ async function register() {
       <div class="form-input">
         <label for="firstname">
           <span>Voornaam</span>
-          <span v-if="firstnameError" class="errors" data-test="firstname-error">{{ firstnameError }}</span>
+          <span v-if="firstnameError" class="errors" data-test="firstname-error">{{
+            firstnameError
+          }}</span>
         </label>
         <AppInput type="text" id="firstname" name="firstname" v-model:value="firstname"></AppInput>
       </div>
@@ -112,7 +120,9 @@ async function register() {
       <div class="form-input">
         <label for="lastname">
           <span>Lastname</span>
-          <span v-if="lastnameError" class="errors" data-test="lastname-error">{{ lastnameError }}</span>
+          <span v-if="lastnameError" class="errors" data-test="lastname-error">{{
+            lastnameError
+          }}</span>
         </label>
         <AppInput type="text" id="lastname" name="lastname" v-model:value="lastname"></AppInput>
       </div>
@@ -128,7 +138,9 @@ async function register() {
       <div class="form-input">
         <label for="password">
           <span>Wachtwoord</span>
-          <span v-if="passwordError" class="errors" data-test="password-error">{{ passwordError }}</span>
+          <span v-if="passwordError" class="errors" data-test="password-error">{{
+            passwordError
+          }}</span>
         </label>
         <AppInput type="password" id="password" name="password" v-model:value="password"></AppInput>
       </div>
@@ -136,7 +148,9 @@ async function register() {
       <div class="form-input">
         <label for="passwordRepeat">
           <span>Herhaal wachtwoord</span>
-          <span v-if="passwordrepeatError" class="errors" data-test="passwordRepeat-error">{{ passwordrepeatError }}</span>
+          <span v-if="passwordrepeatError" class="errors" data-test="passwordRepeat-error">{{
+            passwordrepeatError
+          }}</span>
         </label>
         <AppInput
           type="password"

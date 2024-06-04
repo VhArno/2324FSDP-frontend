@@ -1,8 +1,6 @@
 import type {
-  Answer,
   ApiResponseResults,
   EmailPayload,
-  Question,
   ResultPayload,
   SavedResults,
   UserAnswerDict
@@ -17,11 +15,19 @@ export const useResultStore = defineStore('result', () => {
   const testDone = ref<boolean>(false)
 
   const saveResult = async (payload: ResultPayload) => {
-    await postResult(payload).catch(() => {})
+    try {
+      await postResult(payload)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const sendResult = async (payload: EmailPayload) => {
-    await mailResult(payload).catch(() => {})
+    try {
+      await mailResult(payload)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const loadResults = async () => {
