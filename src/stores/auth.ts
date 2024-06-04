@@ -44,13 +44,17 @@ export const useAuthStore = defineStore(
 
       if (user.value !== null) {
         isAuthenticated.value = true
-        
+
         if (user.value?.role == 'superadmin') {
           isSuperAdmin.value = true
           isAdmin.value = true
         }
         
         if (user.value?.role == 'admin') isAdmin.value = true
+      } else {
+        user.value = null
+        isAuthenticated.value = false
+        isAdmin.value = false
       }
     }
 
