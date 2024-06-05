@@ -102,8 +102,12 @@ const hideNotification = () => {
       <span>{{ question.id }}</span>
       <span class="question-text">{{ question.question }}</span>
       <div class="icons">
-        <span @click="editQuestion(question)"><i class="fa-solid fa-pen"></i></span>
-        <span v-if="useAuthStore().isSuperAdmin" @click="deleteQuestion(question)"><i class="fa-solid fa-trash"></i></span>
+        <span v-if="useAuthStore().isSuperAdmin" @click="editQuestion(question)"
+          ><i class="fa-solid fa-pen"></i
+        ></span>
+        <span v-if="useAuthStore().isSuperAdmin" @click="deleteQuestion(question)"
+          ><i class="fa-solid fa-trash"></i
+        ></span>
         <span @click="handleShowAnswers()"
           ><i class="fa-solid fa-chevron-down" :class="{ show: showAnswers }"></i
         ></span>
@@ -116,12 +120,16 @@ const hideNotification = () => {
         <span class="answer-spec">{{ answer.specialisation.name }}</span>
         <div class="icons">
           <span>{{ answer.weight }}</span>
-          <span @click="editAnswer(answer)"><i class="fa-solid fa-pen"></i></span>
-          <span v-if="useAuthStore().isSuperAdmin" @click="deleteAnswer(answer)"><i class="fa-solid fa-trash"></i></span>
+          <span v-if="useAuthStore().isSuperAdmin" @click="editAnswer(answer)"
+            ><i class="fa-solid fa-pen"></i
+          ></span>
+          <span v-if="useAuthStore().isSuperAdmin" @click="deleteAnswer(answer)"
+            ><i class="fa-solid fa-trash"></i
+          ></span>
         </div>
       </div>
 
-      <AppButton @click="addAnswer(question)">+</AppButton>
+      <AppButton v-if="useAuthStore().isSuperAdmin" @click="addAnswer(question)">+</AppButton>
     </div>
   </div>
 

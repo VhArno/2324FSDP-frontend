@@ -70,7 +70,7 @@ const deleteAnswer = async <T>(id: number): Promise<AxiosResponse<T>> => {
 
 // Suggestions
 const getSuggestions = async <T>(): Promise<AxiosResponse<T>> => {
-  return authAxios.get<T>(`/admin/suggestions/`)
+  return authAxios.get<T>(`/admin/suggestions`)
 }
 
 const getUserSuggestions = async <T>(): Promise<AxiosResponse<T>> => {
@@ -78,7 +78,11 @@ const getUserSuggestions = async <T>(): Promise<AxiosResponse<T>> => {
 }
 
 const postSuggestion = async <T>(payload: SuggestionPayload): Promise<AxiosResponse<T>> => {
-  return authAxios.post<T>(`/admin/suggestions/`, payload)
+  return authAxios.post<T>(`/admin/suggestions`, payload)
+}
+
+const deleteSuggestion = async <T>(id: number): Promise<AxiosResponse<T>> => {
+  return authAxios.delete<T>(`/admin/suggestions/${id}`)
 }
 
 // Opperations

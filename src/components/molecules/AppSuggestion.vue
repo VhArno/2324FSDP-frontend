@@ -3,10 +3,15 @@ import AppInput from '@/components/atoms/AppInput.vue'
 import AppSelect from '@/components/atoms/AppSelect.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { computed, ref } from 'vue'
-import type { Question } from '@/types'
+import type { Operation, Question } from '@/types'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { postSuggestion } from '@/services/adminService'
+
+const queryClient = useQueryClient()
 
 const props = defineProps<{
   questions: Question[]
+  operations: Operation[]
 }>()
 
 const emit = defineEmits<{
@@ -16,7 +21,7 @@ const emit = defineEmits<{
 const submitted = ref<boolean>(false)
 const errors = ref<string[]>([])
 
-const operation = ref<number>(0)
+const operation = ref<number>(1)
 const selQuestion = ref<number>(0)
 const question = ref<string>('')
 
@@ -30,8 +35,8 @@ const operationError = computed(() => {
 
 const selQuestionError = computed(() => {
   if (!submitted.value) return null
-  if (!selQuestion.value) return 'Operation is a required field and was not provided'
-  if (selQuestion.value === 0) return 'Operation is a required field and was not provided'
+  if (!selQuestion.value) return 'Selected question is a required field and was not provided'
+  if (selQuestion.value === 0) return 'Selected question is a required field and was not provided'
 
   return null
 })
@@ -49,17 +54,44 @@ const closeOverlay = () => {
 }
 
 // save
+const { error, isSuccess, mutate } = useMutation({
+  mutationFn: (suggestion: { operation_id: number; new_value?: string; question_id?: number }) =>
+    postSuggestion({
+      operation_id: suggestion.operation_id,
+      new_value: suggestion.new_value,
+      question_id: suggestion.question_id
+    }),
+  onSuccess: () => {
+    closeOverlay()
+    queryClient.invalidateQueries({ queryKey: ['suggestions'] })
+  },
+  onError: () => {
+    errors.value.push('somethin went wrong')
+  }
+})
+
 const saveSuggestion = () => {
-  if (operation.value === 0) {
-    // add
-    question.value
-  } else if (operation.value === 1) {
-    // edit
-    selQuestion.value
-    question.value
-  } else if (operation.value === 2) {
-    // delete
-    selQuestion.value
+  submitted.value = true
+
+  if (operationError.value === null) {
+    if (questionError.value === null && operation.value === 1) {
+      // add
+      mutate({ operation_id: operation.value, new_value: question.value })
+    } else if (
+      questionError.value === null &&
+      selQuestionError.value === null &&
+      operation.value === 2
+    ) {
+      // edit
+      mutate({
+        operation_id: operation.value,
+        new_value: question.value,
+        question_id: selQuestion.value
+      })
+    } else if (selQuestionError.value === null && operation.value === 3) {
+      // delete
+      mutate({ operation_id: operation.value, question_id: selQuestion.value })
+    }
   }
 }
 </script>
@@ -72,6 +104,10 @@ const saveSuggestion = () => {
         <AppButton @click.prevent="closeOverlay()">Close</AppButton>
       </div>
 
+      <div class="errors">
+        <span v-for="(error, index) in errors" :key="index">{{ error }}</span>
+      </div>
+
       <div class="form-div">
         <label for="operation">
           <span class="label">Operation</span>
@@ -80,13 +116,13 @@ const saveSuggestion = () => {
           }}</span>
         </label>
         <AppSelect id="operation" name="operation" v-model:value="operation">
-          <option :value="0">Add</option>
-          <option :value="1">Edit</option>
-          <option :value="2">Delete</option>
+          <option v-for="operation in operations" :key="operation.id" :value="operation.id">
+            {{ operation.operation }}
+          </option>
         </AppSelect>
       </div>
 
-      <div class="form-div" v-show="operation !== 0">
+      <div class="form-div" v-show="operation !== 1">
         <label for="selQuestion">
           <span class="label">Select a question</span>
           <span v-if="selQuestionError" class="errors" data-test="selected-question-error">{{
@@ -94,11 +130,13 @@ const saveSuggestion = () => {
           }}</span>
         </label>
         <AppSelect id="selQuestion" name="selQuestion" v-model:value="selQuestion">
-          <option v-for="question in questions" :key="question.id">{{ question.question }}</option>
+          <option v-for="question in questions" :key="question.id" :value="question.id">
+            {{ question.question }}
+          </option>
         </AppSelect>
       </div>
 
-      <div class="form-div" v-show="operation !== 2">
+      <div class="form-div" v-show="operation !== 3">
         <label for="question">
           <span class="label">Question</span>
           <span v-if="questionError" class="errors" data-test="question-error">{{
