@@ -28,7 +28,6 @@ const { specialisations } = storeToRefs(specialistionStore)
 // results chart
 const specializationCount = ref<Map<string, number>>(new Map<string, number>())
 
-
 const populateSpecializationCount = (results: AllResults[]) => {
   const tempMap = new Map<string, number>()
   specialisations.value.forEach((spec) => {
@@ -86,7 +85,10 @@ const previousChart = () => {
   </div>
 
   <div class="table-container">
-    <table class="results" v-if="!isPending && !isError && data?.data.data && data?.data.data?.length > 0">
+    <table
+      class="results"
+      v-if="!isPending && !isError && data?.data.data && data?.data.data?.length > 0"
+    >
       <thead>
         <tr class="table-head">
           <th>id</th>
@@ -102,7 +104,9 @@ const previousChart = () => {
           <td>{{ result.id }}</td>
           <td>{{ result.name }}</td>
           <td>{{ useDateFormater(result.created_at).newDate }}</td>
-          <td><b>{{ result.specialisation.name }} {{ result.specialisation.description }}</b></td>
+          <td>
+            <b>{{ result.specialisation.name }} {{ result.specialisation.description }}</b>
+          </td>
           <td>{{ result.user.email }}</td>
         </tr>
       </tbody>
@@ -125,7 +129,7 @@ const previousChart = () => {
 
     <div class="answer-chart-title">
       <h3>Results per question</h3>
-      <p>{{ currChart+1 }}/{{ userAnswers.data.value?.data.data.length }}</p>
+      <p>{{ currChart + 1 }}/{{ userAnswers.data.value?.data.data.length }}</p>
     </div>
     <div class="answers">
       <div class="answer-charts">
@@ -140,8 +144,20 @@ const previousChart = () => {
       </div>
 
       <div class="chart-btns">
-        <AppButton class="chart-btn previous" v-if="userAnswers.data.value" :disabled="currChart <= 0" @click="previousChart()"><i class="fa-solid fa-chevron-left"></i></AppButton>
-        <AppButton class="chart-btn next" v-if="userAnswers.data.value" :disabled="currChart >= userAnswers.data.value?.data.data.length-1" @click="nextChart()"><i class="fa-solid fa-chevron-right"></i></AppButton>
+        <AppButton
+          class="chart-btn previous"
+          v-if="userAnswers.data.value"
+          :disabled="currChart <= 0"
+          @click="previousChart()"
+          ><i class="fa-solid fa-chevron-left"></i
+        ></AppButton>
+        <AppButton
+          class="chart-btn next"
+          v-if="userAnswers.data.value"
+          :disabled="currChart >= userAnswers.data.value?.data.data.length - 1"
+          @click="nextChart()"
+          ><i class="fa-solid fa-chevron-right"></i
+        ></AppButton>
       </div>
     </div>
   </div>
@@ -150,45 +166,49 @@ const previousChart = () => {
 <style scoped lang="scss">
 .table-container {
   width: 100%;
+  max-height: 20rem;
+  overflow-y: auto;
   overflow-x: auto;
 
   .results {
     width: 100%;
+    height: 100%;
     min-width: max-content;
+    min-height: max-content;
     text-align: center;
     border-collapse: collapse;
 
     tr {
-        height: 2.5em;
-        border: 1px solid var(--main-light);
+      height: 2.5em;
+      border: 1px solid var(--main-light);
 
-        th {
-          border-right: 1px solid var(--bg);
-        }
+      th {
+        border-right: 1px solid var(--bg);
       }
+    }
 
-      thead {
-        background-color: var(--main-light);
+    thead {
+      background-color: var(--main-light);
 
-        th {
-          text-transform: uppercase;
-        }
+      th {
+        text-transform: uppercase;
       }
+    }
 
-      tbody {
-        position: relative;
+    tbody {
+      position: relative;
 
-        tr {
-          .options {
-            padding: 0.5rem;
+      tr {
+        .options {
+          padding: 0.5rem;
 
-            &:hover {
-              background-color: var(--main-light);
-              cursor: pointer;
-            }
+          &:hover {
+            background-color: var(--main-light);
+            cursor: pointer;
           }
         }
       }
+    }
   }
 }
 
@@ -229,14 +249,14 @@ const previousChart = () => {
     justify-content: center;
 
     .chart-btns {
-      display:flex;
+      display: flex;
       flex-flow: row;
       gap: 1rem;
     }
 
     .chart-btn {
-      &:disabled{
-        cursor: not-allowed
+      &:disabled {
+        cursor: not-allowed;
       }
     }
 

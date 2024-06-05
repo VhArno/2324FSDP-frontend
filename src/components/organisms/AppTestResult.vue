@@ -119,7 +119,9 @@ function saveUserResult() {
       .then(() => {
         resultSaved.value = 'Result saved'
       })
-      .catch()
+      .catch(() => {
+        resultSaved.value = 'Error saving result'
+      })
   }
 }
 
@@ -143,7 +145,9 @@ function sendResult() {
       .then(() => {
         resultSend.value = 'Result send'
       })
-      .catch()
+      .catch(() => {
+        resultSaved.value = 'Error sending result'
+      })
   }
 }
 

@@ -21,11 +21,13 @@ export const useAuthStore = defineStore(
             user.value = null
             isAuthenticated.value = false
             isAdmin.value = false
+            isSuperAdmin.value = false
           })
         } else {
           user.value = null
           isAuthenticated.value = false
           isAdmin.value = false
+          isSuperAdmin.value = false
         }
       } catch (err) {
         //console.log(err)
@@ -49,12 +51,13 @@ export const useAuthStore = defineStore(
           isSuperAdmin.value = true
           isAdmin.value = true
         }
-        
+
         if (user.value?.role == 'admin') isAdmin.value = true
       } else {
         user.value = null
         isAuthenticated.value = false
         isAdmin.value = false
+        isSuperAdmin.value = false
       }
     }
 
@@ -82,8 +85,9 @@ export const useAuthStore = defineStore(
       user.value = null
       isAuthenticated.value = false
       isAdmin.value = false
+      isSuperAdmin.value = false
 
-      document.cookie = 'XSRF-TOKEN=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      document.cookie = 'XSRF-TOKEN=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
       router.push({ name: 'login' })
     }
 
