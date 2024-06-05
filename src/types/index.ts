@@ -151,6 +151,21 @@ export interface UserAnswer {
   user: User[]
 }
 
+export interface SuggestionPayload {
+  operation: number
+  new_value?: string
+  question_id?: number
+}
+
+export interface Suggestion {
+  id: number
+  operation: number
+  new_value: string
+  question: Question
+  user: User
+  created_at: Date
+}
+
 // chart.js
 export interface ChartData {
   labels: string[]

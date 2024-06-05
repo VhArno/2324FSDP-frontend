@@ -4,7 +4,8 @@ import type {
   PatchAnswerPayload,
   PatchQuestionPayload,
   PostAnswerPayload,
-  PostQuestionPayload
+  PostQuestionPayload,
+  SuggestionPayload
 } from '@/types'
 import type { AxiosResponse } from 'axios'
 
@@ -71,6 +72,9 @@ const deleteAnswer = async <T>(id: number): Promise<AxiosResponse<T>> => {
 const getSuggestions = async <T>(): Promise<AxiosResponse<T>> => {
   return authAxios.get<T>(`/admin/suggestions/`)
 }
+const postSuggestion = async <T>(payload: SuggestionPayload): Promise<AxiosResponse<T>> => {
+  return authAxios.post<T>(`/admin/suggestions/`, payload)
+}
 
 export {
   getAllAccounts,
@@ -83,5 +87,7 @@ export {
   deleteQuestion,
   postAnswer,
   patchAnswer,
-  deleteAnswer
+  deleteAnswer,
+  getSuggestions,
+  postSuggestion
 }
