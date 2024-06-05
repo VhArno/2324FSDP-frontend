@@ -159,11 +159,16 @@ export interface SuggestionPayload {
 
 export interface Suggestion {
   id: number
-  operation: number
+  operation_id: number
   new_value: string
   question: Question
   user: User
   created_at: Date
+}
+
+export interface Opperation {
+  id: number
+  operation: string
 }
 
 // chart.js

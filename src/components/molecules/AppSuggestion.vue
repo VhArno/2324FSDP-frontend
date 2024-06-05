@@ -3,7 +3,16 @@ import AppInput from '@/components/atoms/AppInput.vue'
 import AppSelect from '@/components/atoms/AppSelect.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { computed, ref } from 'vue'
-import type { Question } from '@/types'
+import type { Opperation, Question } from '@/types'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
+import { postSuggestion, getOperations } from '@/services/adminService'
+
+const queryClient = useQueryClient()
+
+const { isPending, isError, data } = useQuery({
+  queryKey: ['opperations'],
+  queryFn: getOperations<Opperation[]>
+})
 
 const props = defineProps<{
   questions: Question[]
@@ -16,7 +25,7 @@ const emit = defineEmits<{
 const submitted = ref<boolean>(false)
 const errors = ref<string[]>([])
 
-const operation = ref<number>(0)
+const operation = ref<number>(1)
 const selQuestion = ref<number>(0)
 const question = ref<string>('')
 
@@ -30,8 +39,8 @@ const operationError = computed(() => {
 
 const selQuestionError = computed(() => {
   if (!submitted.value) return null
-  if (!selQuestion.value) return 'Operation is a required field and was not provided'
-  if (selQuestion.value === 0) return 'Operation is a required field and was not provided'
+  if (!selQuestion.value) return 'Selected question is a required field and was not provided'
+  if (selQuestion.value === 0) return 'Selected question is a required field and was not provided'
 
   return null
 })
@@ -49,17 +58,37 @@ const closeOverlay = () => {
 }
 
 // save
+const { error, isSuccess, mutate } = useMutation({
+  mutationFn: (suggestion: { operation: number; new_value?: string; question_id?: number }) =>
+    postSuggestion({
+      operation: suggestion.operation,
+      new_value: suggestion.new_value,
+      question_id: suggestion.question_id
+    }),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['suggestions'] })
+  }
+})
+
 const saveSuggestion = () => {
-  if (operation.value === 0) {
-    // add
-    question.value
-  } else if (operation.value === 1) {
-    // edit
-    selQuestion.value
-    question.value
-  } else if (operation.value === 2) {
-    // delete
-    selQuestion.value
+  submitted.value = true
+
+  if (operationError.value === null) {
+    if (questionError.value === null && operation.value === 1) {
+      // add
+      console.log('Adding add suggestion')
+      mutate({ operation: operation.value, new_value: question.value })
+    } else if (questionError.value === null && selQuestion.value === null && operation.value === 2) {
+      // edit
+      console.log('Adding edit suggestion')
+      mutate({ operation: operation.value, new_value: question.value, question_id: selQuestion.value })
+    } else if (selQuestion.value === null && operation.value === 3) {
+      // delete
+      console.log('Adding delete suggestion')
+      mutate({ operation: operation.value, question_id: selQuestion.value })
+    } else {
+      console.log('eslse')
+    }
   }
 }
 </script>
@@ -80,13 +109,11 @@ const saveSuggestion = () => {
           }}</span>
         </label>
         <AppSelect id="operation" name="operation" v-model:value="operation">
-          <option :value="0">Add</option>
-          <option :value="1">Edit</option>
-          <option :value="2">Delete</option>
+          <option v-for="opperation in data?.data" :key="opperation.id" :value="opperation.id">{{ opperation.operation }}</option>
         </AppSelect>
       </div>
 
-      <div class="form-div" v-show="operation !== 0">
+      <div class="form-div" v-show="operation !== 1">
         <label for="selQuestion">
           <span class="label">Select a question</span>
           <span v-if="selQuestionError" class="errors" data-test="selected-question-error">{{
@@ -98,7 +125,7 @@ const saveSuggestion = () => {
         </AppSelect>
       </div>
 
-      <div class="form-div" v-show="operation !== 2">
+      <div class="form-div" v-show="operation !== 3">
         <label for="question">
           <span class="label">Question</span>
           <span v-if="questionError" class="errors" data-test="question-error">{{
