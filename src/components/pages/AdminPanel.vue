@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth'
 import { useSpecialisationStore } from '@/stores/specialisation'
 import { useTitle } from '@vueuse/core'
 
@@ -33,6 +33,12 @@ specialisationStore.loadSpecialisations()
           @click="router.push({ name: 'adminAccounts' })"
         >
           Accounts
+        </button>
+        <button
+          :class="{ selected: $route.name == 'adminUserSuggestions' }"
+          @click="router.push({ name: 'adminUserSuggestions' })"
+        >
+          My suggestions
         </button>
         <button
           :class="{ selected: $route.name == 'adminSuggestions' }"
@@ -119,7 +125,7 @@ specialisationStore.loadSpecialisations()
     .side-menu {
       position: absolute;
       height: 100%;
-      width: 12rem;
+      width: 13rem;
       margin: 0;
 
       .menu {
@@ -129,7 +135,7 @@ specialisationStore.loadSpecialisations()
     }
 
     .content {
-      margin: 1rem 1rem 1rem 13rem;
+      margin: 1rem 1rem 1rem 14rem;
       width: 100%;
       overflow-x: hidden;
     }

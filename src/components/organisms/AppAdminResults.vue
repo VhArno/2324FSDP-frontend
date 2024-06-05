@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { getAllResults, getUserAnswers } from '@/services/adminService'
-import type { AllResults, ChartData, UserAnswers } from '@/types'
+import type { AllResults, UserAnswers } from '@/types'
 import { useQuery } from '@tanstack/vue-query'
 import AppLoading from '../atoms/AppLoading.vue'
 import AppChart from '@/components/atoms/AppChart.vue'
 import AppAnswerChart from '@/components/molecules/AppAnswerChart.vue'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useSpecialisationStore } from '@/stores/specialisation'
 import { storeToRefs } from 'pinia'
 import { useDateFormater } from '@/composables/dateFormater'

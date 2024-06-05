@@ -19,6 +19,7 @@ import AppAdminQuestions from '@/components/organisms/AppAdminQuestions.vue'
 import AppAdminResults from '@/components/organisms/AppAdminResults.vue'
 import AppAdminAccounts from '@/components/organisms/AppAdminAccounts.vue'
 import AppAdminSuggestions from '@/components/organisms/AppAdminSuggestions.vue'
+import AppAdminUserSuggestions from '@/components/organisms/AppAdminUserSuggestions.vue'
 import { ref } from 'vue'
 
 const autoLoggedIn = ref<boolean>(false)
@@ -96,6 +97,11 @@ const router = createRouter({
           path: 'accounts',
           name: 'adminAccounts',
           component: AppAdminAccounts
+        },
+        {
+          path: 'my-suggestions',
+          name: 'adminUserSuggestions',
+          component: AppAdminUserSuggestions
         },
         {
           path: 'suggestions',

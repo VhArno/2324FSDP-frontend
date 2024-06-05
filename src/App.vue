@@ -13,7 +13,8 @@ import AppFooter from './components/molecules/AppFooter.vue'
           $route.name !== 'adminQuestions' &&
           $route.name !== 'adminResults' &&
           $route.name !== 'adminAccounts' &&
-          $route.name !== 'adminSuggestions'
+          $route.name !== 'adminSuggestions' &&
+          $route.name !== 'adminUserSuggestions'
       }"
     >
       <RouterView />
