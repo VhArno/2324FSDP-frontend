@@ -8,14 +8,14 @@ import AppLoading from '../atoms/AppLoading.vue'
 const queryClient = useQueryClient()
 
 const { isPending, isError, data, error } = useQuery({
-  queryKey: ['user-suggestions'],
+  queryKey: ['userSuggestions'],
   queryFn: getUserSuggestions<{ data: Suggestion[] }>
 })
 
 const deleteMutation = useMutation({
   mutationFn: (id: number) => deleteSuggestion(id),
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['user-suggestions'] })
+    queryClient.invalidateQueries({ queryKey: ['userSuggestions'] })
   }
 })
 
