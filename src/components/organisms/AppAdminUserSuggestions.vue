@@ -3,6 +3,7 @@ import type { Suggestion } from '@/types'
 import { getUserSuggestions, deleteSuggestion } from '@/services/adminService'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { useDateFormater } from '@/composables/dateFormater'
+import AppLoading from '../atoms/AppLoading.vue'
 
 const queryClient = useQueryClient()
 
