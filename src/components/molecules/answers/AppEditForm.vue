@@ -36,7 +36,7 @@ const answerError = computed(() => {
 const specialisationError = computed(() => {
   if (!submitted.value) return null
   if (!specialisation.value) return 'Specialisation is a required field and was not provided'
-  if (specialisation.value === 0) return 'Question is a required field and was not provided'
+  if (specialisation.value === 0) return 'Specialisation is a required field and was not provided'
 
   return null
 })

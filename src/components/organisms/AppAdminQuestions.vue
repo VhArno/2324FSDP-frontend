@@ -8,8 +8,11 @@ import AppLoading from '../atoms/AppLoading.vue'
 import AppQuestionForm from '@/components/molecules/questions/AppAddForm.vue'
 import { ref } from 'vue'
 import AppNotification from '@/components/atoms/AppNotification.vue'
+import AppSuggestion from '@/components/molecules/AppSuggestion.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const showOverlay = ref<boolean>(false)
+const showSuggestionOverlay = ref<boolean>(false)
 
 const { isPending, isError, data, error } = useQuery({
   queryKey: ['questions'],
@@ -18,6 +21,10 @@ const { isPending, isError, data, error } = useQuery({
 
 const addQuestion = () => {
   showOverlay.value = !showOverlay.value
+}
+
+const addSuggestion = () => {
+  showSuggestionOverlay.value = !showSuggestionOverlay.value
 }
 
 // Notification
@@ -67,6 +74,7 @@ const hideNotification = () => {
 
       <AppButton @click="addQuestion()">Voeg toe +</AppButton>
     </div>
+    <AppButton @click="addSuggestion()">Voeg suggestie toe +</AppButton>
   </div>
 
   <AppQuestionForm
@@ -74,6 +82,12 @@ const hideNotification = () => {
     @close="showOverlay = false"
     @showNotfi="showNotification"
   ></AppQuestionForm>
+
+  <AppSuggestion
+    v-if="data !== undefined && !useAuthStore().isSuperAdmin && showSuggestionOverlay"
+    :questions="data?.data.data"
+    @close="showSuggestionOverlay = false"
+  ></AppSuggestion>
 </template>
 
 <style scoped lang="scss">
