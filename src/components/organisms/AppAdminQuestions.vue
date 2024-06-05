@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { QuestionData } from '@/types'
+import type { OperationsData, QuestionData } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
 import AppAdminQuestion from '@/components/molecules/AppAdminQuestion.vue'
 import { getQuestions } from '@/services/dataService'
@@ -10,6 +10,7 @@ import { ref } from 'vue'
 import AppNotification from '@/components/atoms/AppNotification.vue'
 import AppSuggestion from '@/components/molecules/AppSuggestion.vue'
 import { useAuthStore } from '@/stores/auth'
+import { getOperations } from '@/services/adminService'
 
 const showOverlay = ref<boolean>(false)
 const showSuggestionOverlay = ref<boolean>(false)
@@ -17,6 +18,11 @@ const showSuggestionOverlay = ref<boolean>(false)
 const { isPending, isError, data, error } = useQuery({
   queryKey: ['questions'],
   queryFn: getQuestions<QuestionData>
+})
+
+const operationsData = useQuery({
+  queryKey: ['operations'],
+  queryFn: getOperations<OperationsData>
 })
 
 const addQuestion = () => {
@@ -52,7 +58,7 @@ const hideNotification = () => {
     @close="hideNotification"
   ></AppNotification>
 
-  <div>
+  <div class="edit">
     <h1>Edit vragen</h1>
 
     <div class="error" v-if="isPending">
@@ -74,7 +80,10 @@ const hideNotification = () => {
 
       <AppButton @click="addQuestion()">Voeg toe +</AppButton>
     </div>
-    <AppButton @click="addSuggestion()">Voeg suggestie toe +</AppButton>
+
+    <div class="btns">
+      <AppButton @click="addSuggestion()">Voeg suggestie toe +</AppButton>
+    </div>
   </div>
 
   <AppQuestionForm
@@ -84,13 +93,18 @@ const hideNotification = () => {
   ></AppQuestionForm>
 
   <AppSuggestion
-    v-if="data !== undefined && !useAuthStore().isSuperAdmin && showSuggestionOverlay"
+    v-if="data !== undefined && showSuggestionOverlay && operationsData.data.value"
     :questions="data?.data.data"
+    :operations="operationsData.data.value?.data.data"
     @close="showSuggestionOverlay = false"
   ></AppSuggestion>
 </template>
 
 <style scoped lang="scss">
+.edit {
+  overflow: hidden;
+}
+
 .questions {
   display: flex;
   flex-flow: column;
@@ -104,5 +118,19 @@ const hideNotification = () => {
   align-items: center;
   gap: 1rem;
   margin: 1rem;
+}
+
+.btns {
+  margin-top: 1rem;
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 45em) {
+  .btns {
+    width: 30%;
+  }
 }
 </style>

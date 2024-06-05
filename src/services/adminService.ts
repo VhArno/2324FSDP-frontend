@@ -77,6 +77,10 @@ const postSuggestion = async <T>(payload: SuggestionPayload): Promise<AxiosRespo
   return authAxios.post<T>(`/admin/suggestions`, payload)
 }
 
+const deleteSuggestion = async <T>(id: number): Promise<AxiosResponse<T>> => {
+  return authAxios.delete<T>(`/admin/suggestions/${id}`)
+}
+
 // Opperations
 const getOperations = async <T>(): Promise<AxiosResponse<T>> => {
   return authAxios.get<T>(`/admin/operations`)
@@ -96,5 +100,6 @@ export {
   deleteAnswer,
   getSuggestions,
   postSuggestion,
+  deleteSuggestion,
   getOperations
 }

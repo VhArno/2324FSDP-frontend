@@ -152,21 +152,25 @@ export interface UserAnswer {
 }
 
 export interface SuggestionPayload {
-  operation: number
+  operation_id: number
   new_value?: string
   question_id?: number
 }
 
 export interface Suggestion {
   id: number
-  operation_id: number
+  operation: Operation
   new_value: string
   question: Question
   user: User
   created_at: Date
 }
 
-export interface Opperation {
+export interface OperationsData {
+  data: Operation[]
+}
+
+export interface Operation {
   id: number
   operation: string
 }

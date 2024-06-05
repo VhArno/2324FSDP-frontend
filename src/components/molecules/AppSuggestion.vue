@@ -3,19 +3,15 @@ import AppInput from '@/components/atoms/AppInput.vue'
 import AppSelect from '@/components/atoms/AppSelect.vue'
 import AppButton from '@/components/atoms/AppButton.vue'
 import { computed, ref } from 'vue'
-import type { Opperation, Question } from '@/types'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
-import { postSuggestion, getOperations } from '@/services/adminService'
+import type { Operation, Question } from '@/types'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { postSuggestion } from '@/services/adminService'
 
 const queryClient = useQueryClient()
 
-const { isPending, isError, data } = useQuery({
-  queryKey: ['opperations'],
-  queryFn: getOperations<Opperation[]>
-})
-
 const props = defineProps<{
   questions: Question[]
+  operations: Operation[]
 }>()
 
 const emit = defineEmits<{
@@ -59,14 +55,18 @@ const closeOverlay = () => {
 
 // save
 const { error, isSuccess, mutate } = useMutation({
-  mutationFn: (suggestion: { operation: number; new_value?: string; question_id?: number }) =>
+  mutationFn: (suggestion: { operation_id: number; new_value?: string; question_id?: number }) =>
     postSuggestion({
-      operation: suggestion.operation,
+      operation_id: suggestion.operation_id,
       new_value: suggestion.new_value,
       question_id: suggestion.question_id
     }),
   onSuccess: () => {
+    closeOverlay()
     queryClient.invalidateQueries({ queryKey: ['suggestions'] })
+  },
+  onError: () => {
+    errors.value.push('somethin went wrong')
   }
 })
 
@@ -76,18 +76,21 @@ const saveSuggestion = () => {
   if (operationError.value === null) {
     if (questionError.value === null && operation.value === 1) {
       // add
-      console.log('Adding add suggestion')
-      mutate({ operation: operation.value, new_value: question.value })
-    } else if (questionError.value === null && selQuestion.value === null && operation.value === 2) {
+      mutate({ operation_id: operation.value, new_value: question.value })
+    } else if (
+      questionError.value === null &&
+      selQuestionError.value === null &&
+      operation.value === 2
+    ) {
       // edit
-      console.log('Adding edit suggestion')
-      mutate({ operation: operation.value, new_value: question.value, question_id: selQuestion.value })
-    } else if (selQuestion.value === null && operation.value === 3) {
+      mutate({
+        operation_id: operation.value,
+        new_value: question.value,
+        question_id: selQuestion.value
+      })
+    } else if (selQuestionError.value === null && operation.value === 3) {
       // delete
-      console.log('Adding delete suggestion')
-      mutate({ operation: operation.value, question_id: selQuestion.value })
-    } else {
-      console.log('eslse')
+      mutate({ operation_id: operation.value, question_id: selQuestion.value })
     }
   }
 }
@@ -101,6 +104,10 @@ const saveSuggestion = () => {
         <AppButton @click.prevent="closeOverlay()">Close</AppButton>
       </div>
 
+      <div class="errors">
+        <span v-for="(error, index) in errors" :key="index">{{ error }}</span>
+      </div>
+
       <div class="form-div">
         <label for="operation">
           <span class="label">Operation</span>
@@ -109,7 +116,9 @@ const saveSuggestion = () => {
           }}</span>
         </label>
         <AppSelect id="operation" name="operation" v-model:value="operation">
-          <option v-for="opperation in data?.data" :key="opperation.id" :value="opperation.id">{{ opperation.operation }}</option>
+          <option v-for="operation in operations" :key="operation.id" :value="operation.id">
+            {{ operation.operation }}
+          </option>
         </AppSelect>
       </div>
 
@@ -121,7 +130,9 @@ const saveSuggestion = () => {
           }}</span>
         </label>
         <AppSelect id="selQuestion" name="selQuestion" v-model:value="selQuestion">
-          <option v-for="question in questions" :key="question.id">{{ question.question }}</option>
+          <option v-for="question in questions" :key="question.id" :value="question.id">
+            {{ question.question }}
+          </option>
         </AppSelect>
       </div>
 
