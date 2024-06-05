@@ -78,7 +78,7 @@ const hideNotification = () => {
         :question="question"
       ></AppAdminQuestion>
 
-      <AppButton @click="addQuestion()">Voeg toe +</AppButton>
+      <AppButton v-if="useAuthStore().isSuperAdmin" @click="addQuestion()">Voeg toe +</AppButton>
     </div>
 
     <div class="btns">
