@@ -27,7 +27,7 @@ const removeSuggestion = (suggestion: Suggestion) => {
 <template>
   <div class="suggestions">
     <div class="table-container">
-      <h2>My suggestions</h2>
+      <h1>My suggestions</h1>
 
       <div class="error" v-if="isPending">
         <h2>Loading results...</h2>
