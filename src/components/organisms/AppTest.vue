@@ -3,14 +3,14 @@ import router from '@/router'
 import AppButton from '../atoms/AppButton.vue'
 
 function startTest() {
-  router.push({ name: 'questions', params: { id: 1 }})
+  router.push({ name: 'questions', params: { id: 1 } })
 }
 </script>
 
 <template>
-<section class="content">
+  <section class="content">
     <div>
-      <h1 tabindex=-1>Doe de specialisatie test</h1>
+      <h1 tabindex="-1">Doe de specialisatie test</h1>
       <p>
         Nog niet zeker van je afstudeerrichting in electronica-ict? Vul dan onze
         specialisatiekeuzetest in. Aan de hand van 10 kenmerken zoeken we een match tussen jou en
@@ -46,6 +46,7 @@ function startTest() {
     position: absolute;
     top: 0px;
     right: 0px;
+    z-index: -1;
   }
 
   .frame-bottom {

@@ -162,7 +162,6 @@ nav {
 
 @media (min-width: 45em) {
   nav {
-    padding: 0.5rem 5rem;
     flex-flow: row nowrap;
     gap: 3rem;
 

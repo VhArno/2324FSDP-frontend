@@ -124,7 +124,7 @@ const declineSuggestion = (suggestion: Suggestion) => {
       </div>
     </div>-->
 
-    <div class="suggestions" v-if="!isPending">
+    <div class="suggestions" v-if="!isPending && !isError">
       <div class="table-container">
         <h2>Add suggestions</h2>
 

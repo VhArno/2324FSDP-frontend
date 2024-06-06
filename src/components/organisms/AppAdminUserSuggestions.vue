@@ -3,7 +3,7 @@ import type { Suggestion } from '@/types'
 import { getUserSuggestions, deleteSuggestion } from '@/services/adminService'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { useDateFormater } from '@/composables/dateFormater'
-import AppLoading from '../atoms/AppLoading.vue'
+import AppLoading from '@/components/atoms/AppLoading.vue'
 
 const queryClient = useQueryClient()
 
@@ -25,7 +25,7 @@ const removeSuggestion = (suggestion: Suggestion) => {
 </script>
 
 <template>
-  <div class="suggestions" v-if="!isPending">
+  <div class="suggestions">
     <div class="table-container">
       <h2>My suggestions</h2>
 
@@ -39,38 +39,40 @@ const removeSuggestion = (suggestion: Suggestion) => {
         <p>{{ error }}</p>
       </div>
 
-      <div v-if="!data?.data.data || data?.data.data?.length <= 0">
-        <p>You don't have suggestions</p>
-      </div>
+      <div v-if="!isPending && !isError">
+        <div v-if="!data?.data.data || data?.data.data?.length <= 0">
+          <p>You don't have suggestions</p>
+        </div>
 
-      <table class="suggestions-table" v-if="data?.data.data && data?.data.data?.length > 0">
-        <thead>
-          <tr>
-            <td>id</td>
-            <td>Operation</td>
-            <td>New</td>
-            <td>Question</td>
-            <td>Created</td>
-            <td class="action">Actions</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="suggestion in data?.data.data" :key="suggestion.id">
-            <td>{{ suggestion.id }}</td>
-            <td>{{ suggestion.operation.operation }}</td>
-            <td>{{ suggestion.new_value }}</td>
-            <td>{{ suggestion.question?.question }}</td>
-            <td>{{ useDateFormater(suggestion.created_at).newDate }}</td>
-            <td class="action">
-              <div class="btns">
-                <button class="decline" @click="removeSuggestion(suggestion)">
-                  <i class="fa-solid fa-circle-xmark"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="suggestions-table" v-if="data?.data.data && data?.data.data?.length > 0">
+          <thead>
+            <tr>
+              <td>id</td>
+              <td>Operation</td>
+              <td>New</td>
+              <td>Question</td>
+              <td>Created</td>
+              <td class="action">Actions</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="suggestion in data?.data.data" :key="suggestion.id">
+              <td>{{ suggestion.id }}</td>
+              <td>{{ suggestion.operation.operation }}</td>
+              <td>{{ suggestion.new_value }}</td>
+              <td>{{ suggestion.question?.question }}</td>
+              <td>{{ useDateFormater(suggestion.created_at).newDate }}</td>
+              <td class="action">
+                <div class="btns">
+                  <button class="decline" @click="removeSuggestion(suggestion)">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

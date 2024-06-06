@@ -178,7 +178,8 @@ const saveSuggestion = () => {
 
     .form-head {
       display: flex;
-      flex-flow: row;
+      flex-flow: column;
+      text-align: center;
       justify-content: space-between;
       align-items: center;
     }
@@ -197,6 +198,33 @@ const saveSuggestion = () => {
 
         .errors {
           color: var(--accent-links);
+        }
+      }
+    }
+
+    .btns {
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 45em) {
+  .overlay {
+    .suggestions-form {
+      .form-head {
+        flex-flow: row;
+        text-align: left;
+      }
+
+      .btns {
+        width: 100%;
+
+        button {
+          width: fit-content;
         }
       }
     }

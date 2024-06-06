@@ -80,7 +80,7 @@ const closeForm = () => {
     display: flex;
     flex-flow: column;
     gap: 1rem;
-    width: 50%;
+    width: 80%;
     background: white;
     padding: 20px;
     box-sizing: border-box;
@@ -97,6 +97,14 @@ const closeForm = () => {
       &:hover {
         background-color: rgb(194, 0, 0);
       }
+    }
+  }
+}
+
+@media (min-width: 45em) {
+  .overlay {
+    .content {
+      width: 50%;
     }
   }
 }

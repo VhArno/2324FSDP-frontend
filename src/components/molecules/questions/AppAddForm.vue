@@ -96,7 +96,7 @@ const closeOverlay = () => {
     display: flex;
     flex-flow: column;
     gap: 1rem;
-    width: 50%;
+    width: 80%;
     background: white;
     padding: 20px;
     box-sizing: border-box;
@@ -104,7 +104,8 @@ const closeOverlay = () => {
 
     .form-head {
       display: flex;
-      flex-flow: row;
+      flex-flow: column;
+      gap: 0.5rem;
       justify-content: space-between;
       align-items: center;
     }
@@ -119,6 +120,30 @@ const closeOverlay = () => {
 
         .errors {
           color: var(--accent-links);
+        }
+      }
+    }
+
+    .btns {
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 45em) {
+  .overlay {
+    .questions-form {
+      width: 50%;
+
+      .form-head {
+        flex-flow: row;
+      }
+
+      .btns {
+        button {
+          width: fit-content;
         }
       }
     }
