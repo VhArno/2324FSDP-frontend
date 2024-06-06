@@ -2,7 +2,7 @@
 import type { Answer, Question, UserAnswerDict } from '@/types'
 import AppButton from '../atoms/AppButton.vue'
 import router from '@/router'
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useResultStore } from '@/stores/result'
 
 const props = defineProps<{
@@ -13,6 +13,15 @@ const props = defineProps<{
 
 const selectedAnswer = ref<Answer | undefined>()
 const userAnswers = defineModel<UserAnswerDict>('userAnswers')
+
+const nameSubmitted = ref<boolean>(false)
+const submitError = computed(() => {
+  if (!nameSubmitted.value) return null
+  if (Object.keys(userAnswers.value as UserAnswerDict).length !== props.testLength)
+    return 'Vul alle vragen in'
+
+  return null
+})
 
 watchEffect(() => {
   setSelectedAnswer()
@@ -47,7 +56,8 @@ function nextQuestion() {
 }
 
 function finishTest() {
-  if (Object.keys(userAnswers.value as UserAnswerDict).length === props.testLength) {
+  nameSubmitted.value = true
+  if (submitError.value === null) {
     useResultStore().userAnswers = userAnswers.value as UserAnswerDict
     useResultStore().testDone = true
     router.push({ name: 'result' })
@@ -74,19 +84,10 @@ function finishTest() {
     </div>
 
     <div class="buttons">
-      <h2
-        class="error"
-        v-show="
-          Object.keys(userAnswers as UserAnswerDict).length !== testLength && index === testLength
-        "
-      >
-        Vul alle vragen in!
+      <h2 class="error" v-if="submitError" data-test="submit-error">
+        {{ submitError }}
       </h2>
-      <AppButton
-        class="btn-result"
-        @click="finishTest()"
-        v-show="index === testLength"
-        :disabled="Object.keys(userAnswers as UserAnswerDict).length !== testLength"
+      <AppButton class="btn-result" @click="finishTest()" v-show="index === testLength"
         >Finish test</AppButton
       >
       <div>
