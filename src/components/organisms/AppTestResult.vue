@@ -38,7 +38,7 @@ const nameError = computed(() => {
 })
 
 const emailSubmitted = ref<boolean>(false)
-const email = ref<string>('')
+const email = ref<string>(useAuthStore().user?.email || '')
 const emailError = computed(() => {
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
