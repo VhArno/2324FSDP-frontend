@@ -1,7 +1,11 @@
-import { beforeEach, describe, test, vi } from 'vitest'
+import { beforeEach, describe, test, expect, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
+import * as authService from '@/services/authService'
+import router from '@/router'
 
-vi.mock('@/instances/myAxios.ts')
+vi.mock('@/services/authService')
+vi.mock('@/router')
 
 describe('authStore', () => {
   beforeEach(() => {
@@ -9,14 +13,12 @@ describe('authStore', () => {
     vi.resetAllMocks()
   })
 
-  test('tryAutoLogin should return true when userdata is received successfully')
-  test('tryAutoLogin should return false when userdata is received unsuccessfully')
+  test('tryAutoLogin should return false when userdata is received unsuccessfully', async () => {
+    const authStore = useAuthStore()
+    vi.spyOn(authService, 'getUser').mockRejectedValue(new Error('User not found'))
 
-  test('login should retrieve the user on success')
-
-  test('logout should call the logout endpoint')
-
-  test('logout should reset the user state')
-
-  test('isAdmin should return true if the user is admin')
+    await authStore.tryAutoLogin()
+    expect(authStore.isAuthenticated).toBe(false)
+    expect(authStore.user).toBe(null)
+  })
 })
