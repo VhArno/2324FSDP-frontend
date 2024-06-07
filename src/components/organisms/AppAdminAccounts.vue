@@ -63,12 +63,12 @@ watchEffect(() => {
   <h1>Accounts</h1>
 
   <div class="error" v-if="isPending">
-    <h1>Loading accounts...</h1>
+    <h2>Loading accounts...</h2>
     <AppLoading></AppLoading>
   </div>
 
   <div class="error" v-if="isError">
-    <h1>Something went wrong! Try again later...</h1>
+    <h2>Something went wrong! Try again later...</h2>
     <p>{{ error }}</p>
   </div>
 

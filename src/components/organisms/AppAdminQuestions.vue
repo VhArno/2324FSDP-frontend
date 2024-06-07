@@ -62,12 +62,12 @@ const hideNotification = () => {
     <h1>Edit vragen</h1>
 
     <div class="error" v-if="isPending">
-      <h1>Loading questions...</h1>
+      <h2>Loading questions...</h2>
       <AppLoading></AppLoading>
     </div>
 
     <div class="error" v-if="isError">
-      <h1>Something went wrong! Try again later...</h1>
+      <h2>Something went wrong! Try again later...</h2>
       <p>{{ error }}</p>
     </div>
 
