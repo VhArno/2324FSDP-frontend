@@ -53,7 +53,6 @@ window.addEventListener('click', (event) => {
 
 watchEffect(() => {
   if (searchValue.value === '') {
-    console.log('Refetching accounts')
     getPayload.value.term = ''
     queryClient.invalidateQueries({ queryKey: ['accounts'] })
   }
@@ -133,15 +132,16 @@ watchEffect(() => {
             <td v-if="useAuthStore().isSuperAdmin">
               <i class="fa-solid fa-ellipsis-vertical options" @click="openMore(account)"></i>
             </td>
+
+            <AppOptions
+              v-if="showOptions && selectedAccount === account"
+              :visible="showOptions"
+              :account="selectedAccount"
+            ></AppOptions>
           </tr>
           <tr v-if="!data?.data.data.length">
             <td scope="row" colspan="7">No accounts found</td>
           </tr>
-          <AppOptions
-            v-if="showOptions && selectedAccount"
-            :visible="showOptions"
-            :account="selectedAccount"
-          ></AppOptions>
         </tbody>
       </table>
     </div>
@@ -223,6 +223,7 @@ watchEffect(() => {
 
   .table-container {
     overflow-x: auto;
+    overflow-y: hidden;
     width: 100%;
 
     .account-table {
