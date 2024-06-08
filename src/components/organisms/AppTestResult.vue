@@ -19,9 +19,10 @@ const { specialisations } = storeToRefs(specialisationStore)
 
 // Results store
 const testStore = useTestStore()
-const { userAnswers } = storeToRefs(testStore)
+const { userAnswers, testSaved, savedResult } = storeToRefs(testStore)
 
 const result = ref<[Specialisation, number][]>([])
+result.value = savedResult.value ? savedResult.value : []
 const result_id = ref<number | null>(null)
 
 const resultSaved = ref<string | null>(null)
@@ -79,6 +80,7 @@ function calculateResult() {
   console.log(specializationWeights)
   console.log(mapArray)
 
+  testStore.setResult(mapArray)
   return mapArray
 }
 
@@ -152,10 +154,13 @@ function sendResult() {
   }
 }
 
-onMounted(() => {
-  calculateResult()
-  saveUserAnswers()
-  saveResult()
+onMounted(async () => {
+  if ((await testSaved.value) == false) {
+    calculateResult()
+    saveUserAnswers()
+    saveResult()
+    testSaved.value = true
+  }
 })
 </script>
 

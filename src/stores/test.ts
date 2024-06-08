@@ -1,5 +1,5 @@
 import router from '@/router'
-import type { UserAnswerDict } from '@/types'
+import type { Specialisation, UserAnswerDict } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -8,23 +8,34 @@ export const useTestStore = defineStore(
   () => {
     const testDone = ref<boolean>(false)
     const userAnswers = ref<UserAnswerDict>({})
+    const savedResult = ref<Array<[Specialisation, number]>>([])
+    const testSaved = ref<boolean>(false)
 
     const resetTest = () => {
       testDone.value = false
+      testSaved.value = false
+      savedResult.value = []
       userAnswers.value = {}
       router.push({ name: 'test' })
+    }
+
+    const setResult = (res: Array<[Specialisation, number]>) => {
+      savedResult.value = res
     }
 
     return {
       testDone,
       userAnswers,
-      resetTest
+      savedResult,
+      testSaved,
+      resetTest,
+      setResult
     }
   },
   {
     persist: {
       storage: localStorage,
-      paths: ['userAnswers', 'testDone']
+      paths: ['userAnswers', 'testDone', 'savedResult', 'testSaved']
     }
   }
 )

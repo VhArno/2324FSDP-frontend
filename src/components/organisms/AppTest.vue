@@ -18,6 +18,7 @@ function startTest() {
         die aansluit bij jouw profiel.<br />
         De test is snel en efficiënt. Het duurt maar 5 minuten! Waar wacht je nog op!
       </p>
+      <p><b>Opgelet!</b> Om uw resultaat op te slaan moet u een account hebben.</p>
       <AppButton @click="startTest">Start de test!</AppButton>
     </div>
 
