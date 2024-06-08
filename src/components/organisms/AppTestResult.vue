@@ -215,7 +215,7 @@ onMounted(async () => {
 
     <div class="retake">
       <p>Doe de test opnieuw!</p>
-      <AppButton @click="testStore.resetTest">Doe test opnieuw</AppButton>
+      <AppButton @click="testStore.resetTest">Start test</AppButton>
     </div>
 
     <div class="frames">
