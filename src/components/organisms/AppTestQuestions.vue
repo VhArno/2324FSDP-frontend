@@ -3,10 +3,11 @@ import AppLoading from '../atoms/AppLoading.vue'
 import { useTitle } from '@vueuse/core'
 import { getQuestions } from '@/services/dataService'
 import { useQuery } from '@tanstack/vue-query'
-import type { QuestionData, UserAnswerDict } from '@/types'
+import type { QuestionData } from '@/types'
 import AppQuestion from '../molecules/AppQuestion.vue'
-import { ref } from 'vue'
 import { useSpecialisationStore } from '@/stores/specialisation'
+import { useTestStore } from '@/stores/test'
+import { storeToRefs } from 'pinia'
 
 defineProps<{
   id: string
@@ -22,8 +23,6 @@ const { isPending, isError, data } = useQuery({
 
 const specialisationStore = useSpecialisationStore()
 specialisationStore.loadSpecialisations()
-
-const userAnswers = ref<UserAnswerDict>({})
 </script>
 
 <template>
@@ -39,7 +38,6 @@ const userAnswers = ref<UserAnswerDict>({})
       :index="parseInt(id)"
       :question="data.data.data[parseInt(id) - 1]"
       :testLength="data.data.data.length"
-      v-model:userAnswers="userAnswers"
     ></AppQuestion>
 
     <div class="error" v-if="isPending">

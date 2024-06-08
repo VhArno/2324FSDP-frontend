@@ -2,8 +2,10 @@
 import type { Answer, Question, UserAnswerDict } from '@/types'
 import AppButton from '../atoms/AppButton.vue'
 import router from '@/router'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { useResultStore } from '@/stores/result'
+import { useTestStore } from '@/stores/test'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
   index: number
@@ -12,7 +14,9 @@ const props = defineProps<{
 }>()
 
 const selectedAnswer = ref<Answer | undefined>()
-const userAnswers = defineModel<UserAnswerDict>('userAnswers')
+
+const testStore = useTestStore()
+const { userAnswers } = storeToRefs(testStore)
 
 const nameSubmitted = ref<boolean>(false)
 const submitError = computed(() => {
@@ -58,8 +62,7 @@ function nextQuestion() {
 function finishTest() {
   nameSubmitted.value = true
   if (submitError.value === null) {
-    useResultStore().userAnswers = userAnswers.value as UserAnswerDict
-    useResultStore().testDone = true
+    useTestStore().testDone = true
     router.push({ name: 'result' })
   }
 }
@@ -77,7 +80,7 @@ function finishTest() {
         @click="handleClick(question, answer)"
         v-for="answer in question.answers"
         :key="answer.id"
-        :class="{ selected: selectedAnswer === answer }"
+        :class="{ selected: selectedAnswer && selectedAnswer.id === answer.id }"
       >
         {{ answer.answer }}
       </AppButton>

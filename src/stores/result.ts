@@ -7,7 +7,7 @@ import type {
   UserAnswerDict,
   ResultPostResponse
 } from '@/types'
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import {
   getResults,
   postResult,
@@ -16,9 +16,11 @@ import {
   patchResult
 } from '@/services/authService'
 import { ref } from 'vue'
+import { useTestStore } from './test'
 
 export const useResultStore = defineStore('result', () => {
-  const userAnswers = ref<UserAnswerDict>({})
+  const testStore = useTestStore()
+  const { userAnswers } = storeToRefs(testStore)
   const savedResults = ref<SavedResults[]>()
   const testDone = ref<boolean>(false)
 

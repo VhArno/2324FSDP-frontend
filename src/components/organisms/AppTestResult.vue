@@ -3,11 +3,12 @@ import { useAuthStore } from '@/stores/auth'
 import AppButton from '../atoms/AppButton.vue'
 import AppInput from '../atoms/AppInput.vue'
 import { useTitle } from '@vueuse/core'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { Specialisation } from '@/types'
 import { useResultStore } from '@/stores/result'
 import { storeToRefs } from 'pinia'
 import { useSpecialisationStore } from '@/stores/specialisation'
+import { useTestStore } from '@/stores/test'
 
 const title = useTitle()
 title.value = 'Result | Odisee specialisatie test'
@@ -17,8 +18,8 @@ const specialisationStore = useSpecialisationStore()
 const { specialisations } = storeToRefs(specialisationStore)
 
 // Results store
-const resultStore = useResultStore()
-const { userAnswers } = storeToRefs(resultStore)
+const testStore = useTestStore()
+const { userAnswers } = storeToRefs(testStore)
 
 const result = ref<[Specialisation, number][]>([])
 const result_id = ref<number | null>(null)
@@ -84,7 +85,7 @@ function calculateResult() {
 async function saveResult() {
   if (!nameSubmitted.value) {
     try {
-      const res = await resultStore.saveResult({
+      const res = await useResultStore().saveResult({
         description: 'test',
         specialisation_id: result.value[0][0].id
       })
@@ -110,7 +111,7 @@ function saveUserResult() {
     resultSaved.value === null &&
     result_id.value !== null
   ) {
-    resultStore
+    useResultStore()
       .editResult({
         name: saveName.value,
         description: 'test',
@@ -126,7 +127,7 @@ function saveUserResult() {
 }
 
 function saveUserAnswers() {
-  resultStore.saveUserAnswers()
+  useResultStore().saveUserAnswers()
 }
 
 function sendResult() {
@@ -137,7 +138,7 @@ function sendResult() {
   }
 
   if (emailError.value === null && result.value !== undefined && resultSend.value === null) {
-    resultStore
+    useResultStore()
       .sendResult({
         email: email.value,
         specialisation_id: result.value[0][0].id
@@ -205,6 +206,11 @@ onMounted(() => {
         <AppInput type="email" id="email" name="email" v-model:value="email"></AppInput>
         <AppButton @click="sendResult">Verstuur via email</AppButton>
       </div>
+    </div>
+
+    <div class="retake">
+      <p>Doe de test opnieuw!</p>
+      <AppButton @click="testStore.resetTest">Doe test opnieuw</AppButton>
     </div>
 
     <div class="frames">

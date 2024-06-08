@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { UserAnswer } from '@/types'
 import AppChart from '@/components/atoms/AppChart.vue'
-import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
   question: string

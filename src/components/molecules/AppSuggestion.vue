@@ -9,7 +9,7 @@ import { postSuggestion } from '@/services/adminService'
 
 const queryClient = useQueryClient()
 
-const props = defineProps<{
+defineProps<{
   questions: Question[]
   operations: Operation[]
 }>()

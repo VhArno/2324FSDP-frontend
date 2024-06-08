@@ -9,6 +9,7 @@ import NotFoundView from '@/components/pages/NotFoundView.vue'
 import { authGuard } from '@/guards/authGuard'
 import { loginGuard } from '@/guards/loginGuard'
 import { testGuard } from '@/guards/testGuard'
+import { resultGuard } from '@/guards/resultGuard'
 import { adminGuard } from '@/guards/adminGuard'
 import { superadminGuard } from '@/guards/superadminGuard'
 import { useAuthStore } from '@/stores/auth'
@@ -40,7 +41,8 @@ const router = createRouter({
         {
           path: '',
           name: 'test',
-          component: AppTest
+          component: AppTest,
+          beforeEnter: [resultGuard]
         },
         {
           path: 'questions/:id',

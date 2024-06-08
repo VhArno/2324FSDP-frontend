@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Answer, Question, Specialisation } from '@/types'
+import type { Answer, Specialisation } from '@/types'
 import AppButton from '@/components/atoms/AppButton.vue'
 import AppInput from '@/components/atoms/AppInput.vue'
 import { computed, ref } from 'vue'
